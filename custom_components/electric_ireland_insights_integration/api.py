@@ -132,7 +132,7 @@ class BidgelyScraper:
 
         return access_token, user_id
 
-    def get_data(self, mode, target_date):
+    def get_data(self, target_date):
         # REQUEST 5: Get Data
         res5 = self.__session.get(
             f"https://api.eu.bidgely.com/v2.0/dashboard/users/{self.__user_id}/usage-chart-details",
@@ -142,7 +142,7 @@ class BidgelyScraper:
             },
             params={
                 "measurement-type": "ELECTRIC",
-                "mode": mode,
+                "mode": "day",
                 "start": date_to_unix(target_date),
                 "end": date_to_unix(target_date + timedelta(days=1) - timedelta(seconds=1)),
                 "date-format": "DATE_TIME",
