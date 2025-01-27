@@ -2,7 +2,6 @@ import logging
 from datetime import timedelta, datetime
 import csv
 from io import StringIO
-from abc import abstractmethod
 
 from homeassistant.const import UnitOfEnergy
 from homeassistant.helpers.entity import Entity
@@ -57,10 +56,6 @@ class BaseSensor(Entity):
     @property
     def unit_of_measurement(self):
         return UnitOfEnergy.KILO_WATT_HOUR
-
-    @abstractmethod
-    def _get_data(self, *, esb_data):
-        pass
 
     @staticmethod
     def __sum_datapoints(datapoints):
