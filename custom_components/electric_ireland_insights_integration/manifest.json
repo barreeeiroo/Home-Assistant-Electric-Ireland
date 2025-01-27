@@ -2,8 +2,9 @@
   "domain": "electric_ireland_insights",
   "name": "Electric Ireland Insights",
   "version": "1.0",
-  "requirements": ["requests", "beautifulsoup4"],
-  "dependencies": [],
+  "iot_class": "cloud_polling",
+  "requirements": ["requests", "beautifulsoup4", "homeassistant-historical-sensor==2.0.0rc4"],
+  "dependencies": ["recorder"],
   "codeowners": ["@barreeeiroo"],
   "config_flow": true
 }

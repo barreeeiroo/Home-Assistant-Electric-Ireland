@@ -1,108 +1,158 @@
+import itertools
 import logging
-from datetime import timedelta, datetime
-import csv
-from io import StringIO
+import statistics
+from datetime import datetime, timedelta
+from typing import List
 
+from homeassistant.components.recorder.models import StatisticData, StatisticMetaData
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import UnitOfEnergy
-from homeassistant.helpers.entity import Entity
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.typing import DiscoveryInfoType
 
-from custom_components.electric_ireland_insights_integration.api import ElectricIrelandScraper
+from homeassistant_historical_sensor import (
+    HistoricalSensor,
+    HistoricalState,
+    PollUpdateMixin,
+)
 
+from .api import ElectricIrelandScraper, BidgelyScraper
+from .const import DOMAIN, NAME
+
+
+PLATFORM = "sensor"
 
 LOGGER = logging.getLogger(__name__)
 
-MIN_TIME_BETWEEN_UPDATES = timedelta(hours=12)
+
+async def async_setup_entry(
+        hass: HomeAssistant,
+        config_entry: ConfigEntry,
+        async_add_devices: AddEntitiesCallback,
+        discovery_info: DiscoveryInfoType | None = None,  # noqa DiscoveryInfoType | None
+):
+    username = config_entry.data["username"]
+    password = config_entry.data["password"]
+    account_number = config_entry.data["account_number"]
+
+    ei_api = ElectricIrelandScraper(username, password, account_number)
+
+    device_info = hass.data[DOMAIN][config_entry.entry_id]
+    sensors = [
+        Sensor(config_entry=config_entry, device_info=device_info, ei_api=ei_api),
+    ]
+    async_add_devices(sensors)
 
 
-async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
-    """Set up the Electric Ireland Insights sensor."""
-    pass
+class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
+    #
+    # Base clases:
+    # - SensorEntity: This is a sensor, obvious
+    # - HistoricalSensor: This sensor implements historical sensor methods
+    # - PollUpdateMixin: Historical sensors disable poll, this mixing
+    #                    reenables poll only for historical states and not for
+    #                    present state
+    #
 
+    def __init__(self, *args, **kwargs):
+        super().__init__()
 
-async def async_setup_entry(hass, entry, async_add_entities):
-    """Set up the Electric Ireland Insights sensor based on a config entry."""
-    username = entry.data["username"]
-    password = entry.data["password"]
-    account_number = entry.data["account_number"]
+        self._attr_has_entity_name = True
+        self._attr_name = NAME
 
-    ei_api = EICachingApi(EIDataApi(hass=hass,
-                                    username=username,
-                                    password=password,
-                                    account_number=account_number))
+        self._attr_unique_id = NAME
+        self._attr_entity_id = NAME
 
-    now = datetime.now()
-    last_month = now - timedelta(days=30)
-    async_add_entities([
-        BaseSensor(esb_api=ei_api, name='Electric Ireland Electricity Usage: Last Month', mode="month", target_date=last_month)
-    ], True)
+        self._attr_entity_registry_enabled_default = True
+        self._attr_state = None
 
+        # Define whatever you are
+        self._attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
+        self._attr_device_class = SensorDeviceClass.ENERGY
 
-class BaseSensor(Entity):
-    def __init__(self, *, esb_api, name, mode, target_date):
-        self._name = name
-        self._state = None
-        self._esb_api = esb_api
-        self._mode = mode
-        self._target_date = target_date
+        self._api: ElectricIrelandScraper = kwargs["ei_api"]
+
+    async def async_added_to_hass(self) -> None:
+        await super().async_added_to_hass()
+
+    async def async_update_historical(self):
+        # Fill `HistoricalSensor._attr_historical_states` with HistoricalState's
+        # This functions is equivaled to the `Sensor.async_update` from
+        # HomeAssistant core
+        #
+        # Important: You must provide datetime with tzinfo
+
+        self._api.refresh_credentials()
+        scraper: BidgelyScraper = self._api.scraper
+
+        hist_states: List[HistoricalState] = []
+
+        now = datetime.now()
+        current_date = now - timedelta(days=30)
+        while current_date <= now:
+            datapoints = scraper.get_data(current_date)
+            for datapoint in datapoints:
+                hist_states.append(HistoricalState(
+                    state=datapoint["consumption"],
+                    dt=datetime.fromtimestamp(datapoint["intervalEnd"]),
+                ))
+            current_date += timedelta(days=1)
+
+        self._attr_historical_states = hist_states
 
     @property
-    def name(self):
-        return self._name
+    def statistic_id(self) -> str:
+        return self.entity_id
 
-    @property
-    def state(self):
-        return self._state
+    def get_statistic_metadata(self) -> StatisticMetaData:
+        #
+        # Add sum and mean to base statistics metadata
+        # Important: HistoricalSensor.get_statistic_metadata returns an
+        # internal source by default.
+        #
+        meta = super().get_statistic_metadata()
+        meta["has_sum"] = True
+        meta["has_mean"] = True
 
-    @property
-    def unit_of_measurement(self):
-        return UnitOfEnergy.KILO_WATT_HOUR
+        return meta
 
-    @staticmethod
-    def __sum_datapoints(datapoints):
-        return sum([d["consumption"] for d in datapoints])
+    async def async_calculate_statistic_data(
+            self, hist_states: list[HistoricalState], *, latest: dict | None = None
+    ) -> list[StatisticData]:
+        #
+        # Group historical states by hour
+        # Calculate sum, mean, etc...
+        #
 
-    async def async_update(self):
-        datapoints = await self._esb_api.fetch(self._mode, self._target_date)
-        self._state = BaseSensor.__sum_datapoints(datapoints)
+        accumulated = latest["sum"] if latest else 0
 
+        def hour_block_for_hist_state(hist_state: HistoricalState) -> datetime:
+            # XX:00:00 states belongs to previous hour block
+            if hist_state.dt.minute == 0 and hist_state.dt.second == 0:
+                dt = hist_state.dt - timedelta(hours=1)
+                return dt.replace(minute=0, second=0, microsecond=0)
 
-class EICachingApi:
-    """To not poll Electric Ireland constantly. The data only updates like once a day anyway."""
+            else:
+                return hist_state.dt.replace(minute=0, second=0, microsecond=0)
 
-    def __init__(self, ei_api) -> None:
-        self._ei_api = ei_api
-        self._cached_data = None
-        self._cached_data_timestamp = None
+        ret = []
+        for dt, collection_it in itertools.groupby(
+                hist_states, key=hour_block_for_hist_state
+        ):
+            collection = list(collection_it)
+            mean = statistics.mean([x.state for x in collection])
+            partial_sum = sum([x.state for x in collection])
+            accumulated = accumulated + partial_sum
 
-    async def fetch(self, mode, target_date):
-        if self._cached_data_timestamp is None or \
-                self._cached_data_timestamp < datetime.now() - MIN_TIME_BETWEEN_UPDATES:
-            try:
-                self._cached_data = await self._ei_api.fetch(mode, target_date)
-                self._cached_data_timestamp = datetime.now()
-            except Exception as err:
-                LOGGER.error('Error fetching data: %s', err)
-                self._cached_data = None
-                self._cached_data_timestamp = None
-                raise err
+            ret.append(
+                StatisticData(
+                    start=dt,
+                    state=partial_sum,
+                    mean=mean,
+                    sum=accumulated,
+                )
+            )
 
-        return self._cached_data
-
-
-class EIDataApi:
-    """Class for handling the data retrieval."""
-
-    def __init__(self, *, hass, username, password, account_number):
-        """Initialize the data object."""
-        self._hass = hass
-        self._ei = ElectricIrelandScraper(username, password, account_number)
-
-    @staticmethod
-    def __csv_to_dict(csv_data):
-        reader = csv.DictReader(StringIO(csv_data))
-        return [r for r in reader]
-
-    async def fetch(self, mode, target_date):
-        await self._hass.async_add_executor_job(self._ei.refresh_credentials)
-        datapoints = await self._hass.async_add_executor_job(self._ei.scraper.get_data, mode, target_date)
-        return datapoints
+        return ret
