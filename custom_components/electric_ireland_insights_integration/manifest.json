@@ -1,0 +1,9 @@
+{
+  "domain": "electric_ireland_insights",
+  "name": "Electric Ireland Insights",
+  "version": "1.0",
+  "requirements": ["requests", "beautifulsoup4"],
+  "dependencies": [],
+  "codeowners": ["@barreeeiroo"],
+  "config_flow": true
+}
