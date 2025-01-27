@@ -95,7 +95,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
         now = datetime.now()
         current_date = now - timedelta(days=30)
         while current_date <= now:
-            datapoints = await loop.run_in_executor(None, self._api.refresh_credentials, current_date)
+            datapoints = await loop.run_in_executor(None, scraper.get_data, current_date)
             for datapoint in datapoints:
                 hist_states.append(HistoricalState(
                     state=datapoint["consumption"],
