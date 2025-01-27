@@ -93,7 +93,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
         hist_states: List[HistoricalState] = []
 
         now = datetime.now()
-        current_date = now - timedelta(days=30)
+        current_date = now - timedelta(days=10)
         while current_date <= now:
             datapoints = await loop.run_in_executor(None, scraper.get_data, current_date)
             for datapoint in datapoints:
@@ -145,8 +145,8 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
                 hist_states, key=hour_block_for_hist_state
         ):
             collection = list(collection_it)
-            mean = statistics.mean([x.state for x in collection])
-            partial_sum = sum([x.state for x in collection])
+            mean = statistics.mean([x.state or 0 for x in collection])
+            partial_sum = sum([x.state or 0 for x in collection])
             accumulated = accumulated + partial_sum
 
             ret.append(
