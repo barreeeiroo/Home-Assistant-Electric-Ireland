@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-import grequests
+import requests
 from bs4 import BeautifulSoup
 
 from .utils import date_to_unix
@@ -8,20 +8,26 @@ from .utils import date_to_unix
 
 class ElectricIrelandScraper:
     def __init__(self, username, password, account_number):
+        self.__bidgely = None
+
         self.__username = username
         self.__password = password
         self.__account_number = account_number
 
-        self.scraper = None
+    def refresh_credentials(self):
+        session = requests.Session()
+        bidgely_token = self.__get_bidgely_token(session)
+        self.__bidgely = BidgelyScraper(session, bidgely_token)
 
-    async def refresh_credentials(self):
-        session = grequests.Session()
-        bidgely_token = await self.__get_bidgely_token(session)
-        self.scraper = BidgelyScraper(session, bidgely_token)
+    @property
+    def scraper(self):
+        if not self.__bidgely:
+            self.refresh_credentials()
+        return self.__bidgely
 
-    async def __get_bidgely_token(self, session):
+    def __get_bidgely_token(self, session):
         # REQUEST 1: Get the Source token, and initialize the session
-        res1 = await session.get("https://youraccountonline.electricireland.ie/")
+        res1 = session.get("https://youraccountonline.electricireland.ie/")
         res1.raise_for_status()
         soup1 = BeautifulSoup(res1.text, "html.parser")
         source = soup1.find('input', attrs={'name': 'Source'}).get('value')
@@ -33,7 +39,7 @@ class ElectricIrelandScraper:
             raise RuntimeError("Could not find rvt cookie")
 
         # REQUEST 2: Perform Login
-        res2 = await session.post(
+        res2 = session.post(
             "https://youraccountonline.electricireland.ie/",
             data={
                 "LoginFormData.UserName": self.__username,
@@ -74,7 +80,7 @@ class ElectricIrelandScraper:
         for form_input in event_form.find_all("input"):
             req3[form_input.get("name")] = form_input.get("value")
 
-        res3 = await session.post(
+        res3 = session.post(
             "https://youraccountonline.electricireland.ie/Accounts/OnEvent",
             data=req3,
         )
@@ -102,12 +108,11 @@ class ElectricIrelandScraper:
 class BidgelyScraper:
     def __init__(self, session, bidgely_payload):
         self.__session = session
-        self.__payload = bidgely_payload
-        self.__access_token, self.__user_id = None, None
+        self.__access_token, self.__user_id = self.__get_auth(bidgely_payload)
 
-    async def __get_auth(self, bidgely_payload):
+    def __get_auth(self, bidgely_payload):
         # REQUEST 4: Get Bidgely Auth Details
-        res4 = await self.__session.post(
+        res4 = self.__session.post(
             "https://ssoprod.bidgely.com/prod-na/widgetSso",
             headers={
                 "Origin": "https://ssoprod.bidgely.com",
@@ -127,12 +132,9 @@ class BidgelyScraper:
 
         return access_token, user_id
 
-    async def get_data(self, target_date):
-        if not self.__access_token:
-            await self.__get_auth(self.__payload)
-
+    def get_data(self, target_date):
         # REQUEST 5: Get Data
-        res5 = await self.__session.get(
+        res5 = self.__session.get(
             f"https://api.eu.bidgely.com/v2.0/dashboard/users/{self.__user_id}/usage-chart-details",
             headers={
                 "Authorization": f"Bearer {self.__access_token}",
