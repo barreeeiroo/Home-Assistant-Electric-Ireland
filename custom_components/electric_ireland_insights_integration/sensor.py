@@ -62,7 +62,7 @@ class BaseSensor(Entity):
         return sum([d["consumption"] for d in datapoints])
 
     async def async_update(self):
-        datapoints = self._esb_api.fetch(self._mode, self._target_date)
+        datapoints = await self._esb_api.fetch(self._mode, self._target_date)
         self._state = BaseSensor.__sum_datapoints(datapoints)
 
 
