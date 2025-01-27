@@ -2,7 +2,7 @@ import asyncio
 import itertools
 import logging
 import statistics
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, UTC
 from typing import List
 
 from homeassistant.components.recorder.models import StatisticData, StatisticMetaData
@@ -99,7 +99,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
             for datapoint in datapoints:
                 hist_states.append(HistoricalState(
                     state=datapoint["consumption"],
-                    dt=datetime.fromtimestamp(datapoint["intervalEnd"]),
+                    dt=datetime.fromtimestamp(datapoint["intervalEnd"], tz=UTC),
                 ))
             current_date += timedelta(days=1)
 
