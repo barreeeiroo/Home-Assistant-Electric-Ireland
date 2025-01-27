@@ -1,3 +1,4 @@
+import asyncio
 import itertools
 import logging
 import statistics
@@ -84,7 +85,9 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
         #
         # Important: You must provide datetime with tzinfo
 
-        self._api.refresh_credentials()
+        loop = asyncio.get_running_loop()
+
+        await loop.run_in_executor(None, self._api.refresh_credentials)
         scraper: BidgelyScraper = self._api.scraper
 
         hist_states: List[HistoricalState] = []
@@ -92,7 +95,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
         now = datetime.now()
         current_date = now - timedelta(days=30)
         while current_date <= now:
-            datapoints = scraper.get_data(current_date)
+            datapoints = await loop.run_in_executor(None, self._api.refresh_credentials, current_date)
             for datapoint in datapoints:
                 hist_states.append(HistoricalState(
                     state=datapoint["consumption"],
