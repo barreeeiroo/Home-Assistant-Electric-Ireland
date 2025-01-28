@@ -72,15 +72,15 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
         now = datetime.now(UTC)
         # Now, we build a datetime object with no time in UTC with the current date, but as of "yesterday" (as data is
         #   never published on the day after)
-        today = datetime(year=now.year, month=now.month, day=now.day, tzinfo=UTC) - timedelta(days=1)
+        yesterday = datetime(year=now.year, month=now.month, day=now.day, tzinfo=UTC) - timedelta(days=1)
 
         # We store here a list of Futures, where each Future is a day and it contains a list of datapoints
         executor_results = []
 
         with ThreadPoolExecutor(max_workers=PARALLEL_DAYS) as executor:
             # We generate all the days to look up for, up to LOOKUP_DAYS
-            current_date = today - timedelta(days=LOOKUP_DAYS + 1)
-            while current_date <= now:
+            current_date = yesterday - timedelta(days=LOOKUP_DAYS)
+            while current_date <= yesterday:
                 LOGGER.info(f"Submitting {current_date}")
                 # We launch a job for the target date, and we put it to the full list of results
                 results = await loop.run_in_executor(executor, scraper.get_data,
@@ -90,7 +90,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
                 current_date += timedelta(days=1)
 
         # For every launched job
-        for executor_result in results:
+        for executor_result in executor_results:
             # And now we parse the datapoints
             for datapoint in executor_result:
                 LOGGER.info(f"Datapoint {datapoint}")
