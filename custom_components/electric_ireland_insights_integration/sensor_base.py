@@ -77,6 +77,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
             # We generate all the days to look up for, up to LOOKUP_DAYS
             current_date = today - timedelta(days=LOOKUP_DAYS + 1)
             while current_date <= now:
+                print(f"Submitting {current_date}")
                 # We launch a job for the target date, and we put it to the full list of results
                 results = await loop.run_in_executor(executor, scraper.get_data,
                                                      current_date,
