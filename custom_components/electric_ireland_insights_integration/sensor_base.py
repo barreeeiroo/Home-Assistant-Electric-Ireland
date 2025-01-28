@@ -33,8 +33,8 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
         self._attr_has_entity_name = True
         self._attr_name = name
 
-        self._attr_unique_id = f"{DOMAIN}_{device_id}"
-        self._attr_entity_id = f"{DOMAIN}_{device_id}"
+        self._attr_unique_id = f"{DOMAIN}_{metric}_{device_id}"
+        self._attr_entity_id = f"{DOMAIN}_{metric}_{device_id}"
 
         self._attr_entity_registry_enabled_default = True
         self._attr_state = None
