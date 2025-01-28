@@ -16,7 +16,8 @@ and then will navigate to the page to fetch the data.
 
 As this data is also feed from ESB ([Electrical Supply Board](https://esb.ie)), it is not in real time. They publish
 data with 1-3 days delay; this integration takes care of that and will fetch every hour and ingest data dated back up
-to 10 days.
+to 10 days. This job runs every hour, so whenever it gets published it should get feed into Home Assistant within 60
+minutes.
 
 ## Why not fetching from ESB directly?
 
