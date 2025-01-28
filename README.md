@@ -22,3 +22,8 @@ to 10 days.
 
 I have Electric Ireland, and ESB has a captcha in their login. I just didn't want to bother to investigate how to
 bypass it.
+
+## Acknowledgements
+
+* [Historical sensors for Home Assistant](https://github.com/ldotlopez/ha-historical-sensor): provided the library and 
+  skeleton to create the bare minimum working version.
