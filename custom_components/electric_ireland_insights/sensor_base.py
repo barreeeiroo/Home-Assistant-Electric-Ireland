@@ -89,7 +89,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
                 executor_results.append(results)
                 current_date += timedelta(days=1)
 
-        LOGGER.debug(f"Finished launching jobs {current_date}")
+        LOGGER.debug("Finished launching jobs")
 
         # For every launched job
         for executor_result in executor_results:
