@@ -78,16 +78,16 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
             current_date = today - timedelta(days=LOOKUP_DAYS + 1)
             while current_date <= now:
                 # We launch a job for the target date, and we put it to the full list of results
-                results = loop.run_in_executor(executor, scraper.get_data, current_date, self._metric == "consumption")
+                results = await loop.run_in_executor(executor, scraper.get_data,
+                                                     current_date,
+                                                     self._metric == "consumption")
                 executor_results.append(results)
                 current_date += timedelta(days=1)
 
         # For every launched job
         for executor_result in results:
-            # Now we block and wait for the result
-            datapoints = await executor_result
             # And now we parse the datapoints
-            for datapoint in datapoints:
+            for datapoint in executor_result:
                 state = datapoint.get(self._metric)
                 if state is None or not isinstance(state, (int, float,)):
                     continue
