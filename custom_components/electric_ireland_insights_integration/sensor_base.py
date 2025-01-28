@@ -31,7 +31,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
         super().__init__()
 
         self._attr_has_entity_name = True
-        self._attr_name = name
+        self._attr_name = f"Electric Ireland {name}"
 
         self._attr_unique_id = f"{DOMAIN}_{metric}_{device_id}"
         self._attr_entity_id = f"{DOMAIN}_{metric}_{device_id}"
