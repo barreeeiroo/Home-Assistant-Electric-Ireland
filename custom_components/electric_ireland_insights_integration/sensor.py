@@ -36,9 +36,13 @@ async def async_setup_entry(
 
 class ConsumptionSensor(Sensor):
     def __init__(self, device_id: str, ei_api: ElectricIrelandScraper):
-        super().__init__(device_id, ei_api, "Consumption", "consumption", UnitOfEnergy.KILO_WATT_HOUR, SensorDeviceClass.ENERGY)
+        super().__init__(device_id, ei_api,
+                         "Consumption", "consumption",
+                         UnitOfEnergy.KILO_WATT_HOUR, SensorDeviceClass.ENERGY)
 
 
 class CostSensor(Sensor):
     def __init__(self, device_id: str, ei_api: ElectricIrelandScraper):
-        super().__init__(device_id, ei_api, "Cost", "cost", CURRENCY_EURO, SensorDeviceClass.MONETARY)
+        super().__init__(device_id, ei_api,
+                         "Cost", "cost",
+                         CURRENCY_EURO, SensorDeviceClass.MONETARY)

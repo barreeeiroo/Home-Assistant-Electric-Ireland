@@ -132,7 +132,7 @@ class BidgelyScraper:
 
         return access_token, user_id
 
-    def get_data(self, target_date):
+    def get_data(self, target_date, is_granular=False):
         # REQUEST 5: Get Data
         res5 = self.__session.get(
             f"https://api.eu.bidgely.com/v2.0/dashboard/users/{self.__user_id}/usage-chart-details",
@@ -148,7 +148,7 @@ class BidgelyScraper:
                 "date-format": "DATE_TIME",
                 "locale": "en_IE",
                 "next-bill-cycle": "false",
-                "show-at-granularity": "false",
+                "show-at-granularity": "true" if is_granular else "false",
                 "skip-ongoing-cycle": "false",
             },
         )
