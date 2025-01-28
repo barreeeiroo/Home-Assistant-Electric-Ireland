@@ -1,6 +1,7 @@
 import asyncio
-import itertools
+from itertools import groupby, repeat
 import statistics
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, UTC
 from typing import List
 
@@ -14,7 +15,7 @@ from homeassistant_historical_sensor import (
 )
 
 from .api import ElectricIrelandScraper, BidgelyScraper
-from .const import DOMAIN
+from .const import DOMAIN, LOOKUP_DAYS, PARALLEL_DAYS
 
 
 class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
@@ -63,10 +64,28 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
 
         hist_states: List[HistoricalState] = []
 
-        now = datetime.now()
-        current_date = now - timedelta(days=10)
-        while current_date <= now:
-            datapoints = await loop.run_in_executor(None, scraper.get_data, current_date, self._metric == "consumption")
+        # We get the current time in UTC
+        now = datetime.now(UTC)
+        # Now, we build a datetime object with no time in UTC with the current date, but as of "yesterday" (as data is
+        #   never published on the day after)
+        today = datetime(year=now.year, month=now.month, day=now.day, tzinfo=UTC) - timedelta(days=1)
+
+        executor_results = []
+
+        with ThreadPoolExecutor(max_workers=PARALLEL_DAYS) as executor:
+            # We generate all the days to look up for, up to LOOKUP_DAYS
+            current_date = today - timedelta(days=LOOKUP_DAYS + 1)
+            while current_date <= now:
+                # We launch a job for the target date, and we put it to the full list of results
+                results = loop.run_in_executor(executor, scraper.get_data, current_date, self._metric == "consumption")
+                executor_results.extend(results)
+                current_date += timedelta(days=1)
+
+        # For every launched job
+        for executor_result in results:
+            # Now we block and wait for the result
+            datapoints = await executor_result
+            # And now we parse the datapoints
             for datapoint in datapoints:
                 state = datapoint.get(self._metric)
                 if state is None or not isinstance(state, (int, float,)):
@@ -75,7 +94,6 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
                     state=state,
                     dt=datetime.fromtimestamp(datapoint["intervalEnd"], tz=UTC),
                 ))
-            current_date += timedelta(days=1)
 
         self._attr_historical_states = hist_states
 
@@ -115,9 +133,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
                 return hist_state.dt.replace(minute=0, second=0, microsecond=0)
 
         ret = []
-        for dt, collection_it in itertools.groupby(
-                hist_states, key=hour_block_for_hist_state
-        ):
+        for dt, collection_it in groupby(hist_states, key=hour_block_for_hist_state):
             collection = list(collection_it)
             mean = statistics.mean([x.state for x in collection])
             partial_sum = sum([x.state for x in collection])
