@@ -1,5 +1,6 @@
 import asyncio
 import itertools
+import logging
 import statistics
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, UTC
@@ -16,6 +17,9 @@ from homeassistant_historical_sensor import (
 
 from .api import ElectricIrelandScraper, BidgelyScraper
 from .const import DOMAIN, LOOKUP_DAYS, PARALLEL_DAYS
+
+
+LOGGER = logging.getLogger(__name__)
 
 
 class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
@@ -77,7 +81,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
             # We generate all the days to look up for, up to LOOKUP_DAYS
             current_date = today - timedelta(days=LOOKUP_DAYS + 1)
             while current_date <= now:
-                print(f"Submitting {current_date}")
+                LOGGER.info(f"Submitting {current_date}")
                 # We launch a job for the target date, and we put it to the full list of results
                 results = await loop.run_in_executor(executor, scraper.get_data,
                                                      current_date,
@@ -89,6 +93,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
         for executor_result in results:
             # And now we parse the datapoints
             for datapoint in executor_result:
+                LOGGER.info(f"Datapoint {datapoint}")
                 state = datapoint.get(self._metric)
                 if state is None or not isinstance(state, (int, float,)):
                     continue
