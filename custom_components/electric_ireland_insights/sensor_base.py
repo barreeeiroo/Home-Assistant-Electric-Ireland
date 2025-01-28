@@ -81,7 +81,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
             # We generate all the days to look up for, up to LOOKUP_DAYS
             current_date = yesterday - timedelta(days=LOOKUP_DAYS)
             while current_date <= yesterday:
-                LOGGER.info(f"Submitting {current_date}")
+                LOGGER.debug(f"Submitting {current_date}")
                 # We launch a job for the target date, and we put it to the full list of results
                 results = loop.run_in_executor(executor, scraper.get_data,
                                                current_date,
@@ -89,19 +89,21 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
                 executor_results.append(results)
                 current_date += timedelta(days=1)
 
-        LOGGER.info(f"Finished launching jobs {current_date}")
+        LOGGER.debug(f"Finished launching jobs {current_date}")
 
         # For every launched job
         for executor_result in executor_results:
             # And now we parse the datapoints
             for datapoint in await executor_result:
                 state = datapoint.get(self._metric)
+                dt = datetime.fromtimestamp(datapoint["intervalEnd"], tz=UTC)
                 if state is None or not isinstance(state, (int, float,)):
+                    LOGGER.debug(f"Skipping datapoint {dt.isoformat()} {state}")
                     continue
 
                 hist_states.append(HistoricalState(
                     state=state,
-                    dt=datetime.fromtimestamp(datapoint["intervalEnd"], tz=UTC),
+                    dt=dt,
                 ))
 
         self._attr_historical_states = hist_states
