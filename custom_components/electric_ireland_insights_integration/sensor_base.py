@@ -70,31 +70,32 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
         #   never published on the day after)
         today = datetime(year=now.year, month=now.month, day=now.day, tzinfo=UTC) - timedelta(days=1)
 
-        with ThreadPoolExecutor(max_workers=PARALLEL_DAYS) as executor:
-            executor_results = []
+        # We store here a list of Futures, where each Future is a day and it contains a list of datapoints
+        executor_results = []
 
+        with ThreadPoolExecutor(max_workers=PARALLEL_DAYS) as executor:
             # We generate all the days to look up for, up to LOOKUP_DAYS
             current_date = today - timedelta(days=LOOKUP_DAYS + 1)
             while current_date <= now:
                 # We launch a job for the target date, and we put it to the full list of results
                 results = loop.run_in_executor(executor, scraper.get_data, current_date, self._metric == "consumption")
-                executor_results.extend(results)
+                executor_results.append(results)
                 current_date += timedelta(days=1)
 
-            # For every launched job
-            for executor_result in results:
-                # Now we block and wait for the result
-                datapoints = await executor_result
-                # And now we parse the datapoints
-                for datapoint in datapoints:
-                    state = datapoint.get(self._metric)
-                    if state is None or not isinstance(state, (int, float,)):
-                        continue
+        # For every launched job
+        for executor_result in results:
+            # Now we block and wait for the result
+            datapoints = await executor_result
+            # And now we parse the datapoints
+            for datapoint in datapoints:
+                state = datapoint.get(self._metric)
+                if state is None or not isinstance(state, (int, float,)):
+                    continue
 
-                    hist_states.append(HistoricalState(
-                        state=state,
-                        dt=datetime.fromtimestamp(datapoint["intervalEnd"], tz=UTC),
-                    ))
+                hist_states.append(HistoricalState(
+                    state=state,
+                    dt=datetime.fromtimestamp(datapoint["intervalEnd"], tz=UTC),
+                ))
 
         self._attr_historical_states = hist_states
 
