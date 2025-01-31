@@ -204,6 +204,6 @@ class BidgelyScraper:
 
         data = res5.json()
         datapoints = data.get("payload", {}).get("usageChartDataList", [])
-        LOGGER.debug(f"Found {datapoints} for {target_date}")
+        LOGGER.debug(f"Found {len(datapoints)} for {target_date}")
 
         return datapoints
