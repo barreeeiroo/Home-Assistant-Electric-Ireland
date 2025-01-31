@@ -1,8 +1,13 @@
+import logging
+
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import ConfigType
 
 from .const import DOMAIN
+
+
+LOGGER = logging.getLogger(DOMAIN)
 
 PLATFORMS = ["sensor"]
 
@@ -11,7 +16,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up the Electric Ireland Insights component."""
     # Ensure the domain is registered in the hass.data store
     hass.data.setdefault(DOMAIN, {})
-    print("Electric Ireland Insights component initialized.")
+    LOGGER.debug("Electric Ireland Insights component initialized.")
     return True
 
 
@@ -25,7 +30,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     # Forward the entry setup to the sensor platform
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-    print(f"Forwarded config entry setup to {PLATFORMS} platforms.")
+    LOGGER.debug(f"Forwarded config entry setup to {PLATFORMS} platforms.")
     return True
 
 
@@ -36,11 +41,11 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     if unload_ok:
         # Clean up the stored entry data
         hass.data[DOMAIN].pop(entry.entry_id)
-        print(f"Successfully unloaded config entry {entry.entry_id}.")
+        LOGGER.debug(f"Successfully unloaded config entry {entry.entry_id}.")
 
     # If no entries remain, clean up the domain
     if not hass.data[DOMAIN]:
         hass.data.pop(DOMAIN)
-        print("No more entries. Cleaned up domain.")
+        LOGGER.debug("No more entries. Cleaned up domain.")
 
     return unload_ok

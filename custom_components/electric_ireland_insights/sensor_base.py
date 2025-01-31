@@ -18,7 +18,8 @@ from homeassistant_historical_sensor import (
 from .api import ElectricIrelandScraper, BidgelyScraper
 from .const import DOMAIN, LOOKUP_DAYS, PARALLEL_DAYS
 
-LOGGER = logging.getLogger(__name__)
+
+LOGGER = logging.getLogger(DOMAIN)
 
 
 class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
@@ -89,24 +90,47 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
                 executor_results.append(results)
                 current_date += timedelta(days=1)
 
-        LOGGER.debug("Finished launching jobs")
+        LOGGER.info("Finished launching jobs")
 
         # For every launched job
         for executor_result in executor_results:
             # And now we parse the datapoints
             for datapoint in await executor_result:
                 state = datapoint.get(self._metric)
-                dt = datetime.fromtimestamp(datapoint["intervalEnd"], tz=UTC)
-                if state is None or not isinstance(state, (int, float,)):
-                    LOGGER.debug(f"Skipping datapoint {dt.isoformat()} {state}")
-                    continue
-
+                dt = datetime.fromtimestamp(datapoint.get("intervalEnd"), tz=UTC)
                 hist_states.append(HistoricalState(
                     state=state,
                     dt=dt,
                 ))
 
-        self._attr_historical_states = hist_states
+        hist_states.sort(key=lambda d: d.dt)
+
+        valid_datapoints: List[HistoricalState] = []
+        null_datapoints: List[HistoricalState] = []
+        invalid_datapoints: List[HistoricalState] = []
+        for hist_state in hist_states:
+            if hist_state.state is None:
+                null_datapoints.append(hist_state)
+                continue
+            if not isinstance(hist_state.state, (int, float,)):
+                invalid_datapoints.append(hist_state)
+                continue
+            valid_datapoints.append(hist_state)
+
+        if null_datapoints:
+            min_dt, max_dt = null_datapoints[0].dt, null_datapoints[len(null_datapoints) - 1].dt
+            LOGGER.info(f"Found {len(null_datapoints)} null datapoints, ranging from {min_dt} to {max_dt}")
+
+        if invalid_datapoints:
+            LOGGER.warning(f"Found {len(invalid_datapoints)} invalid datapoints!")
+
+        if not valid_datapoints:
+            LOGGER.error("Found no valid datapoints!")
+        else:
+            min_dt, max_dt = valid_datapoints[0].dt, null_datapoints[len(valid_datapoints) - 1].dt
+            LOGGER.info(f"Found {len(valid_datapoints)} valid datapoints, ranging from {min_dt} to {max_dt}")
+
+        self._attr_historical_states = [d for d in hist_states if d.state]
 
     @property
     def statistic_id(self) -> str:
