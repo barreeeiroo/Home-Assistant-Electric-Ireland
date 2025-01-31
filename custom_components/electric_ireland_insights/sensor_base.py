@@ -127,7 +127,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
         if not valid_datapoints:
             LOGGER.error("Found no valid datapoints!")
         else:
-            min_dt, max_dt = valid_datapoints[0].dt, null_datapoints[len(valid_datapoints) - 1].dt
+            min_dt, max_dt = valid_datapoints[0].dt, valid_datapoints[len(valid_datapoints) - 1].dt
             LOGGER.info(f"Found {len(valid_datapoints)} valid datapoints, ranging from {min_dt} to {max_dt}")
 
         self._attr_historical_states = [d for d in hist_states if d.state]
