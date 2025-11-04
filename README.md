@@ -1,6 +1,8 @@
 # Home Assistant Electric Ireland Integration
 
-[![Open Integration](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=barreeeiroo&repository=Home-Assistant-Electric-Ireland&category=integration)
+> **Note:** This is a temporary fork of [RobinJ1995/home-assistant-esb-smart-meter-integration](https://github.com/RobinJ1995/home-assistant-esb-smart-meter-integration)
+
+[![Open Integration](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=antoine-voiry&repository=Home-Assistant-Electric-Ireland&category=integration)
 
 Home Assistant integration with **Electric Ireland insights**.
 
