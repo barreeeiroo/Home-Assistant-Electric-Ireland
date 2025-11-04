@@ -1,3 +1,4 @@
+"""Base sensor class for Electric Ireland Insights historical data."""
 import asyncio
 import itertools
 import logging
@@ -18,22 +19,30 @@ from homeassistant_historical_sensor import (
 from .api import ElectricIrelandScraper, BidgelyScraper
 from .const import DOMAIN, LOOKUP_DAYS, PARALLEL_DAYS
 
-
 LOGGER = logging.getLogger(DOMAIN)
 
 
 class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
-    #
-    # Base clases:
-    # - SensorEntity: This is a sensor, obvious
-    # - HistoricalSensor: This sensor implements historical sensor methods
-    # - PollUpdateMixin: Historical sensors disable poll, this mixing
-    #                    reenables poll only for historical states and not for
-    #                    present state
-    #
+    """Base sensor for Electric Ireland historical data.
+
+    This sensor combines multiple base classes:
+    - SensorEntity: Standard Home Assistant sensor
+    - HistoricalSensor: Implements historical sensor methods for backfilling data
+    - PollUpdateMixin: Re-enables polling for historical states
+    """
 
     def __init__(self, device_id: str, ei_api: ElectricIrelandScraper, name: str, metric: str, measurement_unit: str,
                  device_class: SensorDeviceClass):
+        """Initialize the sensor.
+
+        Args:
+            device_id: Unique device identifier
+            ei_api: Electric Ireland API scraper instance
+            name: Display name for the sensor
+            metric: Metric type ('consumption' or 'cost')
+            measurement_unit: Unit of measurement
+            device_class: Sensor device class
+        """
         super().__init__()
 
         self._attr_has_entity_name = True
@@ -53,14 +62,23 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
         self._metric = metric
 
     async def async_added_to_hass(self) -> None:
+        """Called when entity is added to Home Assistant."""
         await super().async_added_to_hass()
 
     async def async_update_historical(self):
-        # Fill `HistoricalSensor._attr_historical_states` with HistoricalState's
-        # This functions is equivaled to the `Sensor.async_update` from
-        # HomeAssistant core
-        #
-        # Important: You must provide datetime with tzinfo
+        """Fetch historical states and populate the sensor.
+
+        This method is the equivalent of async_update for regular sensors,
+        but specifically for historical data. It fetches energy data from
+        Electric Ireland for the past LOOKUP_DAYS days and stores them as
+        HistoricalState objects.
+
+        The method:
+        1. Refreshes API credentials
+        2. Fetches data for multiple days in parallel
+        3. Processes and validates datapoints
+        4. Stores valid historical states
+        """
 
         loop = asyncio.get_running_loop()
 
@@ -94,8 +112,14 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
 
         # For every launched job
         for executor_result in executor_results:
+            result_data = await executor_result
+            # Skip if the API call failed and returned None
+            if result_data is None:
+                LOGGER.warning("Skipping failed API call that returned no data")
+                continue
+
             # And now we parse the datapoints
-            for datapoint in await executor_result:
+            for datapoint in result_data:
                 state = datapoint.get(self._metric)
                 dt = datetime.fromtimestamp(datapoint.get("intervalEnd"), tz=UTC)
                 hist_states.append(HistoricalState(
@@ -134,14 +158,18 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
 
     @property
     def statistic_id(self) -> str:
+        """Return the statistic ID."""
         return self.entity_id
 
     def get_statistic_metadata(self) -> StatisticMetaData:
-        #
-        # Add sum and mean to base statistics metadata
-        # Important: HistoricalSensor.get_statistic_metadata returns an
-        # internal source by default.
-        #
+        """Return statistic metadata for this sensor.
+
+        Adds sum and mean statistics to the base metadata.
+        HistoricalSensor.get_statistic_metadata returns an internal source by default.
+
+        Returns:
+            Statistic metadata with sum and mean enabled
+        """
         meta = super().get_statistic_metadata()
         meta["has_sum"] = True
         meta["has_mean"] = True
@@ -151,14 +179,32 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
     async def async_calculate_statistic_data(
             self, hist_states: list[HistoricalState], *, latest: dict | None = None
     ) -> list[StatisticData]:
-        #
-        # Group historical states by hour
-        # Calculate sum, mean, etc...
-        #
+        """Calculate statistics from historical states.
+
+        Groups historical states by hour and calculates aggregated statistics
+        including sum, mean, and accumulated totals.
+
+        Args:
+            hist_states: List of historical states to process
+            latest: Latest statistic data for continuing accumulation
+
+        Returns:
+            List of StatisticData objects with hourly aggregations
+        """
 
         accumulated = latest["sum"] if latest else 0
 
         def hour_block_for_hist_state(hist_state: HistoricalState) -> datetime:
+            """Determine which hour block a historical state belongs to.
+
+            States at exactly XX:00:00 belong to the previous hour block.
+
+            Args:
+                hist_state: Historical state to categorize
+
+            Returns:
+                Datetime representing the start of the hour block
+            """
             # XX:00:00 states belongs to previous hour block
             if hist_state.dt.minute == 0 and hist_state.dt.second == 0:
                 dt = hist_state.dt - timedelta(hours=1)

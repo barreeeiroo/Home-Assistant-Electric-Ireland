@@ -1,3 +1,4 @@
+"""Sensor platform for Electric Ireland Insights integration."""
 import logging
 
 from homeassistant.components.sensor import SensorDeviceClass
@@ -21,6 +22,14 @@ async def async_setup_entry(
         async_add_devices: AddEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,  # noqa DiscoveryInfoType | None
 ):
+    """Set up Electric Ireland Insights sensors from a config entry.
+
+    Args:
+        hass: Home Assistant instance
+        config_entry: Config entry containing user credentials
+        async_add_devices: Callback to add sensor entities
+        discovery_info: Optional discovery information
+    """
     username = config_entry.data["username"]
     password = config_entry.data["password"]
     account_number = config_entry.data["account_number"]
@@ -35,14 +44,30 @@ async def async_setup_entry(
 
 
 class ConsumptionSensor(Sensor):
+    """Sensor for energy consumption in kWh."""
+
     def __init__(self, device_id: str, ei_api: ElectricIrelandScraper):
+        """Initialize the consumption sensor.
+
+        Args:
+            device_id: Unique device identifier
+            ei_api: Electric Ireland API scraper instance
+        """
         super().__init__(device_id, ei_api,
                          "Consumption", "consumption",
                          UnitOfEnergy.KILO_WATT_HOUR, SensorDeviceClass.ENERGY)
 
 
 class CostSensor(Sensor):
+    """Sensor for energy cost in EUR."""
+
     def __init__(self, device_id: str, ei_api: ElectricIrelandScraper):
+        """Initialize the cost sensor.
+
+        Args:
+            device_id: Unique device identifier
+            ei_api: Electric Ireland API scraper instance
+        """
         super().__init__(device_id, ei_api,
                          "Cost", "cost",
                          CURRENCY_EURO, SensorDeviceClass.MONETARY)

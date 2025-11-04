@@ -13,7 +13,7 @@ It is capable of:
 
 It will also aggregate the report data into statistical buckets, so they can be fed into the Energy Dashboard.
 
-![](https://i.imgur.com/6ew3JIf.png)
+![Electric Ireland Integration in Home Assistant Energy Dashboard](https://i.imgur.com/6ew3JIf.png)
 
 ## FAQs
 
@@ -83,5 +83,5 @@ Every hour:
 
 ## Acknowledgements
 
-* [Historical sensors for Home Assistant](https://github.com/ldotlopez/ha-historical-sensor): provided the library and 
+* [Historical sensors for Home Assistant](https://github.com/ldotlopez/ha-historical-sensor): provided the library and
   skeleton to create the bare minimum working version.
