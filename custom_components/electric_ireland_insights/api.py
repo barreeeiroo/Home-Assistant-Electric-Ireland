@@ -194,7 +194,6 @@ class MeterInsightScraper:
         # Transform to expected format with 'consumption', 'cost', 'intervalEnd'
         datapoints = []
         for dp in raw_datapoints:
-            flat_rate = dp.get("flatRate") or {}
             end_date_str = dp.get("endDate")
 
             if not end_date_str:
@@ -209,10 +208,25 @@ class MeterInsightScraper:
                 LOGGER.warning(f"Failed to parse date {end_date_str}: {err}")
                 continue
 
-            datapoints.append({
-                "consumption": flat_rate.get("consumption"),
-                "cost": flat_rate.get("cost"),
-                "intervalEnd": interval_end,
-            })
+            flat_rate = dp.get("flatRate")
+
+            if flat_rate:
+                cat = flat_rate
+            else:
+                cat = (
+                    dp.get("offPeak") or
+                    dp.get("midPeak") or
+                    dp.get("onPeak")
+                )
+
+            if cat:
+                datapoints.append({
+                    "consumption": cat.get("consumption"),
+                    "cost"       : cat.get("cost"),
+                    "intervalEnd": interval_end,
+                })
+            else:
+                LOGGER.warning(f"No consumptions data found in {dp}")
+                continue
 
         return datapoints
