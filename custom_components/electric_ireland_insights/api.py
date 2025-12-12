@@ -193,6 +193,10 @@ class MeterInsightScraper:
 
         # Transform to expected format with 'consumption', 'cost', 'intervalEnd'
         datapoints = []
+
+        # Tariff buckets as seen in response on Smart TOU plan
+        usage_tariff_keys = ("flatRate", "offPeak", "midPeak", "onPeak")
+        
         for dp in raw_datapoints:
             end_date_str = dp.get("endDate")
 
@@ -208,25 +212,17 @@ class MeterInsightScraper:
                 LOGGER.warning(f"Failed to parse date {end_date_str}: {err}")
                 continue
 
-            flat_rate = dp.get("flatRate")
+            # Pick the first non‑null tariff bucket
+            usage_entry = next(
+                (dp[key] for key in usage_tariff_keys if dp.get(key) is not None),
+                None
+            )
 
-            if flat_rate:
-                cat = flat_rate
-            else:
-                cat = (
-                    dp.get("offPeak") or
-                    dp.get("midPeak") or
-                    dp.get("onPeak")
-                )
-
-            if cat:
+            if usage_entry is not None:
                 datapoints.append({
-                    "consumption": cat.get("consumption"),
-                    "cost"       : cat.get("cost"),
+                    "consumption": usage_entry.get("consumption"),
+                    "cost"       : usage_entry.get("cost"),
                     "intervalEnd": interval_end,
                 })
-            else:
-                LOGGER.warning(f"No consumptions data found in {dp}")
-                continue
 
         return datapoints
