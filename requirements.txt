@@ -1,4 +1,4 @@
 beautifulsoup4~=4.12.3
-homeassistant~=2025.1.4
+homeassistant~=2025.12.1
 homeassistant-historical-sensor==2.0.0rc4
 requests~=2.32.3
