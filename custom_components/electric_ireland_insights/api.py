@@ -33,8 +33,6 @@ class ElectricIrelandScraper:
 
     @property
     def scraper(self):
-        if not self.__scraper:
-            self.refresh_credentials()
         return self.__scraper
 
     def __login_and_get_meter_ids(self, session):
