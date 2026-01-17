@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, UTC
 from typing import List
 
-from homeassistant.components.recorder.models import StatisticData, StatisticMetaData
+from homeassistant.components.recorder.models import StatisticData, StatisticMetaData, StatisticMeanType
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 
 from homeassistant_historical_sensor import (
@@ -141,8 +141,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
         #
         meta = super().get_statistic_metadata()
         meta["has_sum"] = True
-        meta["has_mean"] = True
-        meta["mean_type"] = "arithmetic"
+        meta["mean_type"] = StatisticMeanType.ARITHMETIC
 
         return meta
 
