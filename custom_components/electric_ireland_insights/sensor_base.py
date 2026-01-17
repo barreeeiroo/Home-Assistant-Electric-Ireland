@@ -142,6 +142,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
         meta = super().get_statistic_metadata()
         meta["has_sum"] = True
         meta["has_mean"] = True
+        meta["mean_type"] = "arithmetic"
 
         return meta
 
