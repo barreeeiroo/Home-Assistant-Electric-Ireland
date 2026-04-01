@@ -1,0 +1,83 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "home-assistant-electric-ireland"
+version = "0.0.0"
+description = "Home Assistant integration for Electric Ireland Insights"
+requires-python = ">=3.12"
+dependencies = [
+  "beautifulsoup4~=4.14.3",
+]
+
+[tool.setuptools.packages.find]
+include = ["custom_components*"]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "pytest-homeassistant-custom-component",
+  "pytest-asyncio",
+  "pytest-cov",
+  "aioresponses",
+  "mypy>=1.0",
+  "types-beautifulsoup4",
+  "ruff",
+  "pre-commit",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+omit = [
+  "custom_components/electric_ireland_insights/types.py",
+]
+
+[tool.mypy]
+strict = true
+warn_return_any = false
+
+[[tool.mypy.overrides]]
+module = [
+    "homeassistant.*",
+    "pytest_homeassistant_custom_component.*",
+    "bs4.*",
+    "voluptuous.*",
+    "aioresponses.*",
+    "aiohttp.*",
+]
+ignore_missing_imports = true
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+  "B",      # flake8-bugbear
+  "E",      # pycodestyle errors
+  "F",      # pyflakes
+  "I",      # isort
+  "S",      # flake8-bandit (security)
+  "UP",     # pyupgrade
+  "W",      # pycodestyle warnings
+  "RUF",    # ruff-specific rules
+  "SIM",    # flake8-simplify
+  "T20",    # flake8-print
+  "ASYNC",  # flake8-async
+]
+ignore = [
+  "S101",   # assert used (fine in tests)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+  "S",      # security checks not relevant in tests
+  "B018",   # useless expression (used in tests for side effects)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["custom_components.electric_ireland_insights"]
