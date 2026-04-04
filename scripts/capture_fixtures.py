@@ -27,6 +27,11 @@ ANON_EMAIL = "test@example.com"
 ANON_PARTNER = "PARTNER_001"
 ANON_CONTRACT = "CONTRACT_001"
 ANON_PREMISE = "PREMISE_001"
+# Placeholder for EF-* encrypted navigation tokens (session-specific, no real data)
+ANON_EF_TOKEN = "ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000"  # noqa: S105
+ANON_EF_TOKEN_URL = "ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000"  # noqa: S105
+# Anonymized tariff plan name (replaces real product names like "Home Electric+ Weekender")
+ANON_TARIFF_PLAN = "TestPlan"
 
 EMAIL_RE = re.compile(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
 NINE_DIGIT_RE = re.compile(r"\b\d{9}\b")
@@ -203,6 +208,9 @@ def anonymize_text(text: str, rng: random.Random) -> str:
     anonymized = re.sub(r'data-partner="[^"]+"', f'data-partner="{ANON_PARTNER}"', anonymized)
     anonymized = re.sub(r'data-contract="[^"]+"', f'data-contract="{ANON_CONTRACT}"', anonymized)
     anonymized = re.sub(r'data-premise="[^"]+"', f'data-premise="{ANON_PREMISE}"', anonymized)
+    anonymized = re.sub(r"EF-%2A[A-Za-z0-9%_\-]+", ANON_EF_TOKEN_URL, anonymized)
+    anonymized = re.sub(r"EF-\*[A-Za-z0-9+/=_\-]+", ANON_EF_TOKEN, anonymized)
+    anonymized = re.sub(r"Home Electric\+\s*", f"{ANON_TARIFF_PLAN} ", anonymized)
     return anonymized
 
 

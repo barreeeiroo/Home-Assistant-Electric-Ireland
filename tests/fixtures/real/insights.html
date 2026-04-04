@@ -1,0 +1,1374 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en-IE">
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0">
+    <meta name="description" content="">
+    <meta name="format-detection" content="telephone=no">
+
+    
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=zX7eNO7N65">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=zX7eNO7N65">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=zX7eNO7N65">
+<link rel="manifest" href="/site.webmanifest?v=zX7eNO7N65">
+<link rel="mask-icon" href="/safari-pinned-tab.svg?v=zX7eNO7N65" color="#0091cd">
+<link rel="shortcut icon" href="/favicon.ico?v=zX7eNO7N65">
+<meta name="msapplication-TileColor" content="#0091cd">
+<meta name="theme-color" content="#ffffff">
+
+
+    <title>Insights | Electric Ireland</title>
+
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/datepicker.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+        <link href="/vendor/ableplayer/build/ableplayer.min.css" rel="stylesheet">
+        <link href="/vendor/bidgely/css/main.a57d01cd.css" rel="stylesheet">
+    
+
+        <!-- OneTrust Cookies Consent Notice start for electricireland.ie -->
+        <script type="text/javascript" src="https://cdn.cookielaw.org/consent/19a46100-5271-4f4a-8361-dd2767a5880c/OtAutoBlock.js" ></script>
+        <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="19a46100-5271-4f4a-8361-dd2767a5880c" ></script>
+        <script type="text/javascript">
+            function OptanonWrapper() { }
+        </script>
+        <!-- OneTrust Cookies Consent Notice end for electricireland.ie -->
+
+    
+
+    <script data-testid="google-tagmanager" type="text/javascript">
+
+                        (function(w, d, s, l, i) {
+                            w[l] = w[l] || []; w[l].push({
+                                'gtm.start':
+
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+
+                                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.setAttribute('class', 'optanon-category-C0001');  j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+
+        })
+        (window, document, 'script', 'dataLayer', 'GTM-PH4PKK');
+
+    </script>
+
+
+
+
+
+    <script src="/js/polyfills.js"></script>
+    <script src="/vendor/jquery/jquery-3.7.1.min.js"></script>
+        <script src="https://static.bidgely.com/scripts/xdomain.min.js"></script>
+        <script src="/vendor/bidgely/js/bundle.js"></script>
+
+        <script src="/js/components/component-loader.js"></script>
+</head>
+
+<body class="with-footer" data-layout="electricity-and-gas" data-layout-type="smart">
+    
+
+    <noscript data-testid="google-tagmanager-no-script">
+
+        <iframe src="www.googletagmanager.com/ns.html?id=GTM-PH4PKK"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+
+    </noscript>
+
+    
+<div class="loading-overlay" data-loading-overlay>
+    <div class="loading-overlay__label" data-loading-overlay-label aria-label="Please wait">Please wait...</div>
+</div>
+<div class="visually-hidden" data-loading-overlay-sr aria-live="assertive"></div>
+<script src="/js/components/loading-overlay.js"></script>
+
+
+    <div class="alert top_nav_alert" id="nav_top_div" role="alert" style="display:none">
+    <button id="nav_close" type="button" class="close confirmation-modal-close custom-modal-close" data-bs-dismiss="alert" style="font-size: 20px; padding-left: 10px;">×</button>
+    The third Government credit applied to your account on March 3rd can only be used against your bill from the 3rd of March 2023 onwards and cannot be offset against a previous bill that issued before 3rd March.
+</div>
+
+<script>
+    $(function () {
+        Cookies.set('show_nav', 'hide');
+        $('#nav_top_div').css("display", "none");
+        if (checkCookie('show_nav')) {
+            $('#nav_top_div').css("display", "block");
+        }
+        else {
+            $('#nav_top_div').css("display", "none");
+            resizePageAfterHideBanner();
+        }
+
+        function resizePageAfterHideBanner() {
+            $('.portal-menu').css("top", "0px");
+            $('.page-login').css("padding-top", "0px");
+            if (window.innerWidth < 992) {
+                $('.portal-main').css("padding-top", "66px")
+                $('.portal-menu__nav').css("height", (window.innerHeight - 66) + "px");
+                $('.portal-header__nav--sticky').css("top", "66px");
+
+            }
+        }
+        $('#nav_close').click(function () {
+
+            Cookies.set('show_nav', 'hide');
+            resizePageAfterHideBanner();
+        });
+
+
+
+        function checkCookie($name) {
+            if (typeof Cookies.get($name) === 'undefined') {
+                Cookies.set('show_nav', 'show');
+                return true;
+            }
+            else if (Cookies.get($name) == 'show') {
+                return true;
+            }
+            else { return false; }
+        }
+
+    });
+
+</script>
+
+
+
+
+
+<header class="portal-menu" data-navigation data-navigation-type="smart" data-trap-focus data-trap-focus-active="false">
+    <div class="container container-wd-lg-desktop row-margin-regular">
+            <a class="portal-menu__logo" data-testid="home_url" href="/Accounts/Init">
+                <img src="/img/logo.svg" alt="Electric Ireland" width="75" height="37" />
+            </a>
+        <nav class="portal-menu__nav" aria-label="Main Navigation">
+            <ul class="ul-customLH">
+                <li class="portal-menu__nav__item d-lg-none">
+                    <div class="portal-menu__profile__title">
+                        <span></span>
+                        <div>My Profile</div>
+                    </div>
+                </li>
+                    <li class="portal-header__nav__item portal-menu__nav__item d-lg-none" >
+
+
+
+
+                <a class="portal-menu__nav__item__link profile" data-testid="main-navigation-my-profile-link-mobile" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">My Details</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item portal-menu__nav__item d-lg-none" >
+
+
+
+
+                <a class="portal-menu__nav__item__link profile" data-testid="main-navigation-change-password-link-mobile" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">Change Password</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item portal-menu__nav__item d-lg-none" >
+
+
+
+
+                <a class="portal-menu__nav__item__link profile" data-testid="main-navigation-marketing-link-mobile" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">Marketing</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item portal-menu__nav__item d-lg-none" >
+
+
+
+
+        <a href="https://www.electricireland.ie/residential/my-account/rewards" target="_blank" data-testid="main-navigation-reward-link" class="portal-menu__nav__item__link profile reward-plan-track-click" >Rewards</a>
+<form action="/AccountDashboard/OnEvent" class="" id="AccountDashboard-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="" />                <button data-testid="promotion-link" class="d-none d-block trigger-reward-cta-clicked" id="trigger-reward-cta-clicked" data-testid="promotion-link" class="d-none d-block trigger-reward-cta-clicked" id="trigger-reward-cta-clicked" name="triggers_event" value="AccountDashboardFlowInitializer.PublishRewardsClickEvent">
+                </button>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEnVfYBZCSr6_p75EbBRMWQsmnAoVCPSG-zvrHyTe5HFVYI07jGO8_J6qOkz7rJhjyGMqmTbM5ZPdDLKvKA3Ox2EFYyZMYhRsTb9pyao92REltIb46JxX0iWoE9gXCzR2syaz-LFb4-WNG2mXPYSpAGqVmfvJfu4mGfLS25aGkOYcA" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /></form>
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item portal-menu__nav__item d-lg-none" >
+
+
+
+
+                <a class="portal-menu__nav__item__link profile" data-testid="main-navigation-home-survey-link-mobile" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">Home Survey</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item portal-menu__nav__item" >
+
+
+
+
+                <a class="portal-menu__nav__item__link" data-testid="main-navigation-my-accounts-link" href="/Accounts/Init">My Accounts</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item portal-menu__nav__item" >
+
+
+
+
+        <a href="https://www.electricireland.ie/residential/products/res-portal" target="_blank" data-testid="main-navigation-products-and-services-link" class="portal-menu__nav__item__link " >Products &amp; Services</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item portal-menu__nav__item" >
+
+
+
+
+                <a class="portal-menu__nav__item__link" data-testid="main-navigation-help-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">Help</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                <li class="portal-menu__nav__item d-lg-none">
+                    <a data-testid="main-navigation-log-out-link-mobile"
+                       class="portal-menu__profile__drop__item log-out menu-items"
+                       href="/Login/Logout">
+                        Log out
+                        <svg version="1.2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" overflow="visible" preserveAspectRatio="none" viewBox="0 0 27.399999618530273 27.399999618530273" xml:space="preserve" y="0px" x="0px" id="Layer_1_1572865589939" width="18" height="18">
+    <g transform="translate(1, 1)">
+        <g id="Outline_Icons_1__1572865589939">
+            <g id="Outline_Icons_1572865589939">
+                <g>
+                    <polyline points="14.2,19.2 14.2,23.2 1.2,23.2 1.2,2.2 14.2,2.2 14.2,6.2" class="st0_1572865589939" vector-effect="non-scaling-stroke" />
+                    <line y2="13.2" x2="24.2" y1="13.2" x1="6.2" class="st0_1572865589939" />
+                    <polyline points="19.2,8.2 24.2,13.2 19.2,18.2" class="st0_1572865589939" vector-effect="non-scaling-stroke" />
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
+
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="portal-menu__profile d-none d-lg-block" id="mainHeaderMenu">
+            <a id="myProfileMenuLink" class="portal-menu__profile__title" data-testid="main-navigation-open-settings" href="#" aria-expanded="false" aria-haspopup="true" aria-controls="myProfileSubmenu" onclick="toggleMyProfileMenu(event)" onkeydown="onKeyDownOnMenu(event)">
+                <span></span>
+                <div>My Profile</div>
+            </a>
+            <div class="portal-menu__profile__drop">
+                <span class="portal-menu__profile__drop__sub"></span>
+                <ul id="myProfileSubmenu" aria-hidden="true">
+                        <li>
+
+
+
+
+                <a class="portal-menu__profile__drop__item menu_items" data-testid="main-navigation-my-profile-link-desktop" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">My Details</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                        </li>
+                        <li>
+
+
+
+
+                <a class="portal-menu__profile__drop__item menu_items" data-testid="main-navigation-change-password-link-desktop" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">Change Password</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                        </li>
+                        <li>
+
+
+
+
+                <a class="portal-menu__profile__drop__item menu_items" data-testid="main-navigation-marketing-link-desktop" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">Marketing</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                        </li>
+                        <li>
+
+
+
+
+        <a href="https://www.electricireland.ie/residential/my-account/rewards" target="_blank" data-testid="main-navigation-reward-link" class="portal-menu__profile__drop__item menu_items reward-plan-track-click" >Rewards</a>
+<form action="/AccountDashboard/OnEvent" class="" id="AccountDashboard-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="" />                <button data-testid="promotion-link" class="d-none d-block trigger-reward-cta-clicked" id="trigger-reward-cta-clicked" data-testid="promotion-link" class="d-none d-block trigger-reward-cta-clicked" id="trigger-reward-cta-clicked" name="triggers_event" value="AccountDashboardFlowInitializer.PublishRewardsClickEvent">
+                </button>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEnVfYBZCSr6_p75EbBRMWQsmnAoVCPSG-zvrHyTe5HFVYI07jGO8_J6qOkz7rJhjyGMqmTbM5ZPdDLKvKA3Ox2EFYyZMYhRsTb9pyao92REltIb46JxX0iWoE9gXCzR2syaz-LFb4-WNG2mXPYSpAGqVmfvJfu4mGfLS25aGkOYcA" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /></form>
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                        </li>
+                        <li>
+
+
+
+
+                <a class="portal-menu__profile__drop__item menu_items" data-testid="main-navigation-home-survey-link-desktop" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="link">Home Survey</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                        </li>
+                    <li>
+                        <a data-testid="main-navigation-log-out-link-desktop"
+                           class="portal-menu__profile__drop__item log-out menu_items"
+                           href="/Login/Logout">
+                            Log out
+                            <svg version="1.2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" overflow="visible" preserveAspectRatio="none" viewBox="0 0 27.399999618530273 27.399999618530273" xml:space="preserve" y="0px" x="0px" id="Layer_1_1572865589939" width="18" height="18">
+    <g transform="translate(1, 1)">
+        <g id="Outline_Icons_1__1572865589939">
+            <g id="Outline_Icons_1572865589939">
+                <g>
+                    <polyline points="14.2,19.2 14.2,23.2 1.2,23.2 1.2,2.2 14.2,2.2 14.2,6.2" class="st0_1572865589939" vector-effect="non-scaling-stroke" />
+                    <line y2="13.2" x2="24.2" y1="13.2" x1="6.2" class="st0_1572865589939" />
+                    <polyline points="19.2,8.2 24.2,13.2 19.2,18.2" class="st0_1572865589939" vector-effect="non-scaling-stroke" />
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <button class="portal-menu__toggle d-block d-lg-none" aria-expanded="false" aria-label="Main navigation toggle">
+            <span></span>
+        </button>
+        <script src="/js/pages/main-navigation/myprofilemenu.js" type="text/javascript"></script>
+    </div>
+</header>
+        <div id="portal-main" class="portal-main">
+                <div class="portal-header portal-header--sub-menu">
+
+<div class="container container-wd-lg-desktop row-margin-regular icon-select my-accounts-container-sm ">
+    <h1 class =electricity-icon>Electricity</h1>
+        <span class="portal-header__address">
+                <span class="portal-header__address__account-number" data-testid="portal-header-account-number">100000001</span>
+123 SAMPLE STREET, DUBLIN        </span>
+
+</div>
+    <div class="container-back-to-accounts">
+        <div class="container my-accounts-container-sm container-wd-lg-desktop back-link-submenu">
+            <a class="btn btn-xs btn-xs--back back-link-btn btn-submenu" data-testid="header-generic-back-to-my-accounts" href="/Accounts/Init">
+                Back to my accounts
+            </a>
+        </div>
+    </div>
+<div class="d-none">
+</div>
+                </div>
+                <div class="container container-wd-lg-desktop sub-accounts-container-sm ">
+                    <div class="position-relative portal-sub-main">
+                        <div class="sub-navigation-overlay"></div>
+
+
+
+
+
+
+
+
+    <div class="d-none d-lg-flex flex-nowrap custom-subnav-list  justify-content-start">
+        <ul class="portal-header__nav__current">
+            <li class="portal-header__nav__item"><a href="#">Menu</a></li>
+        </ul>
+        <ul class="subnav-menu">
+                    <li class="portal-header__nav__item item-subnav  active"
+                    
+                    aria-current="page">
+
+
+
+
+                <a aria-current="page" class="btn text-center subnav-items front-dashboard-navigation carousel-button-nav carousel-item active" data-testid="nav-insights-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="button">
+                    <i class="icon-insights-usage-button"></i><i class="icon-insights-usage-button-inverse"></i>
+                    <span>Insights</span>
+                </a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item item-subnav  "
+                    
+                    >
+
+
+
+
+                <a aria-current="" class="btn text-center subnav-items front-dashboard-navigation carousel-button-nav carousel-item " data-testid="nav-payments-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="button">
+                    <i class="icon-billandpay-button"></i><i class="icon-billandpay-button-inverse"></i>
+                    <span>Bills &amp; Payments</span>
+                </a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item item-subnav  "
+                    
+                    >
+
+
+
+
+                <a aria-current="" class="btn text-center subnav-items front-dashboard-navigation carousel-button-nav carousel-item " data-testid="nav-plan-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="button">
+                    <i class="icon-debitplan-button"></i><i class="icon-debitplan-button-inverse"></i>
+                    <span>Plan &amp; Direct Debit</span>
+                </a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item item-subnav  "
+                    
+                    >
+
+
+
+
+                <a aria-current="" class="btn text-center subnav-items front-dashboard-navigation carousel-button-nav carousel-item " data-testid="nav-details-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="button">
+                    <i class="icon-meterdetails-button"></i><i class="icon-meterdetails-button-inverse"></i>
+                    <span>Details</span>
+                </a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item item-subnav  "
+                    
+                    >
+
+
+
+
+                <a aria-current="" class="btn text-center subnav-items front-dashboard-navigation carousel-button-nav carousel-item " data-testid="nav-meter-reading-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="button">
+                    <i class="icon-meterread-elec-button"></i><i class="icon-meterread-elec-button-inverse"></i>
+                    <span>Meter Reading</span>
+                </a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item item-subnav  "
+                    
+                    >
+
+
+
+
+                <a aria-current="" class="btn text-center subnav-items front-dashboard-navigation carousel-button-nav carousel-item " data-testid="nav-moving-house-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="button">
+                    <i class="icon-movinghouse-button"></i><i class="icon-movinghouse-button-inverse"></i>
+                    <span>Moving House</span>
+                </a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+        </ul>
+    </div>
+    <div class="col-12 d-lg-none d-flex flex-nowrap justify-content-start custom-subnav-list" aria-label="carousel">
+        <div id="mainNavCarousel" class="carousel slide carousel-electricity subnav-carousel-align" data-bs-ride="carousel">
+            <div id="carousel-inner-electricity-id" class="carousel-inner carousel-inner-subnav mainNav-inner ">
+                <div id="itemsCount-electricity" class="count-6" aria-hidden="true"></div>
+                <ul class="subnav-menu  position-relative subnav-menu-electricity">
+                            <li class="portal-header__nav__item item-subnav  active"
+                            
+                            aria-current="page">
+
+                                <a class="btn text-center subnav-items front-dashboard-navigation carousel-button-nav carousel-item carousel-item-electricity subnav-item-align active" data-testid="nav-insights-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="button">
+                                    <i class="icon-insights-usage-button"></i><i class="icon-insights-usage-button-inverse"></i>
+                                    <span>Insights</span>
+                                </a>
+                            </li>
+                            <li class="portal-header__nav__item item-subnav  "
+                            
+                            >
+
+                                <a class="btn text-center subnav-items front-dashboard-navigation carousel-button-nav carousel-item carousel-item-electricity subnav-item-align " data-testid="nav-payments-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="button">
+                                    <i class="icon-billandpay-button"></i><i class="icon-billandpay-button-inverse"></i>
+                                    <span>Bills &amp; Payments</span>
+                                </a>
+                            </li>
+                            <li class="portal-header__nav__item item-subnav  "
+                            
+                            >
+
+                                <a class="btn text-center subnav-items front-dashboard-navigation carousel-button-nav carousel-item carousel-item-electricity subnav-item-align " data-testid="nav-plan-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="button">
+                                    <i class="icon-debitplan-button"></i><i class="icon-debitplan-button-inverse"></i>
+                                    <span>Plan &amp; Direct Debit</span>
+                                </a>
+                            </li>
+                            <li class="portal-header__nav__item item-subnav  "
+                            
+                            >
+
+                                <a class="btn text-center subnav-items front-dashboard-navigation carousel-button-nav carousel-item carousel-item-electricity subnav-item-align " data-testid="nav-details-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="button">
+                                    <i class="icon-meterdetails-button"></i><i class="icon-meterdetails-button-inverse"></i>
+                                    <span>Details</span>
+                                </a>
+                            </li>
+                            <li class="portal-header__nav__item item-subnav  "
+                            
+                            >
+
+                                <a class="btn text-center subnav-items front-dashboard-navigation carousel-button-nav carousel-item carousel-item-electricity subnav-item-align " data-testid="nav-meter-reading-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="button">
+                                    <i class="icon-meterread-elec-button"></i><i class="icon-meterread-elec-button-inverse"></i>
+                                    <span>Meter Reading</span>
+                                </a>
+                            </li>
+                            <li class="portal-header__nav__item item-subnav  "
+                            
+                            >
+
+                                <a class="btn text-center subnav-items front-dashboard-navigation carousel-button-nav carousel-item carousel-item-electricity subnav-item-align " data-testid="nav-moving-house-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="button">
+                                    <i class="icon-movinghouse-button"></i><i class="icon-movinghouse-button-inverse"></i>
+                                    <span>Moving House</span>
+                                </a>
+                            </li>
+                </ul>
+            </div>
+        </div>
+        <button id="prev-carousel-electricity-id" class="carousel-control-prev carousel-control-prev-subnav main-nav-control-prev d-none" type="button" data-bs-target="#mainNavCarousel" data-bs-slide="prev" aria-hidden="true" tabindex="-1">
+            <span class="carousel-control-prev-icon" aria-hidden="true" tabindex="-1"></span>
+            <span class="visually-hidden">Previous Slide</span>
+        </button>
+        <button id="next-carousel-electricity-id" class="carousel-control-next carousel-control-next-subnav main-nav-control-next " type="button" data-bs-target="#mainNavCarousel" aria-hidden="true" tabindex="-1">
+            <span class="carousel-control-next-icon" aria-hidden="true" tabindex="-1"></span>
+            <span class="visually-hidden">Next Slide</span>
+        </button>
+    </div>
+                            <div class="padding-lg">
+                                
+
+
+<main class="insights" data-page="insights">
+    <div class="container container-wd-lg-desktop py-50 px-60">
+        <h2 class="d-inline-flex justify-content-lg-start insight-header">View my smart insights</h2>
+        <p class="mb-0 insight-text">This data is read directly from your smart meter.</p>
+        <div class="insights-wrapper">
+            <div class="widget">
+                
+<div class="annual-review-plan-ctas" test-id="plan-ctas">
+    <a class="btn btn-xs" data-action="view-all-price-plans" data-testid="annual-review-view-all-plans" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">
+        View All Price Plans
+    </a>
+    <a class="btn btn-xs" data-action="view-HES1" data-testid="annual-review-view-home-electric&#x2B;" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">TestPlan </a>
+    <a class="btn btn-xs" data-action="view-HENB1" data-testid="annual-review-view-night-boost" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">TestPlan Night Boost</a>
+    <a class="btn btn-xs" data-action="view-HEW1-saturday" data-testid="annual-review-view-weekender-saturday" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">TestPlan Weekender Saturday</a>
+    <a class="btn btn-xs" data-action="view-HEW1-sunday" data-testid="annual-review-view-weekender-sunday" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">TestPlan Weekender Sunday</a>
+    <a class="btn btn-xs" data-action="view-HEPSST1" data-testid="annual-review-view-home-electric&#x2B;-sst" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">TestPlan SST</a>
+    <a class="btn btn-xs" data-action="view-home-survey" data-testid="main-navigation-home-survey-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">
+        Home Survey
+    </a>
+</div>
+                <div id="modelData" data-premise="PREMISE_001" 
+                    data-partner="PARTNER_001" 
+                    data-contract="CONTRACT_001" 
+                    data-microgen="False"
+                    data-showreviewtab="False"
+                    data-accountno="100000001"
+                    data-prepaycustomer="False"
+                    data-dualfuelaccount="False"
+                    data-startwithreviewtab="False"
+                    aria-hidden="true" hidden></div>
+                <div id="insights-root"></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script type="module" src="/js/components/insights-react-component/index.mjs"></script>
+<script src="/js/components/insights-react-component/insights-react-listeners.js"></script>
+
+                            </div>
+                    </div>
+                </div>
+        </div>
+    <dialog class="modal default timeout-modal rebrand-2024" tabindex="-1" id="timeoutModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h1>Your session is close to expiring</h1>
+                <h2 id="countdown" aria-live="assertive" aria-label="Expires in 5 minutes">
+                    <span aria-hidden="true">5:00</span>
+                </h2>
+                <div class="question">Would you like to continue?</div>
+
+
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                    <span>Continue</span>
+                </button>
+
+            </div>
+        </div>
+    </div>
+</dialog>
+
+<script>
+
+    let sessionTimeoutCountdown = 0;
+    let sessionExpiryTimeout = 0;
+    let sessionCountdownStartTime = Date.now();
+    const sessionTimeout = 14.75 * 60 * 1000; //almost 15 min
+    const countdownInitial = 5 * 60; //5 min
+    let previouslyFocusedElement = null;
+    let previouslyOpenModals = null;
+    let isExpiryModalShown = false;
+
+    $(function ()
+    {
+        InitSessionTimeoutCountdown();
+
+        $("#timeoutModal").on("show.bs.modal", function () {
+            previouslyFocusedElement = document.activeElement;
+            previouslyOpenModals = $('.modal.show');
+            previouslyOpenModals.modal('hide');
+
+            isExpiryModalShown = true;
+        });
+
+        $("#timeoutModal").on("shown.bs.modal", function () {
+            this.removeAttribute('role');
+        });
+
+        $("#timeoutModal").on("hidden.bs.modal", function () {
+            previouslyOpenModals.modal('show');
+            $(previouslyFocusedElement).focus();
+            previouslyOpenModals = null;
+            previouslyFocusedElement = null;
+
+            clearInterval(sessionTimeoutCountdown);
+            KeepAlive();
+
+            isExpiryModalShown = false;
+        });
+    });
+
+    function ResetSessionExpiry() {
+        DismissExpiryModal();
+        InitSessionTimeoutCountdown();
+    }
+
+    function DismissExpiryModal() {
+        if (isExpiryModalShown) {
+            $("#timeoutModal").modal('hide');
+        }
+    }
+
+    function InitSessionTimeoutCountdown() {
+        clearTimeout(sessionExpiryTimeout);
+        sessionExpiryTimeout = setTimeout(ShowSessionTimeoutDialog, sessionTimeout);
+        clearInterval(sessionTimeoutCountdown);
+    }
+
+    function ShowSessionTimeoutDialog() {
+        sessionCountdownStartTime = Date.now();
+        UpdateContdown();
+
+        const smartModal = new bootstrap.Modal($('#timeoutModal'),
+            { backdrop: 'static', keyboard: false });
+        smartModal.show();
+
+        //start countdown
+        sessionTimeoutCountdown = setInterval(UpdateContdown, 1000);
+    }
+
+    function UpdateContdown() {
+        const timeLeft = countdownInitial - Math.floor((Date.now() - sessionCountdownStartTime) / 1000);
+
+        if (timeLeft < 0) {
+            sessionExpired();
+        }
+        else {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            let timeText = minutes + ':' + seconds.toString().padStart(2, '0');
+            $('#countdown span').html(timeText);
+            if (timeLeft % 15 == 0) {
+                if (timeText.endsWith(':00'))
+                    timeText = timeText.replace(':00', timeText.startsWith('1:') ? ' minute' : ' minutes');
+
+                $('#countdown').attr('aria-label', 'Expires in ' + timeText);
+            }
+        }
+    }
+
+    function sessionExpired() {
+        window.location.href = '/Login/Logout';
+    }
+
+    function KeepAlive() {
+        $.ajax({
+            url: '/session/keep-alive',
+            type: "GET",
+            cache: false,
+            success: function (data) {
+                if(data === 'ok'){
+                    InitSessionTimeoutCountdown();
+                } 
+                else {
+                    sessionExpired();
+                }
+            },
+            error: function (xhr, status) {
+                sessionExpired();
+            }
+        });
+    }
+
+</script>
+    
+
+
+
+    
+
+
+
+
+	<footer class="portal-footer always-on-bottom">
+		<div class="sub-navigation-overlay"></div>
+	<div class="container container-wd-lg-desktop row-margin-regular">
+		<ul class="nav-center">
+				<li class=""
+				>
+
+
+
+
+                <a class="" data-testid="footer-help-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="link">Help</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>				</li>
+				<li class=""
+				>
+
+
+
+
+                <a class="" data-testid="footer-contact-us-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="link">Contact Us</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>				</li>
+				<li class=""
+				>
+
+
+
+
+                <a class="" data-testid="footer-terms-and-conditions-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="link">Terms &amp; Conditions</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>				</li>
+				<li class=""
+				>
+
+
+
+
+                <a class="" data-testid="footer-disclaimer-link" href="/accountdashboard/NewContainedView?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000" role="link">Disclaimer</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>				</li>
+				<li class=""
+				>
+
+
+
+
+        <a href="https://www.electricireland.ie/privacy" target="_blank" data-testid="footer-privacy-notice-link_new" class=" " >Privacy Notice &amp; Cookies Policy</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>				</li>
+			<li><a href="#" class="optanon-toggle-display">Cookie Settings</a></li>
+			<li><a href="https://www.electricireland.ie/accessibility" target="_blank">Accessibility</a></li>
+		</ul>
+	</div>
+	</footer>
+
+<script src="/js/pages/main-navigation/cookie-modal.js"></script>
+
+    
+
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/vendor/hammer/hammer.min.js"></script>
+<script src="/vendor/ofi/ofi.min.js"></script>
+<script src="/vendor/moment/moment.min.js"></script>
+<script src="/vendor/jquery.fileDownload/jquery.fileDownload.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="/vendor/js-cookie/js.cookie.min.js"></script>
+<script src="/vendor/underscore/underscore-umd-min.js"></script>
+    <script src="/vendor/ableplayer/build/ableplayer.min.js"></script>
+
+<script src="/js/custom-vendors/bootstrap4-toggle.custom.js"></script>
+<script src="/js/components/datepicker.js"></script>
+<script src="/js/components/flow-action.js"></script>
+<script src="/js/components/always-on-bottom-footer.js"></script>
+<script src="/js/components/file-download.js"></script>
+<script src="/js/components/sub-navigation.js"></script>
+<script src="/js/components/stacked-cards.js"></script>
+<script src="/js/components/history-data-attr.js"></script>
+<script src="/js/components/trap-focus.js"></script>
+<script src="/js/components/form-validations.js"></script>
+<script src="/js/components/accessible-validations.js"></script>
+<script src="/js/components/dev-tools.js"></script>
+<script src="/js/index.residential.js"></script>
+    <script src="/js/pages/insights/insights.js"></script>
+
+</body>
+</html>
+
+<script type="text/javascript">
+    const ScreenResolution = {
+        ScrollAmount172: 172,
+        ScrollAmount211: 211,
+        ScrollAmount226: 226,
+        ScrollAmount229: 229,
+        ScrollAmount235: 235,
+        ScrollAmount286: 286,
+        ScrollAmount310: 310,
+        ScrollAmount332: 332,
+        ScrollAmount365: 365,
+        ScrollAmount470: 470,
+        ScrollAmount508: 508,
+        ScrollAmount512: 512,
+        ScrollAmount530: 530,
+        ScrollAmount550: 550,
+        ScrollAmount647: 647,
+        ScrollAmount748: 748,
+        ScrollAmount761: 761
+    }
+
+    addCarouselNavListners();
+    scrollListener();
+    addPopupsListner();
+
+    var screensMovedElec = [];
+    var screensMovedGas = [];
+    var electricityLabel = "electricity";
+    var gasLabel = "gas";
+    var isClickEvent = false;
+    var that = this;
+    var countElec = 0;
+    var countGas = 0;
+
+    function addCarouselNavListners() {
+
+        var carouselWidth = 0;
+        var cardWidth = 0;
+        var scrollPosition = 0;
+
+        if ($(".carousel-inner").length > 0) {
+            cardWidth = $(".carousel-item").width();
+        }
+        if (window.matchMedia("(max-width:370px)").matches) {
+            if ($("#itemsCount-electricity").length > 0) {
+                var totalCardCountsElec = parseInt($("#itemsCount-electricity").attr("class").split('-')[1]);
+                if (totalCardCountsElec == 3) {
+                    $(".subnav-menu-electricity").css("left", "2rem");
+                }
+            }
+
+            if ($("#itemsCount-gas").length > 0) {
+                var totalCardCountsGas = parseInt($("#itemsCount-gas").attr("class").split('-')[1]);
+                if (totalCardCountsGas == 3) {
+                    $(".subnav-menu-gas").css("left", "2rem");
+                }
+            }
+        }
+
+        $("#prev-carousel-electricity-id").on("click", function (e) {
+            if (window.matchMedia("(min-width:371px)").matches && window.matchMedia("(max-width:768px)").matches) {
+                carouselWidth = calculateMobileCarouselWidth("electricity");
+                scrollItems("electricity", scrollPosition, cardWidth, carouselWidth, "prev");
+            }
+
+            if (window.matchMedia("(min-width:769px)").matches && window.matchMedia("(max-width:991px)").matches) {
+                carouselWidth = calculateTabletCarouselWidth("electricity") * 2;
+                scrollItems("electricity", scrollPosition, cardWidth, carouselWidth, "prev");
+            }
+
+            if (window.matchMedia("(max-width:370px)").matches) {
+                countElec--;
+                screensMovedElec.pop();
+                carouselWidth = screensMovedElec[screensMovedElec.length - 1];
+                addMargin(countElec, "electricity");
+
+                if (screensMovedElec.length == 0) {
+                    $("#prev-carousel-electricity-id").addClass("d-none");
+                    carouselWidth = 0;
+                }
+                $("#next-carousel-electricity-id").removeClass("d-none");
+                scrollNavigation("electricity", carouselWidth);
+            }
+        });
+
+        $("#next-carousel-electricity-id").on("click", function (e) {
+            if (window.matchMedia("(min-width:371px)").matches && window.matchMedia("(max-width:768px)").matches) {
+                carouselWidth = calculateMobileCarouselWidth("electricity");
+                scrollItems("electricity", scrollPosition, cardWidth, carouselWidth, "next");
+            }
+
+            if (window.matchMedia("(min-width:769px)").matches && window.matchMedia("(max-width:991px)").matches) {
+                carouselWidth = calculateTabletCarouselWidth("electricity") * 2;
+                scrollItems("electricity", scrollPosition, cardWidth, carouselWidth, "next");
+            }
+
+            if (window.matchMedia("(max-width:370px)").matches) {
+                countElec++;
+                carouselWidth = calculateTabletCarouselWidth("electricity");
+                addMargin(countElec, "electricity");
+                cardDisplacementCalculation("electricity", carouselWidth);
+            }
+        });
+
+        $("#prev-carousel-gas-id").on("click", function (e) {
+            if (window.matchMedia("(min-width:371px)").matches && window.matchMedia("(max-width:768px)").matches) {
+                carouselWidth = calculateMobileCarouselWidth("gas");
+                scrollItems("gas", scrollPosition, cardWidth, carouselWidth, "prev");
+            }
+
+            if (window.matchMedia("(min-width:769px)").matches && window.matchMedia("(max-width:991px)").matches) {
+                carouselWidth = calculateTabletCarouselWidth("gas") * 2;
+                scrollItems("gas", scrollPosition, cardWidth, carouselWidth, "prev");
+            }
+
+            if (window.matchMedia("(max-width:370px)").matches) {
+                countGas--;
+                screensMovedGas.pop();
+                addMargin(countGas, "gas");
+                carouselWidth = screensMovedGas[screensMovedGas.length - 1];
+
+                if (screensMovedGas.length == 0) {
+                    $("#prev-carousel-gas-id").addClass("d-none");
+                    carouselWidth = 0;
+                }
+                $("#next-carousel-gas-id").removeClass("d-none");
+
+                scrollNavigation("gas", carouselWidth);
+            }
+        });
+
+        $("#next-carousel-gas-id").on("click", function (e) {
+            if (window.matchMedia("(min-width:375px)").matches && window.matchMedia("(max-width:768px)").matches) {
+                carouselWidth = calculateMobileCarouselWidth("gas");
+                scrollItems("gas", scrollPosition, cardWidth, carouselWidth, "next");
+            }
+
+            if (window.matchMedia("(min-width:768px)").matches && window.matchMedia("(max-width:991px)").matches) {
+                carouselWidth = calculateTabletCarouselWidth("gas") * 2;
+                scrollItems("gas", scrollPosition, cardWidth, carouselWidth, "next");
+            }
+
+            if (window.matchMedia("(min-width:300px)").matches && window.matchMedia("(max-width:375px)").matches) {
+                countGas++;
+                carouselWidth = calculateTabletCarouselWidth("gas");
+                addMargin(countGas, "gas");
+                cardDisplacementCalculation("gas", carouselWidth);
+            }
+        });
+    }
+
+    function calculateTabletCarouselWidth(accountType) {
+        return ($(".carousel-item-" + accountType).outerWidth() + parseInt($(".subnav-menu").css('gap')));
+    }
+
+    function calculateMobileCarouselWidth(accountType) {
+        return $(".carousel-" + accountType).width();
+    }
+
+    //this is to animate the cards for rest of the screen sizes
+    function scrollItems(accountType, scrollPosition, cardWidth, carouselWidth, clickEvent) {
+        scrollPosition = 1;
+        if (clickEvent == "prev") {
+            if (scrollPosition > 0) {
+                scrollPosition = (carouselWidth) - (carouselWidth);
+                if (accountType == 'electricity') {
+                    $("#prev-carousel-electricity-id").addClass("d-none");
+                    $("#next-carousel-electricity-id").removeClass("d-none");
+                }
+                else {
+                    $("#prev-carousel-gas-id").addClass("d-none");
+                    $("#next-carousel-gas-id").removeClass("d-none");
+                }
+
+                $("#carousel-inner-" + accountType + "-id").animate({ scrollLeft: scrollPosition }, 800);
+                $(".subnav-menu-" + accountType).css("right", "0rem");
+                if (window.matchMedia("(min-width:441px)").matches && window.matchMedia("(max-width:576px)").matches) {
+                    $(".subnav-menu-" + accountType).css("right", "-0.5rem");
+                }
+                if (window.matchMedia("(min-width:371px)").matches && window.matchMedia("(max-width:440px)").matches) {
+                    $(".subnav-menu-" + accountType).css("right", "0rem");
+                }
+                if (window.matchMedia("(max-width:370px)").matches) {
+                    $(".subnav-menu-" + accountType).css("right", "0rem");
+                }
+            }
+        }
+        else {
+            scrollPosition = carouselWidth;
+            if (accountType == 'electricity') {
+                $("#next-carousel-electricity-id").addClass("d-none");
+                $("#prev-carousel-electricity-id").removeClass("d-none");
+            }
+            else {
+                $("#next-carousel-gas-id").addClass("d-none");
+                $("#prev-carousel-gas-id").removeClass("d-none");
+            }
+
+            scrollPosition = scrollPosition + 4;
+
+            $("#carousel-inner-" + accountType + "-id").animate({ scrollLeft: scrollPosition }, 800);
+
+            if (window.matchMedia("(min-width:768px)").matches && window.matchMedia("(max-width:991px)").matches) {
+                $(".subnav-menu-" + accountType).css("right", "1.5rem");
+                $(".subnav-menu-" + accountType).css("position", "relative");
+            }
+            if (window.matchMedia("(min-width:568px)").matches && window.matchMedia("(max-width:767px)").matches) {
+                $(".subnav-menu-" + accountType).css("right", "13rem");
+                $(".subnav-menu-" + accountType).css("position", "relative");
+            }
+            if (window.matchMedia("(min-width:441px)").matches && window.matchMedia("(max-width:576px)").matches) {
+                $(".subnav-menu-" + accountType).css("right", "8rem");
+                $(".subnav-menu-" + accountType).css("position", "relative");
+            }
+            if (window.matchMedia("(min-width:371px)").matches && window.matchMedia("(max-width:440px)").matches) {
+                $(".subnav-menu-" + accountType).css("right", "7.2rem");
+                $(".subnav-menu-" + accountType).css("position", "relative");
+            }
+
+        }
+    }
+
+    function addMargin(counter, accountType) {
+        var totalCardCounts = parseInt($("#itemsCount-" + accountType).attr("class").split('-')[1]);
+        if (totalCardCounts == 3) {
+            if (counter == 1) {
+                $(".subnav-menu-" + accountType).css("left", "0rem");
+            }
+            if (counter == 0) {
+                $(".subnav-menu-" + accountType).css("left", "2rem");
+            }
+        }
+        else {
+
+            $(".subnav-menu-" + accountType).css("right", "0rem");
+
+        }
+    }
+
+    //Responsible to calculate and adjust the amount of cards should move with hiding the carousel buttons
+    function cardDisplacementCalculation(accountType, carouselWidth) {
+
+        var cardsShownAtTime = 0;
+        var totalCardCounts = parseInt($("#itemsCount-" + accountType).attr("class").split('-')[1]);
+
+        //for smaller screen size
+        if (window.matchMedia("(max-width:370px)").matches) {
+            cardsShownAtTime = 2;
+        }
+
+        //for standard mobile sizes
+        if (window.matchMedia("(min-width:371px)").matches && window.matchMedia("(max-width:768px)").matches) {
+            cardsShownAtTime = 3;
+        }
+
+        //for tablets
+        if (window.matchMedia("(min-width:769px)").matches && window.matchMedia("(max-width:991px)").matches) {
+            cardsShownAtTime = 4;
+        }
+
+        if (accountType == "gas") {
+            if ((cardsShownAtTime + screensMovedGas.length) != totalCardCounts) {
+                if (screensMovedGas.length == 0) {
+                    screensMovedGas.push(carouselWidth);
+                }
+                else {
+                    screensMovedGas.push(screensMovedGas[screensMovedGas.length - 1] + carouselWidth);
+                }
+
+                if (screensMovedGas.length > 0) {
+                    $("#prev-carousel-" + accountType + "-id").removeClass("d-none");
+                }
+            }
+
+            if (screensMovedGas.length == (totalCardCounts - cardsShownAtTime)) {
+                $("#next-carousel-" + accountType + "-id").addClass("d-none");
+            }
+
+            scrollNavigation(accountType, screensMovedGas[screensMovedGas.length - 1]);
+        }
+        else {
+            if ((cardsShownAtTime + screensMovedElec.length) != totalCardCounts) {
+                if (screensMovedElec.length == 0) {
+                    screensMovedElec.push(carouselWidth);
+                }
+                else {
+                    screensMovedElec.push(screensMovedElec[screensMovedElec.length - 1] + carouselWidth);
+                }
+
+                if (screensMovedElec.length > 0) {
+                    $("#prev-carousel-" + accountType + "-id").removeClass("d-none");
+                }
+            }
+
+            if (screensMovedElec.length == (totalCardCounts - cardsShownAtTime)) {
+                $("#next-carousel-" + accountType + "-id").addClass("d-none");
+            }
+
+            scrollNavigation(accountType, screensMovedElec[screensMovedElec.length - 1]);
+        }
+    }
+
+    //responsible to animate the cards for scroll on smaller screen size belwo 376px
+    function scrollNavigation(accountType, carouselWidth) {
+        $("#carousel-inner-" + accountType + "-id").animate({ scrollLeft: carouselWidth }, 800);
+    }
+
+    //CAROUSEL SCROLL EVENTs STATE STARTS HERE
+    function scrollListener() {
+
+        document.addEventListener('scroll', function (event) {
+            if (event.target.id === 'carousel-inner-' + electricityLabel + '-id') {
+                that.isClickEvent = false;
+                if (!that.isClickEvent) {
+                    var displacement = getDisplacedDifference(electricityLabel);
+                    showHideCarouselButtons(displacement, electricityLabel);
+                }
+            }
+
+            if (event.target.id === 'carousel-inner-' + gasLabel + '-id' && !that.isClickEvent) {
+                that.isClickEvent = false;
+                if (!that.isClickEvent) {
+                    var displacement = getDisplacedDifference(gasLabel);
+                    showHideCarouselButtons(displacement, gasLabel);
+                }
+            }
+        }, true);
+    }
+
+    function getDisplacedDifference(accountType) {
+        const carousel = document.querySelector('.carousel-' + accountType);
+        const nextButton = document.querySelector('#next-carousel-' + accountType + '-id');
+        const lastItem = document.querySelector('.carousel-item-' + accountType + ':last-of-type');
+        const lastItemRect = lastItem.getBoundingClientRect();
+        const carouselRect = carousel.getBoundingClientRect();
+        return (carouselRect.right - lastItemRect.right);
+    }
+
+    function showHideCarouselButtons(scrolledAmount, accountType) {
+        if (window.matchMedia("(min-width:769px)").matches && window.matchMedia("(max-width:991px)").matches) {
+            if (scrolledAmount < ScreenResolution.ScrollAmount530) {
+                $(".subnav-menu-" + accountType).css("right", "0rem");
+                $(".subnav-menu-" + accountType).css("position", "relative");
+            }
+            if (scrolledAmount > ScreenResolution.ScrollAmount761) {
+                showPreviousHideNext(accountType);
+            }
+            else if (scrolledAmount < ScreenResolution.ScrollAmount512) {
+                showNextHidePrevious(accountType);
+            }
+            else {
+                showBothNextPrevious(accountType);
+            }
+        }
+
+        if (window.matchMedia("(min-width:577px)").matches && window.matchMedia("(max-width:768px)").matches) {
+            if (scrolledAmount < ScreenResolution.ScrollAmount470) {
+                $(".subnav-menu-" + accountType).css("right", "0rem");
+                $(".subnav-menu-" + accountType).css("position", "relative");
+            }
+            if (scrolledAmount > ScreenResolution.ScrollAmount748) {
+                showPreviousHideNext(accountType);
+            }
+            else if (scrolledAmount < ScreenResolution.ScrollAmount332) {
+                showNextHidePrevious(accountType);
+            }
+            else {
+                showBothNextPrevious(accountType);
+            }
+        }
+
+        if (window.matchMedia("(min-width:441px)").matches && window.matchMedia("(max-width:576px)").matches) {
+            if (scrolledAmount < ScreenResolution.ScrollAmount365) {
+                $(".subnav-menu-" + accountType).css("right", "0rem");
+                $(".subnav-menu-" + accountType).css("position", "relative");
+            }
+            if (scrolledAmount > ScreenResolution.ScrollAmount647) {
+                showPreviousHideNext(accountType);
+            }
+            else if (scrolledAmount < ScreenResolution.ScrollAmount286) {
+                showNextHidePrevious(accountType);
+            }
+            else {
+                showBothNextPrevious(accountType);
+            }
+        }
+
+        if (window.matchMedia("(min-width:371px)").matches && window.matchMedia("(max-width:440px)").matches) {
+            if (scrolledAmount < ScreenResolution.ScrollAmount310) {
+                $(".subnav-menu-" + accountType).css("right", "0rem");
+                $(".subnav-menu-" + accountType).css("position", "relative");
+            }
+            if (scrolledAmount > ScreenResolution.ScrollAmount550) {
+                showPreviousHideNext(accountType);
+            }
+            else if (scrolledAmount < ScreenResolution.ScrollAmount229) {
+                showNextHidePrevious(accountType);
+            }
+            else {
+                showBothNextPrevious(accountType);
+            }
+        }
+
+        if (window.matchMedia("(max-width:370px)").matches) {
+            var totalCardCounts = parseInt($("#itemsCount-" + accountType).attr("class").split('-')[1]);
+            if (totalCardCounts == 3) {
+                if (scrolledAmount > ScreenResolution.ScrollAmount235) {
+                    showPreviousHideNext(accountType);
+                }
+                else if (scrolledAmount < ScreenResolution.ScrollAmount172) {
+                    showNextHidePrevious(accountType);
+                }
+            }
+            else {
+                if (scrolledAmount < ScreenResolution.ScrollAmount211) {
+                    $(".subnav-menu-" + accountType).css("right", "0rem");
+                    $(".subnav-menu-" + accountType).css("position", "relative");
+                }
+
+                if (scrolledAmount > ScreenResolution.ScrollAmount508) {
+                    showPreviousHideNext(accountType);
+                }
+                else if (scrolledAmount < 164) {
+                    showNextHidePrevious(accountType);
+                }
+                else {
+                    showBothNextPrevious(accountType);
+                }
+            }
+        }
+    }
+
+    function showNextHidePrevious(accountType) {
+        $("#prev-carousel-" + accountType + "-id").addClass("d-none");
+        $("#next-carousel-" + accountType + "-id").removeClass("d-none");
+    }
+
+    function showPreviousHideNext(accountType) {
+        $("#next-carousel-" + accountType + "-id").addClass("d-none");
+        $("#prev-carousel-" + accountType + "-id").removeClass("d-none");
+    }
+
+    function showBothNextPrevious(accountType) {
+        $("#prev-carousel-" + accountType + "-id").removeClass("d-none");
+        $("#next-carousel-" + accountType + "-id").removeClass("d-none");
+    }
+    //CAROUSEL SCROLL EVENTs STATE ENDS HERE
+
+    function addPopupsListner() {
+
+        //on click of MIMO Move single or both connections
+        $("#btnMoveElec").on("click", function () {
+            moveModalToBody();
+        });
+
+        $("#btnMoveElecAndGas").on("click", function () {
+            moveModalToBody();
+        });
+
+        $("#btnMoveGas").on("click", function () {
+            moveModalToBody();
+        });
+
+        //on click of MIMO Move existing and Add a new connections
+        $("#btnMoveElecAndAddGas").on("click", function () {
+            moveModalToBody();
+        });
+
+        $("#btnMoveElecAndCloseGas").on("click", function () {
+            moveModalToBody();
+        });
+
+        $("#btnMoveGasAndAddElec").on("click", function () {
+            moveModalToBody();
+        });
+
+
+        //on click of MIMO Close connection
+        $("#btnCloseElec").on("click", function () {
+            moveModalToBody();
+        });
+
+        $("#btnCloseElecAndGas").on("click", function () {
+            moveModalToBody();
+        });
+
+        $("#btnCloseGas").on("click", function () {
+            moveModalToBody();
+        });
+
+        //on cancel MIMO process from any step
+        $(".mimo-modal-cancel").on("click", function (e) {
+            $("#modal-cancel-mimo").appendTo("body");
+        });
+
+        $(".mimo-modal-cancel-step4").on("click", function (e) {
+            $("#modal-cancel-payment").appendTo("body");
+        });
+
+        $(".mimo-modal-manual-pay-confirmation").on("click", function () {
+            $("#modal-confirm-manual-payment").appendTo("body");
+        });
+
+        $(".mimo-modal-close-account").on("click", function (e) {
+            $("#mimo-close-account-id").appendTo("body");
+        });
+
+
+        //on metere read tool tip help
+        $(".mimo-tooltip-help-modal").on("click", function (e) {
+            var targetElementId = e.target.dataset.bsTarget;
+            if (targetElementId != "undefined" || targetElementId != null) {
+                $(targetElementId).appendTo("body");
+            }
+        });
+
+        $(".monthly-change-modal").on("click", function (e) {
+            $("#monthly-change").appendTo("body");
+        });
+
+        $("#dds_cancel_btn").on("click", function (e) {
+            $("#modal-cancel").appendTo("body");
+        });
+
+        $("#equal-montly-setup-dd").on("click", function (e) {
+            $("#modal-cancel").appendTo("body");
+        });
+
+        $("#skip_dd_btn").on("click", function (e) {
+            $("#modal-skip-dd-setup").appendTo("body");
+        });
+
+        $("#btnCancelDirectDebit").on("click", function (e) {
+            $("#modal-cancel-dd-setup").appendTo("body");
+        });
+
+        $(".gas-account-setup").on("click", function (e) {
+            $("#modal-cancel").appendTo("body");
+        });
+
+        $("#paperless-billing-check").change(function () {
+            $("#paperless-confirmation").appendTo("body");
+        });
+
+        $("#monthly-billing-check").change(function () {
+            $("#monthly-cancel").appendTo("body");
+            $("#monthly-change").appendTo("body");
+        });
+
+        $("#smart-meter-read-data-check").change(function () {
+            $("#meter-data-confirmation").appendTo("body");
+        });
+
+        document.addEventListener("click", function (e) {
+            var id = e.target.id;
+            if (id == "meter-read-type") {
+                $("#reading-type-modal").appendTo("body");
+            }
+
+            if (id == "meter-read-type-mobile") {
+                $("#reading-type-modal").appendTo("body");
+            }
+
+            if (id == "meter-read-type-gas") {
+                $("#reading-type-modal").appendTo("body");
+            };
+
+            if (id == "meter-read-type-gas-mobile") {
+                $("#reading-type-modal").appendTo("body");
+            };
+        });
+
+        $("#remove-named-contact-button").on("click", function (e) {
+            $("#modal-named-contact-removal").appendTo("body");
+        });
+    }
+
+    function moveModalToBody() {
+        $("#wrapper-mimo-modal").appendTo("body");
+    }
+</script>

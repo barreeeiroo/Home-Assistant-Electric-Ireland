@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head>
+    
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3.0">
+<meta name="description" content="">
+<meta name="format-detection" content="telephone=no">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=zX7eNO7N65">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=zX7eNO7N65">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=zX7eNO7N65">
+<link rel="manifest" href="/site.webmanifest?v=zX7eNO7N65">
+<link rel="mask-icon" href="/safari-pinned-tab.svg?v=zX7eNO7N65" color="#0091cd">
+<link rel="shortcut icon" href="/favicon.ico?v=zX7eNO7N65">
+<meta name="msapplication-TileColor" content="#0091cd">
+<meta name="theme-color" content="#ffffff">
+    <title>Login to your Electric Ireland account | Electric Ireland</title>
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/datepicker.css" rel="stylesheet">
+<link href="/css/styles.css" rel="stylesheet">
+    
+    
+
+        <!-- OneTrust Cookies Consent Notice start for electricireland.ie -->
+        <script type="text/javascript" src="https://cdn.cookielaw.org/consent/19a46100-5271-4f4a-8361-dd2767a5880c/OtAutoBlock.js" ></script>
+        <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="19a46100-5271-4f4a-8361-dd2767a5880c" ></script>
+        <script type="text/javascript">
+            function OptanonWrapper() { }
+        </script>
+        <!-- OneTrust Cookies Consent Notice end for electricireland.ie -->
+
+    
+
+    <script data-testid="google-tagmanager" type="text/javascript">
+
+                        (function(w, d, s, l, i) {
+                            w[l] = w[l] || []; w[l].push({
+                                'gtm.start':
+
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+
+                                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.setAttribute('class', 'optanon-category-C0001');  j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+
+        })
+        (window, document, 'script', 'dataLayer', 'GTM-PH4PKK');
+
+    </script>
+
+
+
+    <script src="/js/polyfills.js"></script>
+<script src="/vendor/jquery/jquery-3.7.1.min.js"></script>
+    
+    <meta name="apple-itunes-app" content="app-id=6444361812,app-argument=https://apps.apple.com/ie/app/electric-ireland/id6444361812">
+</head>
+<body class="with-footer logged-out" data-layout="logged-out" data-layout-type="smart">
+        
+
+    <noscript data-testid="google-tagmanager-no-script">
+
+        <iframe src="www.googletagmanager.com/ns.html?id=GTM-PH4PKK"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+
+    </noscript>
+
+        <div class="loading-overlay" data-loading-overlay>
+    <div class="loading-overlay__label" data-loading-overlay-label aria-label="Please wait">Please wait...</div>
+</div>
+<div class="visually-hidden" data-loading-overlay-sr aria-live="assertive"></div>
+<script src="/js/components/loading-overlay.js"></script>
+
+        <script>
+    $(function () {
+        Cookies.set('show_nav', 'show');
+
+    });
+
+</script>
+        <div class="alert top_nav_alert" id="nav_top_div" role="alert" style="display:none">
+    <button id="nav_close" type="button" class="close confirmation-modal-close custom-modal-close" data-bs-dismiss="alert" style="font-size: 20px; padding-left: 10px;">×</button>
+    The third Government credit applied to your account on March 3rd can only be used against your bill from the 3rd of March 2023 onwards and cannot be offset against a previous bill that issued before 3rd March.
+</div>
+
+<script>
+    $(function () {
+        Cookies.set('show_nav', 'hide');
+        $('#nav_top_div').css("display", "none");
+        if (checkCookie('show_nav')) {
+            $('#nav_top_div').css("display", "block");
+        }
+        else {
+            $('#nav_top_div').css("display", "none");
+            resizePageAfterHideBanner();
+        }
+
+        function resizePageAfterHideBanner() {
+            $('.portal-menu').css("top", "0px");
+            $('.page-login').css("padding-top", "0px");
+            if (window.innerWidth < 992) {
+                $('.portal-main').css("padding-top", "66px")
+                $('.portal-menu__nav').css("height", (window.innerHeight - 66) + "px");
+                $('.portal-header__nav--sticky').css("top", "66px");
+
+            }
+        }
+        $('#nav_close').click(function () {
+
+            Cookies.set('show_nav', 'hide');
+            resizePageAfterHideBanner();
+        });
+
+
+
+        function checkCookie($name) {
+            if (typeof Cookies.get($name) === 'undefined') {
+                Cookies.set('show_nav', 'show');
+                return true;
+            }
+            else if (Cookies.get($name) == 'show') {
+                return true;
+            }
+            else { return false; }
+        }
+
+    });
+
+</script>
+        <main class="page-login">
+            <div class="row row-margin-negative page-login__content">
+                <div class="col-lg-6 page-login__wrapper">
+                    <a class="logo" href="/">
+                        <img id="logoImg" src="/img/logo.svg" alt="electric ireland" />
+                    </a>
+                    <div class="row row-margin-negative h-100">
+                        <div class="col-10 offset-1 col-xl-8 row-margin-regular offset-xl-2 align-self-center">
+                            
+
+<div data-page="login" class="login-form-page">
+    <h1 class="page-login__title" data-testid="title">Account Login</h1>
+        <p id="loginSubtitle" class="page-login__subtitle mb-5 poppins-font" data-testid="subtitle">Login to your online account</p>
+<form action="/" id="loginForm" method="post" novalidate=""><input name="PotText" type="hidden" value="" /><input name="__EiTokPotText" type="hidden" value="" /><input name="Source" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ReturnUrl" type="hidden" value="" /><input name="AccountNumber" type="hidden" value="" />        <div class="form-group w-100">
+            <label for="txtEmail" id="email_username_label">Email Address</label>
+            <input aria-required="true" autocomplete="email" class="form-control w-100" data-val="True" data-val-required="The field UserName is invalid." id="txtEmail" maxlength="60" name="LoginFormData.UserName" placeholder="test@example.com" type="email" value="test@example.com" />
+            <span class="alert alert-form alert-danger w-100 field-validation-valid" data-valmsg-for="LoginFormData.UserName" data-valmsg-replace="true"></span>
+        </div>
+        <div class="form-group w-100">
+            <label for="txtPassword">Password</label>
+            <div class="position-relative">
+                <input autocomplete="off" class="form-control w-100" data-val="true" data-val-required="Please enter a password." id="txtPassword" maxlength="40" name="LoginFormData.Password" placeholder="********" type="password" />
+                <button type="button" class="toggle-password-visibility" aria-label="Show Password">show</button>
+            </div>
+            <span class="alert alert-form alert-danger w-100 field-validation-valid" data-valmsg-for="LoginFormData.Password" data-valmsg-replace="true"></span>
+        </div>
+            <div class="row row-margin-negative mb-5">
+                <div class="col-12 row-margin-regular text-end">
+                    <a id="forgotPasswordLink" class="download-link" href="/Login/ForgotPassword">Forgot password</a>
+                </div>
+            </div>
+<div class="alert alert-form alert-danger w-100 mt-5 mb-5 validation-summary-errors" role="alert"><ul><li>Incorrect email address and/or password. Please try again or click Forgot Password above to reset it.</li>
+</ul></div>        <div class="row row-margin-negative">
+            <div class="col-12 col-sm-auto row-margin-regular mb-5 text-center text-sm-start">
+                <button id="btnLogin" class="btn btn-primary" type="submit">Login</button>
+            </div>
+                <div id="createAccountTagline" class="col-12 col-sm-auto poppins-font row-margin-regular text-center text-sm-start mb-5">
+                    Don't have an online account? 
+                    <a id="createAccountLink" class="btn btn-xs user-login-link" href="/Login/SignUp?Source=Default">Sign up</a>
+                </div>
+        </div>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEn5kUGtKf1OldcgTJtdqbdRD6RQYmKQFPkjvNeGGpVTm0sxFX27upvHaWPwTwp60iQXI8ZW1PKSg8mFdGd2V2GbkBWim01C-dU4wZgOmJkgNHQTV3m_JkzDJ70YPiULtQQ" /></form>
+    <a href="https://play.google.com/store/search?q=electric+ireland+app&c=apps" target="_blank">
+        <img id="play_store" class="text-center text-sm-start" src="/img/Play_Store.png" width="50%" style="margin-left: 25%;margin-top: 20px;display:none">
+    </a>
+    <a href="https://apps.apple.com/gb/app/electric-ireland/id6444361812" target="_blank">
+        <img id="ios_Store" class="text-center text-sm-start" src="/img/IOS_Store.png" width="50%" style="margin-left: 25%;margin-top: 20px;display:none">
+    </a>
+</div>
+
+    <script>
+        var isTouchDevice = function() {
+            return ('ontouchstart' in window) || ('onmsgesturechange' in window)
+            || (navigator.maxTouchPoints > 0);
+        };
+
+        $(function() {
+            const nav = navigator.userAgent;
+            const isMobile = {
+                Android: function() {
+                    console.log(navigator.userAgent)
+                    return navigator.userAgent.match(/Android/i);
+                },
+                BlackBerry: function() {
+                    return navigator.userAgent.match(/BlackBerry/i);
+                },
+                iOS: function() {
+                    return navigator.userAgent.match(/iPhone|iPad|iPod|Macintosh/i);
+                },
+                Opera: function() {
+                    return navigator.userAgent.match(/Opera Mini/i);
+                },
+                Windows: function() {
+                    return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+                },
+                any: function() {
+                    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+                }
+            }
+            if (isMobile.Android()) { $('#ios_Store').hide(); $('#play_store').show() }
+            if (isMobile.iOS() && isTouchDevice()) { $('#play_store').hide(); $('#ios_Store').show() }
+        });
+
+    </script>
+                        </div>
+                    </div>
+                </div>
+                
+    <div class="page-login__img" style="background-image: url('https://prd-cdn.electricireland.ie/media/images/default-source/external/rol/login-signup-bg.jpg'),url('/img/login-signup-bg.jpg')"></div>
+
+            </div>
+        </main>
+        
+        
+
+        
+<footer class="portal-footer portal-footer--login always-on-bottom">
+    <div class="container container-wd-lg-desktop row-margin-regular">
+        <ul class="nav-center">
+            <li><a href="/Help">Help</a></li>
+            <li><a href="https://www.electricireland.ie/residential/helpful-links/contact-us" target="_blank" aria-label="Contact Us - opens in new browser window">Contact Us</a></li>
+            <li><a href="/TermsAndConditions">Terms & Conditions</a></li>
+            <li><a href="/Disclaimer">Disclaimer</a></li>
+            <li><a href="https://www.electricireland.ie/privacy" target="_blank" aria-label="Privacy Notice & Cookies Policy - opens in new browser window">Privacy Notice & Cookies Policy</a></li>
+            <li><a href="#" class="optanon-toggle-display">Cookie Settings</a></li>
+            <li><a href="https://www.electricireland.ie/accessibility" target="_blank" aria-label="Accesibility Statement - opens in new browser window">Accessibility</a></li>
+        </ul>
+    </div>
+</footer>
+<script src="/js/pages/main-navigation/cookie-modal.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/vendor/hammer/hammer.min.js"></script>
+<script src="/vendor/ofi/ofi.min.js"></script>
+<script src="/vendor/moment/moment.min.js"></script>
+<script src="/vendor/js-cookie/js.cookie.min.js"></script>
+<script src="/js/custom-vendors/bootstrap4-toggle.custom.js"></script>
+<script src="/js/components/datepicker.js"></script>
+<script src="/js/components/flow-action.js"></script>
+<script src="/js/components/always-on-bottom-footer.js"></script>
+<script src="/js/components/history-data-attr.js"></script>
+<script src="/js/components/trap-focus.js"></script>
+<script src="/js/components/form-validations.js"></script>
+<script src="/js/components/accessible-validations.js"></script>
+<script src="/js/components/dev-tools.js"></script>
+<script src="/js/index.residential.js"></script>
+
+        
+</body>
+</html>
