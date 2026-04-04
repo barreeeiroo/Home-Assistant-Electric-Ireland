@@ -446,25 +446,26 @@ class ElectricIrelandCoordinator(DataUpdateCoordinator[CoordinatorData]):  # typ
         filtered.sort(key=lambda x: x[0])
         overlap_start = filtered[0][0]
 
-        statistic_types: set[Literal["change", "last_reset", "max", "mean", "min", "state", "sum"]] = {"sum"}
+        stat_types: set[
+            Literal["change", "last_reset", "max", "mean", "min", "state", "sum"]
+        ] = {"sum"}
         existing_before = await get_instance(self.hass).async_add_executor_job(
             partial(
                 statistics_during_period,
                 self.hass,
-                overlap_start - timedelta(days=2),
+                overlap_start - timedelta(days=INITIAL_LOOKBACK_DAYS),
                 overlap_start,
                 {statistic_id},
                 "hour",
                 None,
-                statistic_types,
+                stat_types,
             )
         )
 
         base_sum = 0.0
-        if existing_before and statistic_id in existing_before:
-            rows = existing_before[statistic_id]
-            if rows:
-                base_sum = rows[-1].get("sum") or 0.0
+        rows = (existing_before or {}).get(statistic_id, [])
+        if rows:
+            base_sum = rows[-1].get("sum") or 0.0
 
         statistics: list[StatisticData] = []
         current_sum = base_sum

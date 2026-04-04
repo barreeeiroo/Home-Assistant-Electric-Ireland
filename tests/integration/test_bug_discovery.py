@@ -174,20 +174,17 @@ async def test_cumulative_sum_continues_across_coordinator_refreshes(
 # ==============================================================================
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "Known bug: >2-day gap resets cumulative sum to 0. "
-        "coordinator.py:454 uses timedelta(days=2) lookback to find existing stats; "
-        "when the gap exceeds 2 days, statistics_during_period returns empty -> base_sum=0."
-    ),
-)
 async def test_data_gap_greater_than_2_days_preserves_cumulative_sum(
     recorder_mock,
     hass: HomeAssistant,
     enable_custom_integrations,
 ) -> None:
-    """Run 1: Jan 1-3. Run 2: Jan 10-12 (7-day gap). The 2-day window misses all run-1 data."""
+    """Run 1: Jan 1-3. Run 2: Jan 10-12 (7-day gap). Cumulative sum must carry over.
+
+    Regression test: previously used a 2-day statistics_during_period window that
+    missed run-1 data when the gap exceeded 2 days, resetting base_sum to 0.
+    Fixed by switching to get_last_statistics which has no time-window limitation.
+    """
     entry = _entry()
     entry.add_to_hass(hass)
     db = page(acct_div(ACCOUNT_1))
