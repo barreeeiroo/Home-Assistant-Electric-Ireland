@@ -113,3 +113,48 @@ Every code change follows this cycle:
 - **NEVER** use `@pytest.mark.asyncio` — `asyncio_mode = "auto"` handles it.
 - **NEVER** create real network connections in tests — always `aioresponses`.
 - **NEVER** delete or weaken tests to make CI pass — fix the code.
+
+## Test Strategy: Tradeoffs & Limitations
+
+### Realism vs Speed
+- Integration tests run through real HA + recorder (in-memory SQLite): ~0.5-1s each
+- Unit tests use mocked API: ~0.01s each
+- Tradeoff accepted: correctness > speed
+
+### Real Fixtures vs Synthetic
+- `tests/fixtures/real/` — anonymized + perturbed from real EI account (capture script)
+- `tests/fixtures/` — synthetic edge cases (empty day, partial day, bill period gaps)
+- Real fixtures catch format/structure bugs; synthetic catch logic bugs. Both needed.
+
+### Anonymization Boundary
+- Account numbers, emails, meter IDs: replaced with placeholders
+- Consumption/cost values: randomly perturbed (0.7-1.3x) to destroy behavioral fingerprint
+- HTML structure: anonymized but preserved (CSS classes, form layout)
+
+### HTML Resilience Limitation
+- Tests verify specific HTML variations (extra classes, nested elements, missing divs)
+- Cannot predict ALL future EI website changes
+- Failures are intentional early warning, not flakiness
+
+### DST Limitation
+- Integration works entirely in UTC
+- DST tests require real fixture capture (skip-marked until available)
+- Spring-forward (23h) and fall-back (25h) scenarios depend on EI backend behavior
+
+### Fixture Staleness
+- Fixtures are captured once, not auto-refreshed
+- Re-run `scripts/capture_fixtures.py` if EI changes API response format
+- Stale fixtures may cause false passes — real API integration should be tested periodically
+
+### Known Bug: >2-Day Data Gap
+- `coordinator.py:454` uses 2-day lookback window for cumulative sum base
+- HA offline >2 days → base_sum resets to 0 → Energy Dashboard cliff
+- Test marked `@pytest.mark.xfail` — filed as known issue
+
+### What These Tests Don't Cover
+- Performance under load
+- UI rendering in Energy Dashboard
+- Concurrent multi-user access
+- Rate limiting behavior (requires real API)
+- Credential rotation
+- Property-based testing / fuzzing
