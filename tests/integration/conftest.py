@@ -96,7 +96,10 @@ def hourly_json(
     }
 
 
-def make_hourly_callback(tariff_schedule: dict[int, str] | str = "flatRate"):
+def make_hourly_callback(
+    tariff_schedule: dict[int, str] | str = "flatRate",
+    consumption_pattern: list[float] | None = None,
+):
     """Factory for aioresponses callbacks with configurable tariff per hour.
 
     Args:
@@ -121,8 +124,11 @@ def make_hourly_callback(tariff_schedule: dict[int, str] | str = "flatRate"):
 
             buckets: dict = {"flatRate": None, "offPeak": None, "midPeak": None, "onPeak": None}
             if active is not None:
+                consumption = (
+                    consumption_pattern[hour] if consumption_pattern is not None else round(0.5 + hour * 0.05, 2)
+                )
                 buckets[active] = {
-                    "consumption": round(0.5 + hour * 0.05, 2),
+                    "consumption": round(consumption, 4),
                     "cost": round(0.10 + hour * 0.01, 2),
                 }
 
@@ -192,3 +198,76 @@ def mock_ei_http(
         bill_re = re.compile(rf"{re.escape(BASE_URL)}/MeterInsight/{partner}/{contract}/{premise}/bill-period")
         bp_payload = bill_period_response if bill_period_response is not None else {"isSuccess": True, "data": []}
         m.get(bill_re, payload=bp_payload, repeat=True, content_type="application/json")
+
+
+SMART_TARIFF_SCHEDULE: dict[int, str] = {
+    **{h: "offPeak" for h in range(8)},
+    **{h: "onPeak" for h in range(8, 17)},
+    **{h: "midPeak" for h in range(17, 23)},
+    23: "offPeak",
+}
+
+_SMART_CONSUMPTION_PATTERN: list[float] = [
+    0.18,
+    0.15,
+    0.14,
+    0.13,
+    0.13,
+    0.15,
+    0.20,
+    0.35,
+    0.48,
+    0.52,
+    0.55,
+    0.57,
+    0.58,
+    0.60,
+    0.61,
+    0.60,
+    0.58,
+    0.56,
+    0.54,
+    0.51,
+    0.47,
+    0.42,
+    0.36,
+    0.27,
+]
+
+_SMART_RATES: dict[str, float] = {
+    "offPeak": 0.18,
+    "midPeak": 0.24,
+    "onPeak": 0.32,
+}
+
+
+def make_smart_tariff_callback():
+    def _callback(url, **kwargs):
+        date_str = url.query.get("date", "2024-01-20")
+        dt = datetime.fromisoformat(date_str).replace(tzinfo=UTC)
+        prefix = dt.strftime("%Y-%m-%dT")
+
+        data = []
+        for hour in range(24):
+            tariff = SMART_TARIFF_SCHEDULE.get(hour, "flatRate")
+            consumption = _SMART_CONSUMPTION_PATTERN[hour]
+            cost = round(consumption * _SMART_RATES.get(tariff, 0.20), 4)
+
+            buckets: dict = {"flatRate": None, "offPeak": None, "midPeak": None, "onPeak": None}
+            buckets[tariff] = {"consumption": round(consumption, 4), "cost": cost}
+
+            data.append(
+                {
+                    "startDate": f"{prefix}{hour:02d}:00:00Z",
+                    "endDate": f"{prefix}{hour:02d}:59:59Z",
+                    **buckets,
+                }
+            )
+
+        return CallbackResult(
+            status=200,
+            body=json.dumps({"isSuccess": True, "data": data}),
+            content_type="application/json",
+        )
+
+    return _callback
