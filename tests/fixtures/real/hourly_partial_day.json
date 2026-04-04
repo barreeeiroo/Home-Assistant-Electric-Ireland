@@ -1,0 +1,113 @@
+{
+  "isSuccess": true,
+  "data": [
+    {
+      "startDate": "2026-01-15T12:00:00Z",
+      "endDate": "2026-01-15T12:59:59Z",
+      "flatRate": {"consumption": 0.5, "cost": 0.1},
+      "offPeak": null,
+      "midPeak": null,
+      "onPeak": null,
+      "categories": null
+    },
+    {
+      "startDate": "2026-01-15T13:00:00Z",
+      "endDate": "2026-01-15T13:59:59Z",
+      "flatRate": {"consumption": 0.5, "cost": 0.1},
+      "offPeak": null,
+      "midPeak": null,
+      "onPeak": null,
+      "categories": null
+    },
+    {
+      "startDate": "2026-01-15T14:00:00Z",
+      "endDate": "2026-01-15T14:59:59Z",
+      "flatRate": {"consumption": 0.5, "cost": 0.1},
+      "offPeak": null,
+      "midPeak": null,
+      "onPeak": null,
+      "categories": null
+    },
+    {
+      "startDate": "2026-01-15T15:00:00Z",
+      "endDate": "2026-01-15T15:59:59Z",
+      "flatRate": {"consumption": 0.5, "cost": 0.1},
+      "offPeak": null,
+      "midPeak": null,
+      "onPeak": null,
+      "categories": null
+    },
+    {
+      "startDate": "2026-01-15T16:00:00Z",
+      "endDate": "2026-01-15T16:59:59Z",
+      "flatRate": {"consumption": 0.5, "cost": 0.1},
+      "offPeak": null,
+      "midPeak": null,
+      "onPeak": null,
+      "categories": null
+    },
+    {
+      "startDate": "2026-01-15T17:00:00Z",
+      "endDate": "2026-01-15T17:59:59Z",
+      "flatRate": {"consumption": 0.5, "cost": 0.1},
+      "offPeak": null,
+      "midPeak": null,
+      "onPeak": null,
+      "categories": null
+    },
+    {
+      "startDate": "2026-01-15T18:00:00Z",
+      "endDate": "2026-01-15T18:59:59Z",
+      "flatRate": {"consumption": 0.5, "cost": 0.1},
+      "offPeak": null,
+      "midPeak": null,
+      "onPeak": null,
+      "categories": null
+    },
+    {
+      "startDate": "2026-01-15T19:00:00Z",
+      "endDate": "2026-01-15T19:59:59Z",
+      "flatRate": {"consumption": 0.5, "cost": 0.1},
+      "offPeak": null,
+      "midPeak": null,
+      "onPeak": null,
+      "categories": null
+    },
+    {
+      "startDate": "2026-01-15T20:00:00Z",
+      "endDate": "2026-01-15T20:59:59Z",
+      "flatRate": {"consumption": 0.5, "cost": 0.1},
+      "offPeak": null,
+      "midPeak": null,
+      "onPeak": null,
+      "categories": null
+    },
+    {
+      "startDate": "2026-01-15T21:00:00Z",
+      "endDate": "2026-01-15T21:59:59Z",
+      "flatRate": {"consumption": 0.5, "cost": 0.1},
+      "offPeak": null,
+      "midPeak": null,
+      "onPeak": null,
+      "categories": null
+    },
+    {
+      "startDate": "2026-01-15T22:00:00Z",
+      "endDate": "2026-01-15T22:59:59Z",
+      "flatRate": {"consumption": 0.5, "cost": 0.1},
+      "offPeak": null,
+      "midPeak": null,
+      "onPeak": null,
+      "categories": null
+    },
+    {
+      "startDate": "2026-01-15T23:00:00Z",
+      "endDate": "2026-01-15T23:59:59Z",
+      "flatRate": {"consumption": 0.5, "cost": 0.1},
+      "offPeak": null,
+      "midPeak": null,
+      "onPeak": null,
+      "categories": null
+    }
+  ]
+}
