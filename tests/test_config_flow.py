@@ -36,11 +36,18 @@ async def test_user_flow_success(recorder_mock, hass, enable_custom_integrations
             result["flow_id"],
             {"username": "test@test.com", "password": "testpass"},
         )
-        assert result2["type"] == FlowResultType.CREATE_ENTRY
-        assert result2["data"]["account_number"] == "100000001"
-        assert result2["data"]["partner_id"] == "p1"
-        assert result2["data"]["contract_id"] == "c1"
-        assert result2["data"]["premise_id"] == "pr1"
+        assert result2["type"] == FlowResultType.FORM
+        assert result2["step_id"] == "options"
+
+        result3 = await hass.config_entries.flow.async_configure(
+            result2["flow_id"],
+            {"import_full_history": False},
+        )
+        assert result3["type"] == FlowResultType.CREATE_ENTRY
+        assert result3["data"]["account_number"] == "100000001"
+        assert result3["data"]["partner_id"] == "p1"
+        assert result3["data"]["contract_id"] == "c1"
+        assert result3["data"]["premise_id"] == "pr1"
 
 
 async def test_user_flow_multi_account(recorder_mock, hass, enable_custom_integrations):
@@ -76,9 +83,16 @@ async def test_user_flow_multi_account(recorder_mock, hass, enable_custom_integr
             result2["flow_id"],
             {"account_number": "222222222"},
         )
-        assert result3["type"] == FlowResultType.CREATE_ENTRY
-        assert result3["data"]["account_number"] == "222222222"
-        assert result3["data"]["partner_id"] == "p1"
+        assert result3["type"] == FlowResultType.FORM
+        assert result3["step_id"] == "options"
+
+        result4 = await hass.config_entries.flow.async_configure(
+            result3["flow_id"],
+            {"import_full_history": False},
+        )
+        assert result4["type"] == FlowResultType.CREATE_ENTRY
+        assert result4["data"]["account_number"] == "222222222"
+        assert result4["data"]["partner_id"] == "p1"
 
 
 async def test_user_flow_invalid_auth(recorder_mock, hass, enable_custom_integrations):
@@ -160,8 +174,15 @@ async def test_user_flow_duplicate_account(recorder_mock, hass, enable_custom_in
             result["flow_id"],
             {"username": "test@test.com", "password": "testpass"},
         )
-        assert result2["type"] == FlowResultType.ABORT
-        assert result2["reason"] == "already_configured"
+        assert result2["type"] == FlowResultType.FORM
+        assert result2["step_id"] == "options"
+
+        result3 = await hass.config_entries.flow.async_configure(
+            result2["flow_id"],
+            {"import_full_history": False},
+        )
+        assert result3["type"] == FlowResultType.ABORT
+        assert result3["reason"] == "already_configured"
 
 
 async def test_reauth_flow_success(recorder_mock, hass, enable_custom_integrations, mock_config_entry):
@@ -234,12 +255,19 @@ async def test_ids_cached_during_config_flow(recorder_mock, hass, enable_custom_
             {"username": "test@test.com", "password": "testpass"},
         )
 
-    assert result2["type"] == FlowResultType.CREATE_ENTRY
-    assert result2["data"].get("partner_id") == "P_TEST", (
+    assert result2["type"] == FlowResultType.FORM
+    assert result2["step_id"] == "options"
+
+    result3 = await hass.config_entries.flow.async_configure(
+        result2["flow_id"],
+        {"import_full_history": False},
+    )
+    assert result3["type"] == FlowResultType.CREATE_ENTRY
+    assert result3["data"].get("partner_id") == "P_TEST", (
         "partner_id should be stored in entry data after successful config flow"
     )
-    assert result2["data"].get("contract_id") == "C_TEST"
-    assert result2["data"].get("premise_id") == "PR_TEST"
+    assert result3["data"].get("contract_id") == "C_TEST"
+    assert result3["data"].get("premise_id") == "PR_TEST"
 
 
 async def test_reconfigure_success(recorder_mock, hass, enable_custom_integrations):

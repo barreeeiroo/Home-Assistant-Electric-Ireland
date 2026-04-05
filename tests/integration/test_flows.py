@@ -65,6 +65,13 @@ async def test_single_account_creates_entry(
             result["flow_id"],
             {"username": "u@test.com", "password": "pass"},
         )
+        assert result["type"] == FlowResultType.FORM
+        assert result["step_id"] == "options"
+
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            {"import_full_history": False},
+        )
         await hass.async_block_till_done()
 
     assert result["type"] == FlowResultType.CREATE_ENTRY
@@ -97,6 +104,13 @@ async def test_multi_account_shows_selection_then_creates(
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
             {"account_number": ACCOUNT_2},
+        )
+        assert result["type"] == FlowResultType.FORM
+        assert result["step_id"] == "options"
+
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            {"import_full_history": False},
         )
         await hass.async_block_till_done()
 
@@ -203,6 +217,13 @@ async def test_duplicate_account_aborts(
             result["flow_id"],
             {"username": "u@test.com", "password": "pass"},
         )
+        assert result["type"] == FlowResultType.FORM
+        assert result["step_id"] == "options"
+
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            {"import_full_history": False},
+        )
 
     assert result["type"] == FlowResultType.ABORT
     assert result["reason"] == "already_configured"
@@ -234,6 +255,13 @@ async def test_retry_after_connect_error(
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
             {"username": "u@test.com", "password": "pass"},
+        )
+        assert result["type"] == FlowResultType.FORM
+        assert result["step_id"] == "options"
+
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            {"import_full_history": False},
         )
         await hass.async_block_till_done()
 
