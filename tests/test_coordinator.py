@@ -1099,7 +1099,8 @@ async def test_bill_period_bounds_date_range(recorder_mock, hass, mock_config_en
     """Bill-period bounds date range to period ∩ lookback — only period dates fetched."""
     mock_config_entry.add_to_hass(hass)
 
-    yesterday = (datetime.now(UTC) - timedelta(days=1)).date()
+    fake_now = datetime(2026, 6, 15, 12, 0, tzinfo=UTC)
+    yesterday = (fake_now - timedelta(days=1)).date()
     period_start = yesterday - timedelta(days=4)
     period_end = yesterday + timedelta(days=20)
 
@@ -1119,6 +1120,7 @@ async def test_bill_period_bounds_date_range(recorder_mock, hass, mock_config_en
         ),
         patch("custom_components.electric_ireland_insights.coordinator.ElectricIrelandAPI") as mock_api_class,
         patch("custom_components.electric_ireland_insights.coordinator.async_create_clientsession"),
+        patch("custom_components.electric_ireland_insights.coordinator.dt_now", return_value=fake_now),
     ):
         mock_api_instance = AsyncMock()
         _setup_api_mock(mock_api_instance, bill_periods=bill_periods)
@@ -1199,11 +1201,12 @@ async def test_bill_period_empty_falls_back_to_blind_fetch(recorder_mock, hass, 
 
 
 async def test_bill_period_partial_coverage_only_fetches_period_dates(recorder_mock, hass, mock_config_entry):
-    """Bill-period covers 5 of 7 lookback days → only 5 dates fetched (uncovered days skipped)."""
+    """Bill-period covers some lookback days → only period dates fetched (uncovered days skipped)."""
     mock_config_entry.add_to_hass(hass)
 
-    yesterday = (datetime.now(UTC) - timedelta(days=1)).date()
-    period_start = yesterday - timedelta(days=4)
+    fake_now = datetime(2026, 6, 15, 12, 0, tzinfo=UTC)
+    yesterday = (fake_now - timedelta(days=1)).date()
+    period_start = yesterday - timedelta(days=2)
     period_end = yesterday
 
     bill_periods = [
@@ -1222,6 +1225,7 @@ async def test_bill_period_partial_coverage_only_fetches_period_dates(recorder_m
         ),
         patch("custom_components.electric_ireland_insights.coordinator.ElectricIrelandAPI") as mock_api_class,
         patch("custom_components.electric_ireland_insights.coordinator.async_create_clientsession"),
+        patch("custom_components.electric_ireland_insights.coordinator.dt_now", return_value=fake_now),
     ):
         mock_api_instance = AsyncMock()
         _setup_api_mock(mock_api_instance, bill_periods=bill_periods)
@@ -1232,29 +1236,30 @@ async def test_bill_period_partial_coverage_only_fetches_period_dates(recorder_m
         coordinator = ElectricIrelandCoordinator(hass, mock_config_entry)
         await coordinator._async_update_data()
 
-        assert mock_api_instance.get_hourly_usage.call_count == 5
+        assert mock_api_instance.get_hourly_usage.call_count == 3
 
         called_dates = sorted(call.args[2] for call in mock_api_instance.get_hourly_usage.call_args_list)
-        expected_dates = sorted(period_start + timedelta(days=i) for i in range(5))
+        expected_dates = sorted(period_start + timedelta(days=i) for i in range(3))
         assert called_dates == expected_dates
         assert coordinator._bill_periods == bill_periods
 
 
 async def test_bill_period_gap_between_periods_skips_gap_dates(recorder_mock, hass, mock_config_entry):
-    """Two billing periods with a 2-day gap — gap dates are not fetched."""
+    """Two billing periods with a gap — gap dates are not fetched."""
     mock_config_entry.add_to_hass(hass)
 
-    yesterday = (datetime.now(UTC) - timedelta(days=1)).date()
+    fake_now = datetime(2026, 6, 15, 12, 0, tzinfo=UTC)
+    yesterday = (fake_now - timedelta(days=1)).date()
 
     bill_periods = [
         {
-            "startDate": f"{(yesterday - timedelta(days=6)).isoformat()}T00:00:00Z",
-            "endDate": f"{(yesterday - timedelta(days=5)).isoformat()}T23:59:59Z",
+            "startDate": f"{(yesterday - timedelta(days=3)).isoformat()}T00:00:00Z",
+            "endDate": f"{(yesterday - timedelta(days=3)).isoformat()}T23:59:59Z",
             "current": False,
             "hasAppliance": False,
         },
         {
-            "startDate": f"{(yesterday - timedelta(days=2)).isoformat()}T00:00:00Z",
+            "startDate": f"{(yesterday - timedelta(days=1)).isoformat()}T00:00:00Z",
             "endDate": f"{yesterday.isoformat()}T23:59:59Z",
             "current": True,
             "hasAppliance": False,
@@ -1268,6 +1273,7 @@ async def test_bill_period_gap_between_periods_skips_gap_dates(recorder_mock, ha
         ),
         patch("custom_components.electric_ireland_insights.coordinator.ElectricIrelandAPI") as mock_api_class,
         patch("custom_components.electric_ireland_insights.coordinator.async_create_clientsession"),
+        patch("custom_components.electric_ireland_insights.coordinator.dt_now", return_value=fake_now),
     ):
         mock_api_instance = AsyncMock()
         _setup_api_mock(mock_api_instance, bill_periods=bill_periods)
@@ -1278,14 +1284,14 @@ async def test_bill_period_gap_between_periods_skips_gap_dates(recorder_mock, ha
         coordinator = ElectricIrelandCoordinator(hass, mock_config_entry)
         await coordinator._async_update_data()
 
-        # Period 1: 2 days (yesterday-6, yesterday-5)
-        # Gap: 2 days (yesterday-4, yesterday-3) — skipped
-        # Period 2: 3 days (yesterday-2, yesterday-1, yesterday)
-        # Total within 7-day lookback: 5 days fetched, 2 gap days skipped
-        assert mock_api_instance.get_hourly_usage.call_count == 5
+        # Period 1: 1 day (yesterday-3)
+        # Gap: 1 day (yesterday-2) — skipped
+        # Period 2: 2 days (yesterday-1, yesterday)
+        # Total within 4-day lookback: 3 days fetched, 1 gap day skipped
+        assert mock_api_instance.get_hourly_usage.call_count == 3
 
         called_dates = sorted(call.args[2] for call in mock_api_instance.get_hourly_usage.call_args_list)
-        gap_dates = {yesterday - timedelta(days=4), yesterday - timedelta(days=3)}
+        gap_dates = {yesterday - timedelta(days=2)}
         for gap_date in gap_dates:
             assert gap_date not in called_dates
 
@@ -1294,7 +1300,8 @@ async def test_bill_period_partial_coverage_with_tariff_buckets(recorder_mock, h
     """Tariff bucketing still works correctly when only period-bounded dates are fetched."""
     mock_config_entry.add_to_hass(hass)
 
-    yesterday = (datetime.now(UTC) - timedelta(days=1)).date()
+    fake_now = datetime(2026, 6, 15, 12, 0, tzinfo=UTC)
+    yesterday = (fake_now - timedelta(days=1)).date()
     period_start = yesterday - timedelta(days=2)
 
     bill_periods = [
@@ -1321,6 +1328,7 @@ async def test_bill_period_partial_coverage_with_tariff_buckets(recorder_mock, h
         patch(
             "custom_components.electric_ireland_insights.coordinator.async_add_external_statistics",
         ) as mock_add_stats,
+        patch("custom_components.electric_ireland_insights.coordinator.dt_now", return_value=fake_now),
     ):
         mock_api_instance = AsyncMock()
         _setup_api_mock(mock_api_instance, bill_periods=bill_periods, hourly_return=mixed)

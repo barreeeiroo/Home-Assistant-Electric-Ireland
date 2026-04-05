@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import re
 from datetime import UTC, datetime, timedelta
+from unittest.mock import patch
 
 import aiohttp
 from aioresponses import aioresponses
@@ -419,10 +420,11 @@ async def test_preflight_bounds_hourly_fetches(
     entry.add_to_hass(hass)
     db = page(acct_div(ACCOUNT_1))
 
-    yesterday = (datetime.now(UTC) - timedelta(days=1)).date()
-    period_start = yesterday - timedelta(days=4)
+    fake_now = datetime(2026, 6, 15, 12, 0, tzinfo=UTC)
+    yesterday = (fake_now - timedelta(days=1)).date()
+    period_start = yesterday - timedelta(days=3)
     period_end = yesterday
-    period_days = 5  # yesterday-4 … yesterday inclusive
+    period_days = 4
 
     bp_response: dict = {
         "isSuccess": True,
@@ -442,7 +444,10 @@ async def test_preflight_bounds_hourly_fetches(
         hourly_calls.append(str(url))
         return hourly_callback(url, **kwargs)
 
-    with aioresponses() as m:
+    with (
+        aioresponses() as m,
+        patch("custom_components.electric_ireland_insights.coordinator.dt_now", return_value=fake_now),
+    ):
         mock_ei_http(m, db, hourly_cb=tracking_callback, bill_period_response=bp_response)
 
         # First refresh: lookback=INITIAL_LOOKBACK_DAYS but only period dates fetched
