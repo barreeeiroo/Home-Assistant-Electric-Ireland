@@ -479,22 +479,21 @@ class ElectricIrelandCoordinator(DataUpdateCoordinator[CoordinatorData]):  # typ
                 )
             )
 
-        # TODO(has_mean): When dev deps upgrade to HA ≥2025.8 (pytest-homeassistant-custom-component
-        # ships a version bundling homeassistant>=2025.8), replace the deprecated `has_mean` with:
-        #   from homeassistant.components.recorder.models import StatisticMeanType
-        #   mean_type=StatisticMeanType.NONE,
-        #   unit_class="energy" (consumption) / unit_class=None (cost),
-        # and remove `has_mean=False`.  `has_mean` is deprecated since HA 2025.8 and will be
-        # removed in HA 2026.11.  As of 2026-03-31 the latest pytest-homeassistant-custom-component
-        # (0.13.205) still bundles homeassistant==2025.1.4, so the new API is not yet available.
         default_name = f"Electric Ireland {'Consumption' if metric == 'consumption' else 'Cost'} ({self._account})"
-        metadata = StatisticMetaData(
-            has_mean=False,
-            has_sum=True,
-            name=name_override or default_name,
-            source=DOMAIN,
-            statistic_id=statistic_id,
-            unit_of_measurement=unit,
-        )
+        metadata_kwargs: dict[str, object] = {
+            "has_sum": True,
+            "name": name_override or default_name,
+            "source": DOMAIN,
+            "statistic_id": statistic_id,
+            "unit_of_measurement": unit,
+        }
+        try:
+            from homeassistant.components.recorder.models import StatisticMeanType  # type: ignore[attr-defined]
+
+            metadata_kwargs["mean_type"] = StatisticMeanType.NONE
+            metadata_kwargs["unit_class"] = "energy" if metric == "consumption" else None
+        except ImportError:
+            metadata_kwargs["has_mean"] = False
+        metadata = StatisticMetaData(**metadata_kwargs)  # type: ignore[arg-type]
 
         async_add_external_statistics(self.hass, metadata, statistics)
