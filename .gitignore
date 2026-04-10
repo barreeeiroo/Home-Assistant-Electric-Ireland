@@ -1,16 +1,53 @@
+# Python bytecode / C extensions
 __pycache__/
-*.pyc
-*.pyo
-.pytest_cache/
-*.egg-info/
-.coverage
-htmlcov/
-dist/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
 build/
+dist/
+*.egg-info/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+pyvenv.cfg
+
+# Testing & coverage
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+
+# ruff
+.ruff_cache/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+._*
 
 # Environment secrets — never commit
 .env
 .env.*
 !.env.example
-.venv/
+
+# AI tooling
+.opencode/
+.sisyphus/
+opencode.json
+
+# Project
 pr-description.md
