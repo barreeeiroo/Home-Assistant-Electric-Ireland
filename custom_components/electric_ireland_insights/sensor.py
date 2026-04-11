@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
@@ -22,6 +23,8 @@ from . import ElectricIrelandConfigEntry
 from .const import DOMAIN
 from .coordinator import ElectricIrelandCoordinator
 from .types import CoordinatorData
+
+_LOGGER = logging.getLogger(__name__)
 
 PARALLEL_UPDATES = 0
 
@@ -65,6 +68,11 @@ async def async_setup_entry(
 ) -> None:
     coordinator = config_entry.runtime_data
     account = config_entry.data["account_number"]
+    _LOGGER.debug(
+        "Setting up %d diagnostic sensor(s) for account=%s",
+        len(DIAGNOSTIC_SENSORS),
+        account,
+    )
     async_add_entities(
         ElectricIrelandDiagnosticSensor(coordinator, description, account) for description in DIAGNOSTIC_SENSORS
     )

@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
+import logging
 from typing import Any
 
 from homeassistant.components.diagnostics import async_redact_data
 from homeassistant.core import HomeAssistant
 
 from . import ElectricIrelandConfigEntry
+
+_LOGGER = logging.getLogger(__name__)
 
 TO_REDACT = {
     "username",
@@ -23,6 +26,7 @@ async def async_get_config_entry_diagnostics(
     hass: HomeAssistant,
     config_entry: ElectricIrelandConfigEntry,
 ) -> dict[str, Any]:
+    _LOGGER.debug("Collecting diagnostics for Electric Ireland entry")
     coordinator = config_entry.runtime_data
 
     return {

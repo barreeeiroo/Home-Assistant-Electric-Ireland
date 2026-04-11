@@ -12,7 +12,7 @@ from homeassistant.core import HomeAssistant
 from .const import DOMAIN
 from .coordinator import ElectricIrelandCoordinator
 
-_LOGGER = logging.getLogger(DOMAIN)
+_LOGGER = logging.getLogger(__name__)
 
 PLATFORMS = [Platform.SENSOR]
 
@@ -38,6 +38,10 @@ async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry) ->
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ElectricIrelandConfigEntry) -> bool:
+    _LOGGER.debug(
+        "Setting up Electric Ireland entry, account=%s",
+        entry.data["account_number"],
+    )
     coordinator = ElectricIrelandCoordinator(hass, entry)
 
     entry.runtime_data = coordinator
@@ -54,11 +58,23 @@ async def async_setup_entry(hass: HomeAssistant, entry: ElectricIrelandConfigEnt
             coordinator.async_tariff_backfill(),
             "electric_ireland_full_history_import",
         )
+        _LOGGER.debug(
+            "Launching full history import background task, account=%s",
+            entry.data["account_number"],
+        )
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    _LOGGER.debug(
+        "Platforms forwarded for account=%s",
+        entry.data["account_number"],
+    )
 
     return True
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ElectricIrelandConfigEntry) -> bool:
+    _LOGGER.debug(
+        "Unloading Electric Ireland entry, account=%s",
+        entry.data["account_number"],
+    )
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
