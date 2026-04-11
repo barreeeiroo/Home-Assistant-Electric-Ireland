@@ -1,5 +1,6 @@
 """Tests for the Electric Ireland config flow."""
 
+import logging
 from unittest.mock import AsyncMock, patch
 
 from homeassistant import config_entries
@@ -412,8 +413,9 @@ async def test_reconfigure_auth_error(recorder_mock, hass, enable_custom_integra
         assert result2["errors"]["base"] == "invalid_auth"
 
 
-async def test_user_flow_unexpected_exception(recorder_mock, hass, enable_custom_integrations):
+async def test_user_flow_unexpected_exception(recorder_mock, hass, enable_custom_integrations, caplog):
     """Test user flow shows error on unexpected exception."""
+    caplog.set_level(logging.ERROR, logger="custom_components.electric_ireland_insights.config_flow")
     with (
         patch("custom_components.electric_ireland_insights.config_flow.ElectricIrelandAPI") as mock_api_class,
         patch("custom_components.electric_ireland_insights.config_flow.async_create_clientsession"),
@@ -429,6 +431,7 @@ async def test_user_flow_unexpected_exception(recorder_mock, hass, enable_custom
         )
         assert result2["type"] == FlowResultType.FORM
         assert result2["errors"]["base"] == "cannot_connect"
+        assert "Unexpected exception" in caplog.text
 
 
 async def test_reauth_cannot_connect(recorder_mock, hass, enable_custom_integrations, mock_config_entry):
@@ -465,8 +468,11 @@ async def test_reauth_account_not_found(recorder_mock, hass, enable_custom_integ
         assert result2["errors"]["base"] == "account_not_found"
 
 
-async def test_reauth_unexpected_exception(recorder_mock, hass, enable_custom_integrations, mock_config_entry):
+async def test_reauth_unexpected_exception(
+    recorder_mock, hass, enable_custom_integrations, mock_config_entry, caplog
+):
     """Test reauth flow shows error on unexpected exception."""
+    caplog.set_level(logging.ERROR, logger="custom_components.electric_ireland_insights.config_flow")
     mock_config_entry.add_to_hass(hass)
     with (
         patch("custom_components.electric_ireland_insights.config_flow.ElectricIrelandAPI") as mock_api_class,
@@ -480,6 +486,7 @@ async def test_reauth_unexpected_exception(recorder_mock, hass, enable_custom_in
         result2 = await hass.config_entries.flow.async_configure(result["flow_id"], {"password": "pass"})
         assert result2["type"] == FlowResultType.FORM
         assert result2["errors"]["base"] == "cannot_connect"
+        assert "Unexpected exception" in caplog.text
 
 
 async def test_reconfigure_cannot_connect(recorder_mock, hass, enable_custom_integrations):
@@ -550,8 +557,9 @@ async def test_reconfigure_account_not_found(recorder_mock, hass, enable_custom_
         assert result2["errors"]["base"] == "account_not_found"
 
 
-async def test_reconfigure_unexpected_exception(recorder_mock, hass, enable_custom_integrations):
+async def test_reconfigure_unexpected_exception(recorder_mock, hass, enable_custom_integrations, caplog):
     """Test reconfigure flow shows error on unexpected exception."""
+    caplog.set_level(logging.ERROR, logger="custom_components.electric_ireland_insights.config_flow")
     from pytest_homeassistant_custom_component.common import MockConfigEntry
 
     entry = MockConfigEntry(
@@ -582,6 +590,7 @@ async def test_reconfigure_unexpected_exception(recorder_mock, hass, enable_cust
         )
         assert result2["type"] == FlowResultType.FORM
         assert result2["errors"]["base"] == "cannot_connect"
+        assert "Unexpected exception" in caplog.text
 
 
 async def test_reconfigure_same_password_stores_meter_ids(recorder_mock, hass, enable_custom_integrations):

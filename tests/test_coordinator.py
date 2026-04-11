@@ -1,6 +1,7 @@
 """Tests for the Electric Ireland coordinator."""
 
 from datetime import UTC, datetime, timedelta
+import logging
 from unittest.mock import AsyncMock, patch
 
 import pytest
@@ -771,9 +772,10 @@ async def test_no_cached_ids_triggers_full_login(recorder_mock, hass, mock_confi
         assert passed_meter_ids is None, "No cached IDs: authenticate should be called with meter_ids=None"
 
 
-async def test_cached_ids_fallback_to_full_login(recorder_mock, hass, mock_config_entry):
+async def test_cached_ids_fallback_to_full_login(recorder_mock, hass, mock_config_entry, caplog):
     """Test that cached ID failure falls back to full login within same cycle."""
     mock_config_entry.add_to_hass(hass)
+    caplog.set_level(logging.WARNING, logger="custom_components.electric_ireland_insights.coordinator")
     hass.config_entries.async_update_entry(
         mock_config_entry,
         data={
@@ -814,6 +816,8 @@ async def test_cached_ids_fallback_to_full_login(recorder_mock, hass, mock_confi
 
         coordinator = ElectricIrelandCoordinator(hass, mock_config_entry)
         await coordinator._async_update_data()
+
+        assert "Cached meter IDs failed during data fetch" in caplog.text
 
         assert hass.config_entries.async_get_entry(mock_config_entry.entry_id).data.get("partner_id") == "NEW_P1", (
             "New meter IDs from fallback should be stored in entry.data"
@@ -959,9 +963,10 @@ async def test_empty_data_restart_returns_synthetic(recorder_mock, hass, mock_co
         assert result.get("import_error") is not None
 
 
-async def test_connection_restored_logging(recorder_mock, hass, mock_config_entry):
+async def test_connection_restored_logging(recorder_mock, hass, mock_config_entry, caplog):
     """Test that _last_update_success transitions from False to True on success."""
     mock_config_entry.add_to_hass(hass)
+    caplog.set_level(logging.INFO, logger="custom_components.electric_ireland_insights.coordinator")
 
     with (
         patch(
@@ -986,6 +991,7 @@ async def test_connection_restored_logging(recorder_mock, hass, mock_config_entr
         with patch.object(coordinator, "_insert_statistics", new_callable=AsyncMock):
             result = await coordinator._async_update_data()
 
+        assert "Connection restored" in caplog.text
         assert coordinator._last_update_success is True
         assert result is not None
 
