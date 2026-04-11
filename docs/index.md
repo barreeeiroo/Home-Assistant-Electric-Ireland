@@ -249,3 +249,19 @@ logger:
   logs:
     custom_components.electric_ireland_insights: debug
 ```
+
+### What to look for in debug logs
+
+When debug logging is enabled, the integration logs detailed information at each stage. Here's what key messages mean:
+
+| Log message | What it means |
+|------------|---------------|
+| `Setting up Electric Ireland entry, account=...` | Integration is initialising for this account |
+| `Platforms forwarded for account=...` | Sensor entities have been registered |
+| `Launching full history import background task` | A full historical data import is running in the background |
+| `Unloading Electric Ireland entry, account=...` | Integration is being removed or reloaded |
+| `Performing Login...` | Login flow is starting against the Electric Ireland website |
+| `Discovered N account(s)` | Account discovery completed after login |
+| `Connection lost — data import paused` | ⚠️ The integration cannot reach Electric Ireland (will retry automatically) |
+| `Connection restored — data import resumed` | ✅ Connectivity recovered |
+| `Unexpected exception` | ❌ An unhandled error — include this in your bug report |
