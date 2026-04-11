@@ -32,10 +32,11 @@ ANON_EF_TOKEN = "ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000"  # noqa
 ANON_EF_TOKEN_URL = "ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000"  # noqa: S105
 # Anonymized tariff plan name (replaces real product names like "Home Electric+ Weekender")
 ANON_TARIFF_PLAN = "TestPlan"
+ANON_ADDRESS = "123 SAMPLE STREET, DUBLIN"
 
 EMAIL_RE = re.compile(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
 NINE_DIGIT_RE = re.compile(r"\b\d{9}\b")
-PII_KEYS = {"account", "accountNumber", "email", "partner", "contract", "premise"}
+PII_KEYS = {"account", "accountNumber", "email", "partner", "contract", "premise", "addressLines", "accountAddress"}
 DATE_KEYS = {"date", "endDate", "startDate", "timestamp", "intervalEnd"}
 
 LOGGER = logging.getLogger("capture_fixtures")
@@ -158,6 +159,8 @@ def _anonymize_value(key: str | None, value: Any, rng: random.Random) -> Any:
             return ANON_CONTRACT
         if key == "premise":
             return ANON_PREMISE
+        if key in ("addressLines", "accountAddress"):
+            return ANON_ADDRESS
 
     if isinstance(value, dict):
         return {k: _anonymize_value(k, v, rng) for k, v in value.items()}
@@ -211,6 +214,16 @@ def anonymize_text(text: str, rng: random.Random) -> str:
     anonymized = re.sub(r"EF-%2A[A-Za-z0-9%_\-]+", ANON_EF_TOKEN_URL, anonymized)
     anonymized = re.sub(r"EF-\*[A-Za-z0-9+/=_\-]+", ANON_EF_TOKEN, anonymized)
     anonymized = re.sub(r"Home Electric\+\s*", f"{ANON_TARIFF_PLAN} ", anonymized)
+    anonymized = re.sub(
+        r'(?<=data-testid="account-card-location">)[^<]+',
+        ANON_ADDRESS,
+        anonymized,
+    )
+    anonymized = re.sub(
+        r'(?<=account-number">)\d{9}\n[A-Z][A-Z, ]+',
+        f"{ANON_ACCOUNT}\n{ANON_ADDRESS}",
+        anonymized,
+    )
     return anonymized
 
 

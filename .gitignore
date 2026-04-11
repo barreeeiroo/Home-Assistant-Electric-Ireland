@@ -49,6 +49,13 @@ core
 .opencode/
 .sisyphus/
 opencode.json
+.playwright-mcp/
 
 # Project
 pr-description.md
+
+# MITM captures — contain real credentials and PII
+scripts/mitm/captures/
+
+# Raw fixture captures (may contain PII before anonymization)
+/tmp/ei-fixtures/

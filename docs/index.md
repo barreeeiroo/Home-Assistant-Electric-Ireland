@@ -128,7 +128,7 @@ The Energy Dashboard will now display separate colored bars per hour/day for eac
 
 ## Diagnostic entities
 
-Two diagnostic sensor entities are created under the integration's device. Entity IDs include the account number (e.g., `sensor.electric_ireland_100000001_timestamp`). In multi-account setups, each account has its own set of diagnostic sensors.
+Two diagnostic sensor entities are created under the integration's device. Entity IDs include the account number (e.g., `sensor.electric_ireland_123456789_timestamp`). In multi-account setups, each account has its own set of diagnostic sensors.
 
 | Entity | Description |
 |--------|-------------|
@@ -186,7 +186,7 @@ automation:
 
 > **Note**: The Data Freshness sensor is disabled by default. Enable it first in **Settings → Devices & services → Electric Ireland Insights → device → entities**.
 
-Replace `ACCOUNT` below with your account number (e.g., `100000001`):
+Replace `ACCOUNT` below with your account number (e.g., `123456789`):
 
 ```yaml
 automation:
