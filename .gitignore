@@ -38,6 +38,7 @@ htmlcov/
 # OS
 .DS_Store
 ._*
+core
 
 # Environment secrets — never commit
 .env
