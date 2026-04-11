@@ -446,9 +446,7 @@ class ElectricIrelandCoordinator(DataUpdateCoordinator[CoordinatorData]):  # typ
         filtered.sort(key=lambda x: x[0])
         overlap_start = filtered[0][0]
 
-        stat_types: set[
-            Literal["change", "last_reset", "max", "mean", "min", "state", "sum"]
-        ] = {"sum"}
+        stat_types: set[Literal["change", "last_reset", "max", "mean", "min", "state", "sum"]] = {"sum"}
         existing_before = await get_instance(self.hass).async_add_executor_job(
             partial(
                 statistics_during_period,

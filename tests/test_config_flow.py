@@ -468,9 +468,7 @@ async def test_reauth_account_not_found(recorder_mock, hass, enable_custom_integ
         assert result2["errors"]["base"] == "account_not_found"
 
 
-async def test_reauth_unexpected_exception(
-    recorder_mock, hass, enable_custom_integrations, mock_config_entry, caplog
-):
+async def test_reauth_unexpected_exception(recorder_mock, hass, enable_custom_integrations, mock_config_entry, caplog):
     """Test reauth flow shows error on unexpected exception."""
     caplog.set_level(logging.ERROR, logger="custom_components.electric_ireland_insights.config_flow")
     mock_config_entry.add_to_hass(hass)

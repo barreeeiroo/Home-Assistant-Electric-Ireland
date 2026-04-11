@@ -1,7 +1,7 @@
 """Tests for the Electric Ireland coordinator."""
 
-from datetime import UTC, datetime, timedelta
 import logging
+from datetime import UTC, datetime, timedelta
 from unittest.mock import AsyncMock, patch
 
 import pytest
@@ -1868,3 +1868,73 @@ async def test_bill_period_cache_preserves_data_on_failure(recorder_mock, hass, 
 
         await coordinator._async_update_data()
         assert coordinator._bill_periods == bill_periods
+
+
+async def test_cached_ids_login_cannot_connect_falls_back(recorder_mock, hass, mock_config_entry):
+    """Test CannotConnect during login with cached IDs falls back to full discovery."""
+    mock_config_entry.add_to_hass(hass)
+    hass.config_entries.async_update_entry(
+        mock_config_entry,
+        data={
+            **dict(mock_config_entry.data),
+            "partner_id": "STALE_P1",
+            "contract_id": "STALE_C1",
+            "premise_id": "STALE_PR1",
+        },
+    )
+
+    new_ids = {"partner": "NEW_P1", "contract": "NEW_C1", "premise": "NEW_PR1"}
+
+    with (
+        patch(
+            "custom_components.electric_ireland_insights.coordinator.get_last_statistics",
+            return_value={},
+        ),
+        patch("custom_components.electric_ireland_insights.coordinator.ElectricIrelandAPI") as mock_api_class,
+        patch("custom_components.electric_ireland_insights.coordinator.async_create_clientsession"),
+    ):
+        mock_api_instance = AsyncMock()
+        mock_api_instance.authenticate = AsyncMock(side_effect=[CannotConnect("timeout"), (new_ids, new_ids)])
+        mock_api_instance.get_bill_periods = AsyncMock(return_value=[])
+        mock_api_instance.get_hourly_usage = AsyncMock(return_value=[])
+        mock_api_class.return_value = mock_api_instance
+
+        from custom_components.electric_ireland_insights.coordinator import ElectricIrelandCoordinator
+
+        coordinator = ElectricIrelandCoordinator(hass, mock_config_entry)
+        await coordinator._async_update_data()
+
+        assert hass.config_entries.async_get_entry(mock_config_entry.entry_id).data.get("partner_id") == "NEW_P1"
+
+
+async def test_tariff_backfill_bill_periods_cannot_connect_falls_back(recorder_mock, hass):
+    """async_tariff_backfill falls back to lookback window when get_bill_periods raises CannotConnect."""
+    entry = MockConfigEntry(
+        domain="electric_ireland_insights",
+        data={
+            "username": "test@test.com",
+            "password": "testpass",
+            "account_number": ACCOUNT,
+        },
+        unique_id=ACCOUNT,
+    )
+    entry.add_to_hass(hass)
+
+    with (
+        patch("custom_components.electric_ireland_insights.coordinator.ElectricIrelandAPI") as mock_api_class,
+        patch("custom_components.electric_ireland_insights.coordinator.async_create_clientsession"),
+    ):
+        mock_api_instance = AsyncMock()
+        _setup_api_mock(
+            mock_api_instance,
+            hourly_side_effect=[[] for _ in range(50)],
+        )
+        mock_api_instance.get_bill_periods = AsyncMock(side_effect=CannotConnect("network error"))
+        mock_api_class.return_value = mock_api_instance
+
+        from custom_components.electric_ireland_insights.coordinator import ElectricIrelandCoordinator
+
+        coordinator = ElectricIrelandCoordinator(hass, entry)
+        await coordinator.async_tariff_backfill()
+
+        assert mock_api_instance.get_hourly_usage.call_count == INITIAL_LOOKBACK_DAYS
