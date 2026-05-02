@@ -43,6 +43,7 @@ TARIFF_BUCKET_MAP_DISPLAY: dict[str, str] = {
     "mid_peak": "Mid-Peak",
     "on_peak": "On-Peak",
 }
+SMART_TARIFF_BUCKETS = ("off_peak", "mid_peak", "on_peak")
 
 
 class ElectricIrelandCoordinator(DataUpdateCoordinator[CoordinatorData]):  # type: ignore[misc]
@@ -275,23 +276,8 @@ class ElectricIrelandCoordinator(DataUpdateCoordinator[CoordinatorData]):  # typ
                 sorted(seen_buckets),
                 {k: len(v) for k, v in buckets.items()},
             )
-            if len(seen_buckets) > 1 or (len(seen_buckets) == 1 and "flat_rate" not in seen_buckets):
-                for bucket_name, bucket_dps in buckets.items():
-                    display = TARIFF_BUCKET_MAP_DISPLAY.get(bucket_name, bucket_name.replace("_", " ").title())
-                    await self._insert_statistics(
-                        bucket_dps,
-                        "consumption",
-                        f"{DOMAIN}:{self._account}_consumption_{bucket_name}",
-                        UnitOfEnergy.KILO_WATT_HOUR,
-                        name_override=f"Electric Ireland Consumption {display} ({self._account})",
-                    )
-                    await self._insert_statistics(
-                        bucket_dps,
-                        "cost",
-                        f"{DOMAIN}:{self._account}_cost_{bucket_name}",
-                        "EUR",
-                        name_override=f"Electric Ireland Cost {display} ({self._account})",
-                    )
+            if await self._should_import_per_tariff_statistics(seen_buckets):
+                await self._insert_per_tariff_statistics(buckets)
 
             last_ts = max((dp["intervalEnd"] for dp in datapoints), default=None)
             latest_data_ts = datetime.fromtimestamp(last_ts, tz=UTC) if last_ts else None
@@ -421,23 +407,8 @@ class ElectricIrelandCoordinator(DataUpdateCoordinator[CoordinatorData]):  # typ
                     buckets.setdefault(dp["tariff_bucket"], []).append(dp)
 
                 seen_buckets = set(buckets.keys())
-                if len(seen_buckets) > 1 or (len(seen_buckets) == 1 and "flat_rate" not in seen_buckets):
-                    for bucket_name, bucket_dps in buckets.items():
-                        display = TARIFF_BUCKET_MAP_DISPLAY.get(bucket_name, bucket_name.replace("_", " ").title())
-                        await self._insert_statistics(
-                            bucket_dps,
-                            "consumption",
-                            f"{DOMAIN}:{self._account}_consumption_{bucket_name}",
-                            UnitOfEnergy.KILO_WATT_HOUR,
-                            name_override=f"Electric Ireland Consumption {display} ({self._account})",
-                        )
-                        await self._insert_statistics(
-                            bucket_dps,
-                            "cost",
-                            f"{DOMAIN}:{self._account}_cost_{bucket_name}",
-                            "EUR",
-                            name_override=f"Electric Ireland Cost {display} ({self._account})",
-                        )
+                if await self._should_import_per_tariff_statistics(seen_buckets):
+                    await self._insert_per_tariff_statistics(buckets)
 
             new_data = {**dict(self._config_entry.data), "tariff_stats_initialized": True}
             self.hass.config_entries.async_update_entry(self._config_entry, data=new_data)
@@ -447,6 +418,47 @@ class ElectricIrelandCoordinator(DataUpdateCoordinator[CoordinatorData]):  # typ
             _LOGGER.warning("Background backfill failed (will retry next restart): %s", err)
         except Exception:
             _LOGGER.exception("Unexpected error during background backfill")
+
+    async def _should_import_per_tariff_statistics(self, seen_buckets: set[str]) -> bool:
+        if not seen_buckets:
+            return False
+
+        if seen_buckets - {"flat_rate"}:
+            return True
+
+        return await self._has_existing_smart_tariff_statistics()
+
+    async def _has_existing_smart_tariff_statistics(self) -> bool:
+        statistic_types: set[Literal["last_reset", "max", "mean", "min", "state", "sum"]] = {"sum"}
+        for bucket in SMART_TARIFF_BUCKETS:
+            statistic_id = f"{DOMAIN}:{self._account}_consumption_{bucket}"
+            existing = await get_instance(self.hass).async_add_executor_job(
+                partial(get_last_statistics, self.hass, 1, statistic_id, True, statistic_types)
+            )
+            if existing.get(statistic_id):
+                return True
+        return False
+
+    async def _insert_per_tariff_statistics(
+        self,
+        buckets: dict[str, list[ElectricIrelandDatapoint]],
+    ) -> None:
+        for bucket_name, bucket_dps in buckets.items():
+            display = TARIFF_BUCKET_MAP_DISPLAY.get(bucket_name, bucket_name.replace("_", " ").title())
+            await self._insert_statistics(
+                bucket_dps,
+                "consumption",
+                f"{DOMAIN}:{self._account}_consumption_{bucket_name}",
+                UnitOfEnergy.KILO_WATT_HOUR,
+                name_override=f"Electric Ireland Consumption {display} ({self._account})",
+            )
+            await self._insert_statistics(
+                bucket_dps,
+                "cost",
+                f"{DOMAIN}:{self._account}_cost_{bucket_name}",
+                "EUR",
+                name_override=f"Electric Ireland Cost {display} ({self._account})",
+            )
 
     async def _insert_statistics(
         self,

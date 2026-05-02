@@ -98,6 +98,41 @@ async def test_flat_rate_only_no_per_tariff_stats(
     assert len(flat_k) == 0
 
 
+async def test_flat_rate_only_after_smart_tariff_history_creates_flat_rate_stats(
+    recorder_mock,
+    hass: HomeAssistant,
+    enable_custom_integrations,
+) -> None:
+    """A temporary flat-rate contract window is imported as a bucket for accounts with smart history."""
+    entry = _entry()
+    entry.add_to_hass(hass)
+    db = page(acct_div(ACCOUNT_1))
+
+    smart_day = datetime.now(UTC).date() - timedelta(days=3)
+
+    def transition_callback(url, **kwargs):
+        date_str = url.query.get("date", "2024-01-20")
+        if datetime.fromisoformat(date_str).date() == smart_day:
+            schedule = {h: "offPeak" for h in range(8)} | {h: "midPeak" for h in range(8, 24)}
+            return make_hourly_callback(schedule)(url, **kwargs)
+        return make_hourly_callback("flatRate")(url, **kwargs)
+
+    with aioresponses() as m:
+        mock_ei_http(m, db, hourly_cb=transition_callback)
+        await hass.config_entries.async_setup(entry.entry_id)
+        await hass.async_block_till_done()
+
+    assert entry.state == ConfigEntryState.LOADED
+    await async_wait_recording_done(hass)
+
+    flat_c = await _query_stats(hass, f"{STAT_CONSUMPTION}_flat_rate")
+    flat_k = await _query_stats(hass, f"{STAT_COST}_flat_rate")
+    off_c = await _query_stats(hass, f"{STAT_CONSUMPTION}_off_peak")
+    assert len(flat_c) > 0
+    assert len(flat_k) > 0
+    assert len(off_c) > 0
+
+
 # ===================================================================
 # Test 2: Single non-flat bucket (all off-peak)
 # ===================================================================

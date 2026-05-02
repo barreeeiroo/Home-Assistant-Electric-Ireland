@@ -1532,6 +1532,65 @@ async def test_flat_rate_only_skips_per_tariff_stats(recorder_mock, hass, mock_c
     assert stat_flat not in stats or len(stats[stat_flat]) == 0
 
 
+async def test_flat_rate_only_creates_per_tariff_stats_after_smart_tariff_history(
+    recorder_mock,
+    hass,
+    mock_config_entry,
+):
+    """Temporary flat-rate contract windows keep per-tariff dashboards continuous for smart tariff accounts."""
+    mock_config_entry.add_to_hass(hass)
+
+    flat = make_datapoints(1, tariff_bucket="flat_rate")
+    stat_mid = f"{DOMAIN}:{ACCOUNT}_consumption_mid_peak"
+
+    with (
+        patch(
+            "custom_components.electric_ireland_insights.coordinator.get_last_statistics",
+            side_effect=[
+                {STAT_ID_CONSUMPTION: [{"sum": 100.0}]},
+                {},
+                {stat_mid: [{"sum": 42.0}]},
+            ],
+        ),
+        patch("custom_components.electric_ireland_insights.coordinator.ElectricIrelandAPI") as mock_api_class,
+        patch("custom_components.electric_ireland_insights.coordinator.async_create_clientsession"),
+    ):
+        mock_api_instance = AsyncMock()
+        _setup_api_mock(
+            mock_api_instance,
+            hourly_side_effect=[flat] + [[] for _ in range(50)],
+        )
+        mock_api_class.return_value = mock_api_instance
+
+        from custom_components.electric_ireland_insights.coordinator import (
+            ElectricIrelandCoordinator,
+        )
+
+        coordinator = ElectricIrelandCoordinator(hass, mock_config_entry)
+        result = await coordinator._async_update_data()
+
+    await async_wait_recording_done(hass)
+
+    assert result["tariff_buckets_seen"] == 1
+
+    start = datetime(2026, 3, 23, 0, 0, tzinfo=UTC)
+    end = datetime(2026, 3, 24, 0, 0, tzinfo=UTC)
+
+    stat_flat = f"{DOMAIN}:{ACCOUNT}_consumption_flat_rate"
+    stats = await get_instance(hass).async_add_executor_job(
+        statistics_during_period,
+        hass,
+        start,
+        end,
+        {stat_flat},
+        "hour",
+        None,
+        {"sum", "state"},
+    )
+    assert stat_flat in stats
+    assert len(stats[stat_flat]) == 24
+
+
 async def test_single_non_flat_bucket_creates_per_tariff_stats(recorder_mock, hass, mock_config_entry):
     """When all datapoints are off_peak (not flat_rate), per-tariff stats are still created."""
     mock_config_entry.add_to_hass(hass)
