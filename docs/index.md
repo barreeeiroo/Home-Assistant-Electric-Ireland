@@ -103,13 +103,15 @@ For smart meter accounts on a time-of-use tariff, the integration automatically 
 | `electric_ireland_insights:{account}_consumption_off_peak` | Off-peak consumption | kWh |
 | `electric_ireland_insights:{account}_consumption_mid_peak` | Mid-peak consumption | kWh |
 | `electric_ireland_insights:{account}_consumption_on_peak` | On-peak consumption | kWh |
+| `electric_ireland_insights:{account}_consumption_flat_rate` | Flat-rate consumption during tariff transition periods | kWh |
 | `electric_ireland_insights:{account}_cost_off_peak` | Off-peak cost | EUR |
 | `electric_ireland_insights:{account}_cost_mid_peak` | Mid-peak cost | EUR |
 | `electric_ireland_insights:{account}_cost_on_peak` | On-peak cost | EUR |
+| `electric_ireland_insights:{account}_cost_flat_rate` | Flat-rate cost during tariff transition periods | EUR |
 
 - If you're on a **flat-rate** tariff (single bucket), per-tariff statistics are not created (they would be identical to the totals).
 - If only one non-flat bucket appears (e.g., off-peak only), per-tariff statistics are still created.
-- Historical accounts that switched from flat-rate to smart meter will also show a `_flat_rate` statistic for the period before the switch.
+- Accounts with smart tariff history that temporarily switch to flat rate during a contract change will also show `_flat_rate` statistics for that transition period.
 - Per-tariff statistics may not appear immediately after setup — they are populated during the background backfill and on subsequent poll updates.
 
 ### Setting up the Energy Dashboard with per-tariff breakdown

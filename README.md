@@ -67,11 +67,13 @@ For accounts on a time-of-use tariff, the integration also imports separate stat
 | `electric_ireland_insights:{account}_consumption_off_peak` | Off-peak consumption | kWh |
 | `electric_ireland_insights:{account}_consumption_mid_peak` | Mid-peak consumption | kWh |
 | `electric_ireland_insights:{account}_consumption_on_peak` | On-peak consumption | kWh |
+| `electric_ireland_insights:{account}_consumption_flat_rate` | Flat-rate consumption during tariff transition periods | kWh |
 | `electric_ireland_insights:{account}_cost_off_peak` | Off-peak cost | EUR |
 | `electric_ireland_insights:{account}_cost_mid_peak` | Mid-peak cost | EUR |
 | `electric_ireland_insights:{account}_cost_on_peak` | On-peak cost | EUR |
+| `electric_ireland_insights:{account}_cost_flat_rate` | Flat-rate cost during tariff transition periods | EUR |
 
-Per-tariff statistics are only created when the active tariff bucket varies across hours. Flat-rate accounts will only have the aggregate statistics above. See [docs/index.md](docs/index.md) for detailed setup instructions.
+Pure flat-rate accounts only have the aggregate statistics above. Accounts with smart tariff history that temporarily switch to flat rate during a contract change also get `_flat_rate` per-tariff statistics for that transition period. See [docs/index.md](docs/index.md) for detailed setup instructions.
 
 ### Smarter Data Fetching
 
@@ -134,4 +136,3 @@ This is a **major architectural change**. If you are upgrading from v0.2.x:
 
 * [**@barreeeiroo**](https://github.com/barreeeiroo): Original author of this integration. This project is a fork of [barreeeiroo/Home-Assistant-Electric-Ireland](https://github.com/barreeeiroo/Home-Assistant-Electric-Ireland) — his foundational work made this continuation possible.
 * [Opower integration](https://github.com/home-assistant/core/tree/dev/homeassistant/components/opower): served as the architectural reference for the external statistics and coordinator pattern used in v0.4.0.
-
