@@ -1,0 +1,12 @@
+{
+  "entity": {
+    "sensor": {
+      "last_import_time": {
+        "default": "mdi:clock-check-outline"
+      },
+      "data_freshness_days": {
+        "default": "mdi:calendar-clock"
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Electric Ireland Insights (Unofficial)",
+        "description": "Enter your Electric Ireland online account credentials. This is an unofficial, community-built integration not affiliated with Electric Ireland.",
+        "data": {
+          "username": "Email",
+          "password": "Password"
+        },
+        "data_description": {
+          "username": "Your Electric Ireland online account email address",
+          "password": "Your Electric Ireland online account password"
+        }
+      },
+      "account": {
+        "title": "Select Account",
+        "description": "{num_accounts} electricity account(s) found for this login. Select which account to configure.",
+        "data": {
+          "account_number": "Account"
+        }
+      },
+      "options": {
+        "title": "Import Options",
+        "description": "The integration will import the last 30 days of data during setup. You can also import all available historical data (typically 6–13 months) as a background task.",
+        "data": {
+          "import_full_history": "Import full history"
+        },
+        "data_description": {
+          "import_full_history": "Fetch all available historical data from your bill periods. This runs in the background and may take 10–30 minutes. You can also trigger this later via Reconfigure."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Re-authenticate",
+        "description": "Your credentials have expired. Please re-enter your password.",
+        "data": {
+          "password": "Password"
+        }
+      },
+      "reconfigure": {
+        "title": "Reconfigure",
+        "description": "Update your password or clear cached meter identifiers for {username}.",
+        "data": {
+          "password": "Password",
+          "force_rediscovery": "Re-discover meter IDs from the portal",
+          "import_full_history": "Import full history"
+        },
+        "data_description": {
+          "password": "Your current portal password (re-enter even if unchanged)",
+          "force_rediscovery": "Clear cached meter identifiers (partner, contract, premise) and re-discover them from the portal on the next data refresh. Use this if data imports have stopped but your credentials are correct.",
+          "import_full_history": "Fetch all available historical data from your bill periods (typically 6–13 months). This runs as a background task and may take 10–30 minutes. Only needed once — subsequent polls keep data current automatically."
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Invalid username or password",
+      "cannot_connect": "Unable to connect to the Electric Ireland portal. Please check your internet connection.",
+      "account_not_found": "No electricity accounts found for this user."
+    },
+    "abort": {
+      "already_configured": "This account is already configured",
+      "reauth_successful": "Re-authentication was successful",
+      "reconfigure_successful": "Reconfiguration was successful",
+      "invalid_auth": "Authentication failed during account setup",
+      "cannot_connect": "Unable to connect to the portal during account setup",
+      "account_not_found": "The selected account could not be verified"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "last_import_time": {
+        "name": "Last Import Time"
+      },
+      "data_freshness_days": {
+        "name": "Data Freshness"
+      }
+    }
+  },
+  "issues": {
+    "data_gap": {
+      "title": "No new energy data for {days} days",
+      "description": "Account {account} has not received new energy data for {days} days. This typically happens when ESB meter reads are delayed. The integration will automatically resume importing when data becomes available."
+    }
+  }
+}

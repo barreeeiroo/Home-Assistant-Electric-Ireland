@@ -1,0 +1,119 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "home-assistant-electric-ireland"
+version = "0.0.0"
+description = "Home Assistant integration for Electric Ireland Insights"
+requires-python = ">=3.13"
+dependencies = [
+  "beautifulsoup4~=4.14.3",
+]
+
+[tool.setuptools.packages.find]
+include = ["custom_components*"]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "pytest-homeassistant-custom-component",
+  "pytest-asyncio",
+  "pytest-cov",
+  "aioresponses",
+  "mypy>=1.19",
+  "types-beautifulsoup4",
+  "ruff",
+  "pre-commit",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = [".git"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+log_format = "%(asctime)s.%(msecs)03d %(levelname)-8s %(threadName)s %(name)s:%(filename)s:%(lineno)s %(message)s"
+log_date_format = "%Y-%m-%d %H:%M:%S"
+
+[tool.coverage.run]
+omit = [
+  "custom_components/electric_ireland_insights/types.py",
+]
+
+[tool.mypy]
+strict = true
+warn_return_any = false
+
+[[tool.mypy.overrides]]
+module = [
+    "homeassistant.*",
+    "pytest_homeassistant_custom_component.*",
+    "bs4.*",
+    "voluptuous.*",
+    "aioresponses.*",
+    "aiohttp.*",
+]
+ignore_missing_imports = true
+
+[tool.ruff]
+target-version = "py313"
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+  "ASYNC",  # flake8-async
+  "B",      # flake8-bugbear
+  "BLE",    # flake8-blind-except
+  "DTZ",    # flake8-datetimez
+  "E",      # pycodestyle errors
+  "F",      # pyflakes
+  "I",      # isort
+  "LOG",    # flake8-logging
+  "PERF",   # perflint
+  "PGH",    # pygrep-hooks
+  "PIE",    # flake8-pie
+  "PL",     # pylint (via ruff)
+  "PT",     # flake8-pytest-style
+  "RET",    # flake8-return
+  "RUF",    # ruff-specific rules
+  "S",      # flake8-bandit (security)
+  "SIM",    # flake8-simplify
+  "SLF",    # flake8-self
+  "T20",    # flake8-print
+  "TC",     # flake8-type-checking
+  "TRY",    # tryceratops
+  "UP",     # pyupgrade
+  "W",      # pycodestyle warnings
+]
+ignore = [
+  "PLR0911", # too many return statements (HA core also ignores)
+  "PLR0912", # too many branches (HA core also ignores)
+  "PLR0913", # too many arguments (HA core also ignores)
+  "PLR0915", # too many statements (HA core also ignores)
+  "PLR2004", # magic value in comparison (HA core also ignores)
+  "PLW0108", # unnecessary lambda (false positive on forward references)
+  "S101",    # assert used (fine in tests)
+  "TC001",   # move app import to TYPE_CHECKING (HA core also ignores)
+  "TC002",   # move third-party import to TYPE_CHECKING (HA core also ignores)
+  "TC003",   # move stdlib import to TYPE_CHECKING (HA core also ignores)
+  "TRY003",  # long messages in exceptions (we use descriptive errors)
+  "TRY301",  # abstract raise to inner function (overly prescriptive)
+  "TRY400",  # logging.error inside except (we log warnings deliberately)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+  "S",       # security checks not relevant in tests
+  "B018",    # useless expression (used in tests for side effects)
+  "PLC0415", # import not at top level (deliberate pattern with patch())
+  "PT012",   # pytest.raises should contain a single statement
+  "PT018",   # compound assertion (acceptable in test helpers)
+  "SLF001",  # private member access (testing internals)
+  "TRY",     # exception style not relevant in tests
+]
+"custom_components/**/api.py" = [
+  "SLF001",  # private member access within same module (MeterInsightClient internals)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["custom_components.electric_ireland_insights"]

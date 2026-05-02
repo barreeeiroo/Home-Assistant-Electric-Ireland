@@ -1,0 +1,1213 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en-IE">
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0">
+    <meta name="description" content="">
+    <meta name="format-detection" content="telephone=no">
+
+    
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=zX7eNO7N65">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=zX7eNO7N65">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=zX7eNO7N65">
+<link rel="manifest" href="/site.webmanifest?v=zX7eNO7N65">
+<link rel="mask-icon" href="/safari-pinned-tab.svg?v=zX7eNO7N65" color="#0091cd">
+<link rel="shortcut icon" href="/favicon.ico?v=zX7eNO7N65">
+<meta name="msapplication-TileColor" content="#0091cd">
+<meta name="theme-color" content="#ffffff">
+
+
+    <title>My Accounts | Electric Ireland</title>
+
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/datepicker.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+    
+
+        <!-- OneTrust Cookies Consent Notice start for electricireland.ie -->
+        <script type="text/javascript" src="https://cdn.cookielaw.org/consent/19a46100-5271-4f4a-8361-dd2767a5880c/OtAutoBlock.js" ></script>
+        <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"  type="text/javascript" charset="UTF-8" data-domain-script="19a46100-5271-4f4a-8361-dd2767a5880c" ></script>
+        <script type="text/javascript">
+            function OptanonWrapper() { }
+        </script>
+        <!-- OneTrust Cookies Consent Notice end for electricireland.ie -->
+
+    
+
+    <script data-testid="google-tagmanager" type="text/javascript">
+
+                        (function(w, d, s, l, i) {
+                            w[l] = w[l] || []; w[l].push({
+                                'gtm.start':
+
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+
+                                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.setAttribute('class', 'optanon-category-C0001');  j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+
+        })
+        (window, document, 'script', 'dataLayer', 'GTM-PH4PKK');
+
+    </script>
+
+
+
+
+
+    <script src="/js/polyfills.js"></script>
+    <script src="/vendor/jquery/jquery-3.7.1.min.js"></script>
+
+        <script src="/js/components/component-loader.js"></script>
+</head>
+
+<body class="with-footer" data-layout="electricity-and-gas" data-layout-type="smart">
+    
+
+    <noscript data-testid="google-tagmanager-no-script">
+
+        <iframe src="www.googletagmanager.com/ns.html?id=GTM-PH4PKK"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+
+    </noscript>
+
+    
+<div class="loading-overlay" data-loading-overlay>
+    <div class="loading-overlay__label" data-loading-overlay-label aria-label="Please wait">Please wait...</div>
+</div>
+<div class="visually-hidden" data-loading-overlay-sr aria-live="assertive"></div>
+<script src="/js/components/loading-overlay.js"></script>
+
+
+    <div class="alert top_nav_alert" id="nav_top_div" role="alert" style="display:none">
+    <button id="nav_close" type="button" class="close confirmation-modal-close custom-modal-close" data-bs-dismiss="alert" style="font-size: 20px; padding-left: 10px;">×</button>
+    The third Government credit applied to your account on March 3rd can only be used against your bill from the 3rd of March 2023 onwards and cannot be offset against a previous bill that issued before 3rd March.
+</div>
+
+<script>
+    $(function () {
+        Cookies.set('show_nav', 'hide');
+        $('#nav_top_div').css("display", "none");
+        if (checkCookie('show_nav')) {
+            $('#nav_top_div').css("display", "block");
+        }
+        else {
+            $('#nav_top_div').css("display", "none");
+            resizePageAfterHideBanner();
+        }
+
+        function resizePageAfterHideBanner() {
+            $('.portal-menu').css("top", "0px");
+            $('.page-login').css("padding-top", "0px");
+            if (window.innerWidth < 992) {
+                $('.portal-main').css("padding-top", "66px")
+                $('.portal-menu__nav').css("height", (window.innerHeight - 66) + "px");
+                $('.portal-header__nav--sticky').css("top", "66px");
+
+            }
+        }
+        $('#nav_close').click(function () {
+
+            Cookies.set('show_nav', 'hide');
+            resizePageAfterHideBanner();
+        });
+
+
+
+        function checkCookie($name) {
+            if (typeof Cookies.get($name) === 'undefined') {
+                Cookies.set('show_nav', 'show');
+                return true;
+            }
+            else if (Cookies.get($name) == 'show') {
+                return true;
+            }
+            else { return false; }
+        }
+
+    });
+
+</script>
+    
+
+
+
+
+<header class="portal-menu" data-navigation data-navigation-type="smart" data-trap-focus data-trap-focus-active="false">
+    <div class="container container-wd-lg-desktop row-margin-regular">
+            <a class="portal-menu__logo" data-testid="home_url" href="/Accounts/Init">
+                <img src="/img/logo.svg" alt="Electric Ireland" width="75" height="37" />
+            </a>
+        <nav class="portal-menu__nav" aria-label="Main Navigation">
+            <ul class="ul-customLH">
+                <li class="portal-menu__nav__item d-lg-none">
+                    <div class="portal-menu__profile__title">
+                        <span></span>
+                        <div>My Profile</div>
+                    </div>
+                </li>
+                    <li class="portal-header__nav__item portal-menu__nav__item d-lg-none" >
+
+
+
+
+<form action="/Accounts/OnEvent" class="" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" />                <button data-testid="main-navigation-my-profile-link-mobile" class="portal-menu__nav__item__link profile" -prepayservice data-testid="main-navigation-my-profile-link-mobile" class="portal-menu__nav__item__link profile" -prepayservice role="" name="triggers_event" value="AccountSelection.ToMyProfile">My Details</button>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form>
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item portal-menu__nav__item d-lg-none" >
+
+
+
+
+<form action="/Accounts/OnEvent" class="" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" />                <button data-testid="main-navigation-change-password-link-mobile" class="portal-menu__nav__item__link profile" -prepayservice role="link" data-testid="main-navigation-change-password-link-mobile" class="portal-menu__nav__item__link profile" -prepayservice role="link" name="triggers_event" value="AccountSelection.ToChangePasswordFromMyAccount">Change Password</button>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form>
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item portal-menu__nav__item d-lg-none" >
+
+
+
+
+<form action="/Accounts/OnEvent" class="" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" />                <button data-testid="main-navigation-marketing-link-mobile" class="portal-menu__nav__item__link profile" -prepayservice data-testid="main-navigation-marketing-link-mobile" class="portal-menu__nav__item__link profile" -prepayservice role="" name="triggers_event" value="AccountSelection.ToMarketingPreference">Marketing</button>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form>
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item portal-menu__nav__item d-lg-none" >
+
+
+
+
+        <a href="https://www.electricireland.ie/residential/my-account/rewards" target="_blank" data-testid="main-navigation-reward-link" class="portal-menu__nav__item__link profile reward-plan-track-click" >Rewards</a>
+<form action="/Accounts/OnEvent" class="" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" />                <button data-testid="promotion-link" class="d-none d-block trigger-reward-cta-clicked" id="trigger-reward-cta-clicked" data-testid="promotion-link" class="d-none d-block trigger-reward-cta-clicked" id="trigger-reward-cta-clicked" name="triggers_event" value="AccountSelection.PublishRewardsClickEvent">
+                </button>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form>
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item portal-menu__nav__item" >
+
+
+
+
+                <a class="portal-menu__nav__item__link" data-testid="main-navigation-my-accounts-link" href="/Accounts/Init" role="link">My Accounts</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item portal-menu__nav__item" >
+
+
+
+
+        <a href="https://www.electricireland.ie/residential/products/res-portal" target="_blank" data-testid="main-navigation-products-and-services-link" class="portal-menu__nav__item__link " role="link">Products &amp; Services</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                    <li class="portal-header__nav__item portal-menu__nav__item" >
+
+
+
+
+<form action="/Accounts/OnEvent" class="" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" />                <button data-testid="main-navigation-help-link" class="portal-menu__nav__item__link" -prepayservice role="link" data-testid="main-navigation-help-link" class="portal-menu__nav__item__link" -prepayservice role="link" name="triggers_event" value="AccountSelection.ToHelp">Help</button>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form>
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                    </li>
+                <li class="portal-menu__nav__item d-lg-none">
+                    <a data-testid="main-navigation-log-out-link-mobile"
+                       class="portal-menu__profile__drop__item log-out menu-items"
+                       href="/Login/Logout">
+                        Log out
+                        <svg version="1.2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" overflow="visible" preserveAspectRatio="none" viewBox="0 0 27.399999618530273 27.399999618530273" xml:space="preserve" y="0px" x="0px" id="Layer_1_1572865589939" width="18" height="18">
+    <g transform="translate(1, 1)">
+        <g id="Outline_Icons_1__1572865589939">
+            <g id="Outline_Icons_1572865589939">
+                <g>
+                    <polyline points="14.2,19.2 14.2,23.2 1.2,23.2 1.2,2.2 14.2,2.2 14.2,6.2" class="st0_1572865589939" vector-effect="non-scaling-stroke" />
+                    <line y2="13.2" x2="24.2" y1="13.2" x1="6.2" class="st0_1572865589939" />
+                    <polyline points="19.2,8.2 24.2,13.2 19.2,18.2" class="st0_1572865589939" vector-effect="non-scaling-stroke" />
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
+
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="portal-menu__profile d-none d-lg-block" id="mainHeaderMenu">
+            <a id="myProfileMenuLink" class="portal-menu__profile__title" data-testid="main-navigation-open-settings" href="#" aria-expanded="false" aria-haspopup="true" aria-controls="myProfileSubmenu" onclick="toggleMyProfileMenu(event)" onkeydown="onKeyDownOnMenu(event)">
+                <span></span>
+                <div>My Profile</div>
+            </a>
+            <div class="portal-menu__profile__drop">
+                <span class="portal-menu__profile__drop__sub"></span>
+                <ul id="myProfileSubmenu" aria-hidden="true">
+                        <li>
+
+
+
+
+<form action="/Accounts/OnEvent" class="" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" />                <button data-testid="main-navigation-my-profile-link-desktop" class="portal-menu__profile__drop__item menu_items" -prepayservice data-testid="main-navigation-my-profile-link-desktop" class="portal-menu__profile__drop__item menu_items" -prepayservice role="" name="triggers_event" value="AccountSelection.ToMyProfile">My Details</button>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form>
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                        </li>
+                        <li>
+
+
+
+
+<form action="/Accounts/OnEvent" class="" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" />                <button data-testid="main-navigation-change-password-link-desktop" class="portal-menu__profile__drop__item menu_items" -prepayservice data-testid="main-navigation-change-password-link-desktop" class="portal-menu__profile__drop__item menu_items" -prepayservice role="" name="triggers_event" value="AccountSelection.ToChangePasswordFromMyAccount">Change Password</button>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form>
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                        </li>
+                        <li>
+
+
+
+
+<form action="/Accounts/OnEvent" class="" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" />                <button data-testid="main-navigation-marketing-link-desktop" class="portal-menu__profile__drop__item menu_items" -prepayservice data-testid="main-navigation-marketing-link-desktop" class="portal-menu__profile__drop__item menu_items" -prepayservice role="" name="triggers_event" value="AccountSelection.ToMarketingPreference">Marketing</button>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form>
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                        </li>
+                        <li>
+
+
+
+
+        <a href="https://www.electricireland.ie/residential/my-account/rewards" target="_blank" data-testid="main-navigation-reward-link" class="portal-menu__profile__drop__item menu_items reward-plan-track-click" >Rewards</a>
+<form action="/Accounts/OnEvent" class="" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" />                <button data-testid="promotion-link" class="d-none d-block trigger-reward-cta-clicked" id="trigger-reward-cta-clicked" data-testid="promotion-link" class="d-none d-block trigger-reward-cta-clicked" id="trigger-reward-cta-clicked" name="triggers_event" value="AccountSelection.PublishRewardsClickEvent">
+                </button>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form>
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>                        </li>
+                    <li>
+                        <a data-testid="main-navigation-log-out-link-desktop"
+                           class="portal-menu__profile__drop__item log-out menu_items"
+                           href="/Login/Logout">
+                            Log out
+                            <svg version="1.2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" overflow="visible" preserveAspectRatio="none" viewBox="0 0 27.399999618530273 27.399999618530273" xml:space="preserve" y="0px" x="0px" id="Layer_1_1572865589939" width="18" height="18">
+    <g transform="translate(1, 1)">
+        <g id="Outline_Icons_1__1572865589939">
+            <g id="Outline_Icons_1572865589939">
+                <g>
+                    <polyline points="14.2,19.2 14.2,23.2 1.2,23.2 1.2,2.2 14.2,2.2 14.2,6.2" class="st0_1572865589939" vector-effect="non-scaling-stroke" />
+                    <line y2="13.2" x2="24.2" y1="13.2" x1="6.2" class="st0_1572865589939" />
+                    <polyline points="19.2,8.2 24.2,13.2 19.2,18.2" class="st0_1572865589939" vector-effect="non-scaling-stroke" />
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <button class="portal-menu__toggle d-block d-lg-none" aria-expanded="false" aria-label="Main navigation toggle">
+            <span></span>
+        </button>
+        <script src="/js/pages/main-navigation/myprofilemenu.js" type="text/javascript"></script>
+    </div>
+</header>
+
+    <div id="portal-main" class="my-accounts portal-main" data-page="my-accounts-open">
+        <div class="help__header">
+            
+<div class="container container-wd-lg-desktop row-margin-regular icon-select my-accounts-container-sm ">
+    <h1 class =>My Accounts</h1>
+
+</div>
+<div class="d-none">
+</div>
+
+            
+
+
+
+
+        </div>
+        <div class="position-relative">
+            <div class="sub-navigation-overlay"></div>
+            <div class="my-accounts__content">
+                <div class="my-accounts__container container my-accounts-container-sm container-wd-lg-desktop row-margin-regular">
+                    
+
+
+
+<div id="Flows_AppFlows_Accounts_Components_SmartMeterActivationBanner_SmartMeterActivationBanner_4a5e5f83-3029-49be-b0ea-68e6e69af10f" class="def-component" data-def-component data-def-component-status="new" data-def-component-url="/DeferredComponentPartials/Resolve?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">
+    <div class="def-component__wrapper" data-def-component-wrapper>
+    <div class="def-component__overlay" data-def-component-overlay>
+    </div>
+</div>
+</div>
+
+<div class="notifications" data-testid="banners" data-stacked-cards>
+    
+
+    <div class="notifications__item" id="imgcmpetitionentry" data-stacked-card>
+        <div class="notifications__item__content notifications__item__content--banner">
+<form action="/Accounts/OnEvent" class="" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" />                <button id="competitionBoxClose" class="close-button close-button--small" data-testid="competitionBoxClose" aria-label="Dismiss Enter for a chance to win some great prizes from Electric Ireland banner" id="competitionBoxClose" class="close-button close-button--small" data-testid="competitionBoxClose" aria-label="Dismiss Enter for a chance to win some great prizes from Electric Ireland banner" name="triggers_event" value="AccountSelection.DismissCompetitionNotification">
+                </button>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form><form action="/Accounts/OnEvent" class="" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" />               <input type="hidden" name="triggers_event" value="" /><a id="competitionEntry" data-skip-spinner-validations data-stacked-card-focus id="competitionEntry" data-skip-spinner-validations data-stacked-card-focus data-event-field-name="triggers_event" data-trigger-event="AccountSelection.ToCompetition" href="#">
+                    <img src="/img/competitions/Banner/competition-dash-d.png" class="img-desktop" alt="Customer Draw to Win a &#x20AC;300 Voucher for Spas.ie. Select your account below first to enter.">
+                    <img src="/img/competitions/Banner/competition-dash-m.png" class="img-mobile" alt="Customer Draw to Win a &#x20AC;300 Voucher for Spas.ie. Select your account below first to enter.">
+                </a>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form> 
+        </div>
+   </div>
+
+    
+
+
+    <button class="notifications__next notifications__next--small btn btn-default btn-sm btn-icon-only d-none" data-stacked-cards-next aria-label="Next banner"></button>
+</div>
+
+                    
+
+<div class="my-accounts__item p-0 container " data-testid="account-card">
+    <div class="row account-type-card d-flex mx-0">
+        <div class="col p-0 text-start account-icon-select">
+            <h2 class="account-electricity-icon">Electricity</h2>
+        </div>
+        <section class="col p-0" aria-label="Your account number is">
+            <p class="text-end account-number" data-testid="account-card-account-number">100000001</p>
+        </section>
+    </div>
+        <div class="my-accounts__item__head p-5">
+            <div class="row d-flex mx-0">
+                <div class="col-6 d-flex justify-content-start p-0">
+                    <p class="location" data-testid="account-card-location">123 SAMPLE STREET, DUBLIN</p>
+                </div>
+                <div class="col-6 p-0 d-flex justify-content-lg-end justify-content-center">
+
+<form action="/Accounts/OnEvent" class="" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form>
+
+                </div>
+            </div>
+        </div>
+        <hr class="my-0 mx-5" />
+<div id="Flows_AppFlows_Accounts_Components_AccountCardBillingDetails_AccountCardBillingDetails_34d23461-2c14-48ac-95a9-63e900fa1dbb" class="def-component" data-def-component data-def-component-status="new" data-def-component-url="/DeferredComponentPartials/Resolve?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">
+    <div class="mt-0 p-28 p-xs-2">
+    <div class="def-component__wrapper def-component__wrapper--min-height-50" data-def-component-wrapper>
+        <div class="def-component__overlay" data-def-component-overlay>
+            <div class="def-component__spinner" data-def-component-spinner></div>
+        </div>
+    </div>
+</div>
+</div>    <div id="Flows_AppFlows_Accounts_Components_AccountDashboardNavigations_AccountDashboardNavigations_d5a268ac-0aa8-4f26-8b76-4ca6db5a2ceb" class="def-component" data-def-component data-def-component-status="new" data-def-component-url="/DeferredComponentPartials/Resolve?i=ANON_EF_TOKEN_URL_PLACEHOLDER_0000000000000000000000000000">
+    
+</div>
+</div>
+
+
+    <section>
+<form action="/Accounts/OnEvent" class="main-nav-lg-form" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" />
+<div class="product-carousel-publish-event-ctas" test-id="product-carousel-events-ctas">
+    <button data-testid="product-carousel-solar-link" data-action="solar" class="d-none d-block trigger-product-carousel-solar-cta" id="trigger-product-carousel-solar-cta" data-testid="product-carousel-solar-link" data-action="solar" class="d-none d-block trigger-product-carousel-solar-cta" id="trigger-product-carousel-solar-cta" name="triggers_event" value="AccountSelection.ProductCarouselSolarEvent">
+    </button>
+    <button data-testid="product-carousel-evhome-link" data-action="evChargers" class="d-none d-block trigger-product-carousel-evhome-cta" id="trigger-product-carousel-evhome-cta" data-testid="product-carousel-evhome-link" data-action="evChargers" class="d-none d-block trigger-product-carousel-evhome-cta" id="trigger-product-carousel-evhome-cta" name="triggers_event" value="AccountSelection.ProductCarouselEVChargersEvent">
+    </button>
+    <button data-testid="product-carousel-heatpump-link" data-action="heatPump" class="d-none d-block trigger-product-carousel-heatpump-cta" id="trigger-product-carousel-heatpump-cta" data-testid="product-carousel-heatpump-link" data-action="heatPump" class="d-none d-block trigger-product-carousel-heatpump-cta" id="trigger-product-carousel-heatpump-cta" name="triggers_event" value="AccountSelection.ProductCarouselHeatPumpEvent">
+    </button>
+</div><input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form>        <div id="product-carousel-root" />
+    </section>
+    <script type="module" src="/js/components/product-carousel/index.mjs"></script>
+    <script src="/js/components/product-carousel/event-listener.js"></script>
+<script type="text/javascript">
+    $(document).ready(function (e) {
+        addCarouselNavListners();
+        scrollListener();
+    });
+
+    //common arrays to maintain the state of carousel displacement for screen below 376px
+    var screensMovedElec = [];
+    var screensMovedGas = [];
+    var electricityLabel = "electricity";
+    var gasLabel = "gas";
+    var isClickEvent = false;
+    var that = this;
+    var counterElec = 0;
+    var counterGas = 0;
+
+
+    //CAROUSEL ARROW BUTTON CLICK EVENTs STATE STARTS HERE
+    function addCarouselNavListners() {
+
+        var carouselWidth = 0;
+        var cardWidth = 0;
+        var scrollPosition = 0;
+
+        document.addEventListener("click", function (e) {
+
+            if ($(".carousel-inner").length > 0) {
+                cardWidth = $(".carousel-item").width();
+            }
+
+            //adding actions only for the selective click event to navigate the list using carousel
+            if (e.target.id == "prev-carousel-electricity-id") {
+                if (window.matchMedia("(min-width:371px)").matches && window.matchMedia("(max-width:768px)").matches) {
+                    carouselWidth = calculateMobileCarouselWidth("electricity");
+                    scrollItems("electricity", scrollPosition, cardWidth, carouselWidth, "prev");
+                }
+
+                if (window.matchMedia("(min-width:769px)").matches && window.matchMedia("(max-width:991px)").matches) {
+                    carouselWidth = calculateTabletCarouselWidth("electricity") * 2;
+                    scrollItems("electricity", scrollPosition, cardWidth, carouselWidth, "prev");
+                }
+
+                if (window.matchMedia("(max-width:370px)").matches) {
+                    counterElec--;
+                    $(".main-nav-form-electricity").css("position", "relative");
+
+                    if (counterElec == 0) {
+                        $(".main-nav-form-electricity").css("left", "0rem");
+                        $(".main-nav-form-electricity").css("position", "relative");
+                    }
+
+                    screensMovedElec.pop();
+                    carouselWidth = screensMovedElec[screensMovedElec.length - 1];
+
+                    if (screensMovedElec.length == 0) {
+                        $("#prev-carousel-electricity-id").addClass("d-none");
+                        carouselWidth = 0;
+                    }
+
+                    $("#next-carousel-electricity-id").removeClass("d-none");
+                    scrollNavigation("electricity", carouselWidth);
+                }
+            }
+
+            if (e.target.id == "next-carousel-electricity-id") {
+                if (window.matchMedia("(min-width:371px)").matches && window.matchMedia("(max-width:768px)").matches) {
+                    carouselWidth = calculateMobileCarouselWidth("electricity");
+                    scrollItems("electricity", scrollPosition, cardWidth, carouselWidth, "next");
+                }
+
+                if (window.matchMedia("(min-width:769px)").matches && window.matchMedia("(max-width:991px)").matches) {
+                    console.log("check");
+                    carouselWidth = calculateTabletCarouselWidth("electricity") * 2;
+                    console.log("carouselWidth", carouselWidth);
+                    scrollItems("electricity", scrollPosition, cardWidth, carouselWidth, "next");
+                }
+
+                if (window.matchMedia("(max-width:370px)").matches) {
+                    counterElec++;
+                    $(".main-nav-form-electricity").css("position", "relative");
+
+                    carouselWidth = calculateTabletCarouselWidth("electricity");
+                    cardDisplacementCalculation("electricity", carouselWidth);
+                }
+            }
+
+            if (e.target.id == "prev-carousel-gas-id") {
+                if (window.matchMedia("(min-width:371px)").matches && window.matchMedia("(max-width:768px)").matches) {
+                    carouselWidth = calculateMobileCarouselWidth("gas");
+                    scrollItems("gas", scrollPosition, cardWidth, carouselWidth, "prev");
+                }
+
+                if (window.matchMedia("(min-width:769px)").matches && window.matchMedia("(max-width:991px)").matches) {
+                    carouselWidth = calculateTabletCarouselWidth("gas") * 2;
+                    scrollItems("gas", scrollPosition, cardWidth, carouselWidth, "prev");
+                }
+
+                if (window.matchMedia("(max-width:370px)").matches) {
+                    counterGas--;
+                    $(".main-nav-form-gas").css("position", "relative");
+
+                    if (counterGas == 0) {
+                        $(".main-nav-form-gas").css("left", "0rem");
+                        $(".main-nav-form-gas").css("position", "relative");
+                    }
+
+                    screensMovedGas.pop();
+                    carouselWidth = screensMovedGas[screensMovedGas.length - 1];
+
+                    if (screensMovedGas.length == 0) {
+                        $("#prev-carousel-gas-id").addClass("d-none");
+                        carouselWidth = 0;
+                    }
+                    $("#next-carousel-gas-id").removeClass("d-none");
+
+                    scrollNavigation("gas", carouselWidth);
+                }
+            }
+
+            if (e.target.id == "next-carousel-gas-id") {
+                if (window.matchMedia("(min-width:371px)").matches && window.matchMedia("(max-width:768px)").matches) {
+                    carouselWidth = calculateMobileCarouselWidth("gas");
+                    scrollItems("gas", scrollPosition, cardWidth, carouselWidth, "next");
+                }
+
+                if (window.matchMedia("(min-width:768px)").matches && window.matchMedia("(max-width:991px)").matches) {
+                    carouselWidth = calculateTabletCarouselWidth("gas") * 2;
+                    scrollItems("gas", scrollPosition, cardWidth, carouselWidth, "next");
+                }
+
+                if (window.matchMedia("(max-width:370px)").matches) {
+                    counterGas++;
+                    $(".main-nav-form-gas").css("position", "relative");
+
+                    carouselWidth = calculateTabletCarouselWidth("gas");
+                    cardDisplacementCalculation("gas", carouselWidth);
+                }
+            }
+        });
+    }
+
+    function calculateTabletCarouselWidth(accountType) {
+        if (window.matchMedia("(max-width:576px)").matches) {
+            return ($(".carousel-item-" + accountType).outerWidth() + parseInt($(".main-nav-form").css('gap')));
+        }
+        return ($(".carousel-item-" + accountType).outerWidth() + parseInt($(".carousel-item-" + accountType).css('marginRight')) + parseInt($(".carousel-item-" + accountType).css('marginLeft')));
+    }
+
+    function calculateMobileCarouselWidth(accountType) {
+        return $(".carousel-" + accountType).width();
+    }
+
+    //Responsible to calculate and adjust the amount of cards should move with hiding the carousel buttons
+    function cardDisplacementCalculation(accountType, carouselWidth) {
+
+        var cardsShownAtTime = 0;
+        var totalCardCounts = parseInt($("#itemsCount-" + accountType).attr("class").split('-')[1]);
+
+        //for smaller screen size
+        if (window.matchMedia("(max-width:370px)").matches) {
+            cardsShownAtTime = 2;
+        }
+
+        //for standard mobile sizes
+        if (window.matchMedia("(min-width:371px)").matches && window.matchMedia("(max-width:768px)").matches) {
+            cardsShownAtTime = 3;
+        }
+
+        //for tablets
+        if (window.matchMedia("(min-width:769px)").matches && window.matchMedia("(max-width:991px)").matches) {
+            cardsShownAtTime = 4;
+        }
+
+        if (accountType == "gas") {
+            if ((cardsShownAtTime + screensMovedGas.length) != totalCardCounts) {
+                if (screensMovedGas.length == 0) {
+                    screensMovedGas.push(carouselWidth);
+                }
+                else {
+                    screensMovedGas.push(screensMovedGas[screensMovedGas.length - 1] + carouselWidth);
+                }
+
+                if (screensMovedGas.length > 0) {
+                    $("#prev-carousel-" + accountType + "-id").removeClass("d-none");
+                }
+            }
+
+            if (screensMovedGas.length == (totalCardCounts - cardsShownAtTime)) {
+                $("#next-carousel-" + accountType + "-id").addClass("d-none");
+            }
+
+            scrollNavigation(accountType, screensMovedGas[screensMovedGas.length - 1]);
+        }
+        else {
+            if ((cardsShownAtTime + screensMovedElec.length) != totalCardCounts) {
+                if (screensMovedElec.length == 0) {
+                    screensMovedElec.push(carouselWidth);
+                }
+                else {
+                    screensMovedElec.push(screensMovedElec[screensMovedElec.length - 1] + carouselWidth);
+                }
+
+                if (screensMovedElec.length > 0) {
+                    $("#prev-carousel-" + accountType + "-id").removeClass("d-none");
+                }
+            }
+
+            if (screensMovedElec.length == (totalCardCounts - cardsShownAtTime)) {
+                $("#next-carousel-" + accountType + "-id").addClass("d-none");
+            }
+
+            scrollNavigation(accountType, screensMovedElec[screensMovedElec.length - 1]);
+        }
+    }
+
+    //responsible to animate the cards for scroll on smaller screen size below 376px
+    function scrollNavigation(accountType, carouselWidth) {
+        $("#carousel-inner-" + accountType + "-id").animate({ scrollLeft: carouselWidth }, 800);
+    }
+
+    //this is to animate the cards for rest of the screen sizes
+    function scrollItems(accountType, scrollPosition, cardWidth, carouselWidth, clickEvent) {
+        scrollPosition = 1;
+        if (clickEvent == "prev") {
+            if (scrollPosition > 0) {
+                scrollPosition = (carouselWidth) - (carouselWidth);
+                if (accountType == 'electricity') {
+                    $("#prev-carousel-electricity-id").addClass("d-none");
+                    $("#next-carousel-electricity-id").removeClass("d-none");
+                }
+                else {
+                    $("#prev-carousel-gas-id").addClass("d-none");
+                    $("#next-carousel-gas-id").removeClass("d-none");
+                }
+
+                $("#carousel-inner-" + accountType + "-id").animate({ scrollLeft: scrollPosition }, 800);
+            }
+        }
+        else {
+            scrollPosition = carouselWidth;
+            if (accountType == 'electricity') {
+                $("#next-carousel-electricity-id").addClass("d-none");
+                $("#prev-carousel-electricity-id").removeClass("d-none");
+            }
+            else {
+                $("#next-carousel-gas-id").addClass("d-none");
+                $("#prev-carousel-gas-id").removeClass("d-none");
+            }
+
+            $("#carousel-inner-" + accountType + "-id").animate({ scrollLeft: scrollPosition }, 800);
+        }
+    }
+    //CAROUSEL ARROW BUTTON CLICK EVENTs STATE ENDS HERE
+
+
+    //CAROUSEL SCROLL EVENTs STATE STARTS HERE
+    function scrollListener() {
+
+        document.addEventListener('scroll', function (event) {
+            if (event.target.id === 'carousel-inner-' + electricityLabel + '-id') {
+                that.isClickEvent = false;
+                if (!that.isClickEvent) {
+                    var displacement = getDisplacedDifference(electricityLabel);
+                    showHideCarouselButtons(displacement, electricityLabel);
+                }
+            }
+
+            if (event.target.id === 'carousel-inner-' + gasLabel + '-id' && !that.isClickEvent) {
+                that.isClickEvent = false;
+                if (!that.isClickEvent) {
+                    var displacement = getDisplacedDifference(gasLabel);
+                    showHideCarouselButtons(displacement, gasLabel);
+                }
+            }
+        }, true);
+    }
+
+    function getDisplacedDifference(accountType) {
+        const carousel = document.querySelector('.carousel-' + accountType);
+        const nextButton = document.querySelector('#next-carousel-' + accountType + '-id');
+        const lastItem = document.querySelector('.carousel-item-' + accountType + ':last-of-type');
+        const lastItemRect = lastItem.getBoundingClientRect();
+        const carouselRect = carousel.getBoundingClientRect();
+        return (lastItemRect.right - carouselRect.right);
+    }
+
+    function showHideCarouselButtons(scrolledAmount, accountType) {
+        console.log(scrolledAmount);
+        if (window.matchMedia("(min-width:769px)").matches && window.matchMedia("(max-width:991px)").matches) {
+            if (scrolledAmount < 100) {
+                showPreviousHideNext(accountType);
+                $("#carousel-inner-" + accountType + "-id").css("margin-left", "-0.5rem");
+            }
+            else if (scrolledAmount > 200) {
+                showNextHidePrevious(accountType);
+                $("#carousel-inner-" + accountType + "-id").css("margin-left", "0rem");
+            }
+            else {
+                showBothNextPrevious(accountType);
+            }
+        }
+
+        if (window.matchMedia("(min-width:577px)").matches && window.matchMedia("(max-width:768px)").matches) {
+            if (scrolledAmount < 40) {
+                showPreviousHideNext(accountType);
+                $("#carousel-inner-" + accountType + "-id").css("margin-left", "-0.5rem");
+            }
+            else if (scrolledAmount > 385) {
+                showNextHidePrevious(accountType);
+                $("#carousel-inner-" + accountType + "-id").css("margin-left", "0rem");
+            }
+            else {
+                showBothNextPrevious(accountType);
+            }
+        }
+
+        if (window.matchMedia("(min-width:441px)").matches && window.matchMedia("(max-width:576px)").matches) {
+            if (scrolledAmount < 40) {
+                showPreviousHideNext(accountType);
+                $("#carousel-inner-" + accountType + "-id").css("margin-left", "-0.8rem");
+            }
+            else if (scrolledAmount > 350) {
+                showNextHidePrevious(accountType);
+                $("#carousel-inner-" + accountType + "-id").css("margin-left", "0rem");
+            }
+            else {
+                showBothNextPrevious(accountType);
+            }
+        }
+
+        if (window.matchMedia("(min-width:371px)").matches && window.matchMedia("(max-width:440px)").matches) {
+            if (scrolledAmount < 5) {
+                showPreviousHideNext(accountType);
+            }
+            else if (scrolledAmount > 260) {
+                showNextHidePrevious(accountType);
+                $("#carousel-inner-" + accountType + "-id").css("margin-left", "0rem !important");
+            }
+            else {
+                showBothNextPrevious(accountType);
+            }
+        }
+
+        if (window.matchMedia("(max-width:370px)").matches) {
+            var totalCardCounts = parseInt($("#itemsCount-" + accountType).attr("class").split('-')[1]);
+
+            if (totalCardCounts == 3) {
+                if (scrolledAmount < 2) {
+                    showPreviousHideNext(accountType);
+                }
+                else if (scrolledAmount > 75) {
+                    showNextHidePrevious(accountType);
+                }
+            }
+            else {
+                if (scrolledAmount < 11) {
+                    showPreviousHideNext(accountType);
+                }
+                else if (scrolledAmount > 274) {
+                    showNextHidePrevious(accountType);
+                }
+                else {
+                    showBothNextPrevious(accountType);
+                }
+            }
+        }
+    }
+
+    function showNextHidePrevious(accountType) {
+        $("#prev-carousel-" + accountType + "-id").addClass("d-none");
+        $("#next-carousel-" + accountType + "-id").removeClass("d-none");
+    }
+
+    function showPreviousHideNext(accountType) {
+        $("#next-carousel-" + accountType + "-id").addClass("d-none");
+        $("#prev-carousel-" + accountType + "-id").removeClass("d-none");
+    }
+
+    function showBothNextPrevious(accountType) {
+        $("#prev-carousel-" + accountType + "-id").removeClass("d-none");
+        $("#next-carousel-" + accountType + "-id").removeClass("d-none");
+    }
+    //CAROUSEL SCROLL EVENTs STATE ENDS HERE
+
+
+    document.addEventListener("click", function (e) {
+        if (e.target.id == "activate-emergency-credit-button") {
+            $("#modal-activate-emergency-credit").appendTo("body");
+        }
+    });
+</script>
+
+
+
+
+
+                </div>
+                
+
+
+
+
+
+<div class="feature-container container container-wd-lg-desktop row-margin-regular">
+    <div class="row block-feature block-feature-with-labeled-button">
+        <div class="col-12 row-margin-regular col-lg-11">
+            <div class="block-feature__img"><div style="background-image: url('/img/Campaign-banner.jpg')"></div></div>
+            <div class="block-feature__content block-content">
+                <span class="subtitle" data-testid="bannerSubHeading">Solar PV panels</span>
+                <h2 class="block-content__title text-white" data-testid="bannerHeading">Install solar PV panels and save up to 60% on your home&#x2019;s electricity</h2>
+                    <p data-testid="bannerContent"></p>
+                                    <a href="https://www.electricireland.ie/residential/products/solar-pv-for-homes" data-testid="campaignButton" class="btn btn-primary-white btn-secondary " aria-label="Enquire now about Solar PV panels" target="_blank">Enquire now</a>
+            </div>
+        </div>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+
+<dialog class="modal default marketing-consent-modal rebrand-2024" tabindex="-1" id="marketingConsentModal" aria-labelledby="marketingConsentTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" aria-live="assertive">
+            <div id="marketingConsentModalOffer" class="modal-body">
+                <button type="button" class="close confirmation-modal-close custom-modal-close marketing-consent-no-cta" aria-label="Close"></button>
+
+                <img src="/img/envelope.svg" alt="" width="100" />
+                <h2 id="marketingConsentTitle">Get updates on offers, energy-saving deals, and much more</h2>
+                
+                <div class="message">Subscribe to our email list to ensure you don't miss out on the great offers, new products, rewards and so much more waiting for you.</div>
+
+                <button type="button" class="btn btn-primary" id="marketing-consent-yes-cta">
+                    <span>Yes, sign me up</span>
+                </button>
+                <button type="button" class="btn btn-exit marketing-consent-no-cta">
+                    <span>No, thanks</span>
+                </button>
+            </div>
+
+            <div id="marketingConsentModalWait" class="modal-body" style="display: none;">
+                <div class="def-component__overlay" data-def-component-overlay>
+                    <div class="def-component__spinner" data-def-component-spinner></div>
+                    <h2 class="centered mt-64">Please wait. We are processing your request.</h2>
+                </div>
+
+            </div>
+
+            <div id="marketingConsentModalSuccess" class="modal-body" style="display: none;">
+                <button type="button" class="close confirmation-modal-close custom-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                <img src="/img/envelope-check.svg" alt="" width="100" />
+                <h2 class="no-wrap centered mb-32" tabindex="-1">Successfully subscribed</h2>
+
+                <button type="button" class="btn btn-exit" data-bs-dismiss="modal">
+                    <span>Close</span>
+                </button>
+
+            </div>
+        </div>
+    </div>
+</dialog>
+
+<script>
+
+    $(function ()
+    {
+        InitMarketingConsentCheck();
+
+        $("#marketingConsentModal").on("show.bs.modal", function () {
+            
+        });
+
+        $("#marketingConsentModal").on("shown.bs.modal", function () {
+            this.removeAttribute('role');
+        });
+
+        $("#marketingConsentModal").on("hidden.bs.modal", function () {
+
+        });
+
+        $("#marketing-consent-yes-cta").on("click", function () {
+            $("#marketingConsentModalWait").show();
+            $("#marketingConsentModalOffer").hide();
+            MarketingConsentAccept();
+        });
+
+        $(".marketing-consent-no-cta").on("click", function () {
+            CloseMarketingConsentModal();
+            MarketingConsentDecline();
+        });
+    });
+
+    function CloseMarketingConsentModal(){
+        $("#marketingConsentModal").modal('hide');
+    }
+
+    function InitMarketingConsentCheck() {
+        CheckForMarketingConsent();
+    }
+
+    function ShowMarketingConsentDialog() {
+        const smartModal = new bootstrap.Modal($('#marketingConsentModal'),
+            { backdrop: 'static', keyboard: false });
+        smartModal.show();
+    }
+
+    function ShowMarketingConsentSuccessDialog() {
+        $("#marketingConsentModalSuccess").show();
+        $("#marketingConsentModalWait").hide();
+        $("#marketingConsentModalSuccess h2").focus();
+    }
+
+    function CheckForMarketingConsent() {
+        $.ajax({
+            url: '/marketing-consent/check',
+            type: "GET",
+            cache: false,
+            success: function (data) {
+                if(data === true){
+                    ShowMarketingConsentDialog();
+                } 
+                else {
+                    //don't show anything
+                }
+            },
+            error: function (xhr, status) {
+                //don't do anything
+            }
+        });
+    }
+
+    function MarketingConsentAccept() {
+        $.ajax({
+            url: '/marketing-consent/accept',
+            type: "GET",
+            cache: false,
+            success: function (data) {
+                if(data === true){
+                    // display success
+                    ShowMarketingConsentSuccessDialog();
+                } 
+                else {
+                    CloseMarketingConsentModal();
+                }
+            },
+            error: function (xhr, status) {
+                CloseMarketingConsentModal();
+            }
+        });
+    }
+
+    function MarketingConsentDecline() {
+        $.ajax({
+            url: '/marketing-consent/decline',
+            type: "GET",
+            cache: false,
+            success: function (data) {
+                if(data === true){
+                    // don't do anything?
+                } 
+                else {
+                    //don't show anything
+                }
+            },
+            error: function (xhr, status) {
+                //don't do anything
+            }
+        });
+    }
+
+</script>
+    <dialog class="modal default timeout-modal rebrand-2024" tabindex="-1" id="timeoutModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h1>Your session is close to expiring</h1>
+                <h2 id="countdown" aria-live="assertive" aria-label="Expires in 5 minutes">
+                    <span aria-hidden="true">5:00</span>
+                </h2>
+                <div class="question">Would you like to continue?</div>
+
+
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                    <span>Continue</span>
+                </button>
+
+            </div>
+        </div>
+    </div>
+</dialog>
+
+<script>
+
+    let sessionTimeoutCountdown = 0;
+    let sessionExpiryTimeout = 0;
+    let sessionCountdownStartTime = Date.now();
+    const sessionTimeout = 14.75 * 60 * 1000; //almost 15 min
+    const countdownInitial = 5 * 60; //5 min
+    let previouslyFocusedElement = null;
+    let previouslyOpenModals = null;
+    let isExpiryModalShown = false;
+
+    $(function ()
+    {
+        InitSessionTimeoutCountdown();
+
+        $("#timeoutModal").on("show.bs.modal", function () {
+            previouslyFocusedElement = document.activeElement;
+            previouslyOpenModals = $('.modal.show');
+            previouslyOpenModals.modal('hide');
+
+            isExpiryModalShown = true;
+        });
+
+        $("#timeoutModal").on("shown.bs.modal", function () {
+            this.removeAttribute('role');
+        });
+
+        $("#timeoutModal").on("hidden.bs.modal", function () {
+            previouslyOpenModals.modal('show');
+            $(previouslyFocusedElement).focus();
+            previouslyOpenModals = null;
+            previouslyFocusedElement = null;
+
+            clearInterval(sessionTimeoutCountdown);
+            KeepAlive();
+
+            isExpiryModalShown = false;
+        });
+    });
+
+    function ResetSessionExpiry() {
+        DismissExpiryModal();
+        InitSessionTimeoutCountdown();
+    }
+
+    function DismissExpiryModal() {
+        if (isExpiryModalShown) {
+            $("#timeoutModal").modal('hide');
+        }
+    }
+
+    function InitSessionTimeoutCountdown() {
+        clearTimeout(sessionExpiryTimeout);
+        sessionExpiryTimeout = setTimeout(ShowSessionTimeoutDialog, sessionTimeout);
+        clearInterval(sessionTimeoutCountdown);
+    }
+
+    function ShowSessionTimeoutDialog() {
+        sessionCountdownStartTime = Date.now();
+        UpdateContdown();
+
+        const smartModal = new bootstrap.Modal($('#timeoutModal'),
+            { backdrop: 'static', keyboard: false });
+        smartModal.show();
+
+        //start countdown
+        sessionTimeoutCountdown = setInterval(UpdateContdown, 1000);
+    }
+
+    function UpdateContdown() {
+        const timeLeft = countdownInitial - Math.floor((Date.now() - sessionCountdownStartTime) / 1000);
+
+        if (timeLeft < 0) {
+            sessionExpired();
+        }
+        else {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            let timeText = minutes + ':' + seconds.toString().padStart(2, '0');
+            $('#countdown span').html(timeText);
+            if (timeLeft % 15 == 0) {
+                if (timeText.endsWith(':00'))
+                    timeText = timeText.replace(':00', timeText.startsWith('1:') ? ' minute' : ' minutes');
+
+                $('#countdown').attr('aria-label', 'Expires in ' + timeText);
+            }
+        }
+    }
+
+    function sessionExpired() {
+        window.location.href = '/Login/Logout';
+    }
+
+    function KeepAlive() {
+        $.ajax({
+            url: '/session/keep-alive',
+            type: "GET",
+            cache: false,
+            success: function (data) {
+                if(data === 'ok'){
+                    InitSessionTimeoutCountdown();
+                } 
+                else {
+                    sessionExpired();
+                }
+            },
+            error: function (xhr, status) {
+                sessionExpired();
+            }
+        });
+    }
+
+</script>
+
+    
+
+
+
+    
+
+
+
+
+	<footer class="portal-footer always-on-bottom">
+		<div class="sub-navigation-overlay"></div>
+	<div class="container container-wd-lg-desktop row-margin-regular">
+		<ul class="nav-center">
+				<li class=""
+				>
+
+
+
+
+<form action="/Accounts/OnEvent" class="" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" />                <button data-testid="footer-help-link" class="" -prepayservice role="link" data-testid="footer-help-link" class="" -prepayservice role="link" name="triggers_event" value="AccountSelection.ToHelp">Help</button>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form>
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>				</li>
+				<li class=""
+				>
+
+
+
+
+<form action="/Accounts/OnEvent" class="" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" />                <button data-testid="footer-contact-us-link" class="" -prepayservice role="link" data-testid="footer-contact-us-link" class="" -prepayservice role="link" name="triggers_event" value="AccountSelection.ToContactUs">Contact Us</button>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form>
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>				</li>
+				<li class=""
+				>
+
+
+
+
+<form action="/Accounts/OnEvent" class="" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" />                <button data-testid="footer-terms-and-conditions-link" class="" -prepayservice role="link" data-testid="footer-terms-and-conditions-link" class="" -prepayservice role="link" name="triggers_event" value="AccountSelection.ToTermsAndConditions">Terms &amp; Conditions</button>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form>
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>				</li>
+				<li class=""
+				>
+
+
+
+
+<form action="/Accounts/OnEvent" class="" id="Accounts-" method="post" novalidate=""><input name="SelectedAccount.AccountNumber" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" />                <button data-testid="footer-disclaimer-link" class="" -prepayservice role="link" data-testid="footer-disclaimer-link" class="" -prepayservice role="link" name="triggers_event" value="AccountSelection.ToDisclaimer">Disclaimer</button>
+<input name="rvt" type="hidden" value="CfDJ8AdDREtfRE9DuMaUmzinxEmqibUxr8pkiXK78fgTq_OOH0N2qqwy_NYORqJ7rWk501zj8RHK7Jy55TLBLJY_K2sEZ-Z4b3Pcfc1bm3xrCU0HiQ7H8jE4iM2MtRh_IqfmTUSOwj2YekcS9MvYFVFBDmbvIfGYCBlpVIcTploJyyYzQ1U_UwrwWbb9ThHqwSQTlg" /><input name="flow-form-id" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowHandler" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="FlowScreenName" type="hidden" value="ANON_EF_TOKEN_PLACEHOLDER_0000000000000000000000000000" /><input name="ScreenTitle" type="hidden" value="" /></form>
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>				</li>
+				<li class=""
+				>
+
+
+
+
+        <a href="https://www.electricireland.ie/privacy" target="_blank" data-testid="footer-privacy-notice-link_new" class=" " >Privacy Notice &amp; Cookies Policy</a>
+
+<script src="/js/pages/main-navigation/main-navigation-reward-analytics.js"></script>				</li>
+			<li><a href="#" class="optanon-toggle-display">Cookie Settings</a></li>
+			<li><a href="https://www.electricireland.ie/accessibility" target="_blank">Accessibility</a></li>
+		</ul>
+	</div>
+	</footer>
+
+<script src="/js/pages/main-navigation/cookie-modal.js"></script>
+
+    
+
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/vendor/hammer/hammer.min.js"></script>
+<script src="/vendor/ofi/ofi.min.js"></script>
+<script src="/vendor/moment/moment.min.js"></script>
+<script src="/vendor/jquery.fileDownload/jquery.fileDownload.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="/vendor/js-cookie/js.cookie.min.js"></script>
+<script src="/vendor/underscore/underscore-umd-min.js"></script>
+
+<script src="/js/custom-vendors/bootstrap4-toggle.custom.js"></script>
+<script src="/js/components/datepicker.js"></script>
+<script src="/js/components/flow-action.js"></script>
+<script src="/js/components/always-on-bottom-footer.js"></script>
+<script src="/js/components/file-download.js"></script>
+<script src="/js/components/sub-navigation.js"></script>
+<script src="/js/components/stacked-cards.js"></script>
+<script src="/js/components/history-data-attr.js"></script>
+<script src="/js/components/trap-focus.js"></script>
+<script src="/js/components/form-validations.js"></script>
+<script src="/js/components/accessible-validations.js"></script>
+<script src="/js/components/dev-tools.js"></script>
+<script src="/js/index.residential.js"></script>
+
+</body>
+</html>
+<script src="/js/pages/account-dashboard/trigger-event-when-clicked.js"></script>

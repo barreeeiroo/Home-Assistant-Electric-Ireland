@@ -1,7 +1,7 @@
 {
-  "name": "Electric Ireland Insights for Home Assistant",
+  "name": "Electric Ireland Insights for Home Assistant (Unofficial)",
   "country": "IE",
   "zip_release": false,
-  "homeassistant": "2025.4.0",
+  "homeassistant": "2025.10.0",
   "hacs": "2.0.0"
 }
