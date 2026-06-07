@@ -55,6 +55,9 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
     async def async_added_to_hass(self) -> None:
         await super().async_added_to_hass()
 
+    def _friendly_name_internal(self) -> str | None:
+        return self.name or self._attr_name or "Electric Ireland Insights"
+
     async def async_update_historical(self):
         # Fill `HistoricalSensor._attr_historical_states` with HistoricalState's
         # This functions is equivaled to the `Sensor.async_update` from
@@ -153,7 +156,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
         # Calculate sum, mean, etc...
         #
 
-        accumulated = latest["sum"] if latest else 0
+        accumulated = latest.get("sum") or 0 if latest else 0
 
         def hour_block_for_hist_state(hist_state: HistoricalState) -> datetime:
             # XX:00:00 states belongs to previous hour block
