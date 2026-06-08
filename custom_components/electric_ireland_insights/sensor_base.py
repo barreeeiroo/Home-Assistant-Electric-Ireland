@@ -156,7 +156,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
         # Calculate sum, mean, etc...
         #
 
-        accumulated = latest.get("sum") or 0 if latest else 0
+        accumulated = latest.get("sum", 0) if latest else 0
 
         def hour_block_for_hist_state(hist_state: HistoricalState) -> datetime:
             # XX:00:00 states belongs to previous hour block
