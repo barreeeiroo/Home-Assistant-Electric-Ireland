@@ -1,0 +1,45 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Electric Ireland Insights",
+        "description": "Enter your Electric Ireland account credentials.",
+        "data": {
+          "username": "Username (email)",
+          "password": "Password",
+          "account_number": "Account number",
+          "billing_day": "Billing cycle start day",
+          "lookup_days": "History to fetch (days)"
+        },
+        "data_description": {
+          "username": "The email address you use to log in to youraccountonline.electricireland.ie.",
+          "password": "Your Electric Ireland account password.",
+          "account_number": "Your Electric Ireland account number (e.g. 123456789).",
+          "billing_day": "Day of the month your billing cycle starts (1–31).",
+          "lookup_days": "How many days of historical data to fetch on each refresh (7–365)."
+        }
+      }
+    },
+    "error": {
+      "account_number_exists": "An entry for this account number already exists."
+    },
+    "abort": {
+      "already_configured": "This account is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Electric Ireland Insights options",
+        "data": {
+          "billing_day": "Billing cycle start day",
+          "lookup_days": "History to fetch (days)"
+        },
+        "data_description": {
+          "billing_day": "Day of the month your billing cycle starts (1–31).",
+          "lookup_days": "How many days of historical data to fetch on each refresh (7–365)."
+        }
+      }
+    }
+  }
+}

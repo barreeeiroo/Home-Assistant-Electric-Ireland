@@ -1,11 +1,12 @@
 import logging
-from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timedelta, UTC
 
 import requests
 from bs4 import BeautifulSoup
 from requests import RequestException
 
-from .const import DOMAIN
+from .const import DOMAIN, DEFAULT_LOOKUP_DAYS, PARALLEL_DAYS
 
 
 LOGGER = logging.getLogger(DOMAIN)
@@ -34,6 +35,31 @@ class ElectricIrelandScraper:
     @property
     def scraper(self):
         return self.__scraper
+
+    def fetch_all(self, lookup_days=DEFAULT_LOOKUP_DAYS):
+        """Fetch all datapoints for the past lookup_days days. Returns list of dicts."""
+        self.refresh_credentials()
+        scraper = self.__scraper
+        if not scraper:
+            return []
+
+        now = datetime.now(UTC)
+        yesterday = datetime(now.year, now.month, now.day, tzinfo=UTC) - timedelta(days=1)
+        start = yesterday - timedelta(days=lookup_days)
+
+        dates = []
+        current = start
+        while current <= yesterday:
+            dates.append(current)
+            current += timedelta(days=1)
+
+        results = []
+        with ThreadPoolExecutor(max_workers=PARALLEL_DAYS) as pool:
+            futures = [pool.submit(scraper.get_data, d) for d in dates]
+            for f in futures:
+                results.extend(f.result())
+
+        return results
 
     def __login_and_get_meter_ids(self, session):
         # REQUEST 1: Get the Source token, and initialize the session

@@ -1,32 +1,42 @@
 import logging
+from datetime import timedelta
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.typing import ConfigType
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
-from .const import DOMAIN
-
+from .api import ElectricIrelandScraper
+from .const import DOMAIN, DEFAULT_LOOKUP_DAYS
 
 LOGGER = logging.getLogger(DOMAIN)
 
 PLATFORMS = ["sensor"]
 
 
-async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
-    """Set up the Electric Ireland Insights component."""
-    # Ensure the domain is registered in the hass.data store
-    hass.data.setdefault(DOMAIN, {})
-    LOGGER.debug("Electric Ireland Insights component initialized.")
-    return True
-
-
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Electric Ireland Insights from a config entry."""
-    if DOMAIN not in hass.data:
-        hass.data[DOMAIN] = {}
+    hass.data.setdefault(DOMAIN, {})
 
-    # Store entry data in hass.data for later use
-    hass.data[DOMAIN][entry.entry_id] = entry.data
+    ei_api = ElectricIrelandScraper(
+        entry.data["username"],
+        entry.data["password"],
+        entry.data["account_number"],
+    )
+
+    lookup_days = int(entry.data.get("lookup_days", DEFAULT_LOOKUP_DAYS))
+
+    coordinator = DataUpdateCoordinator(
+        hass,
+        LOGGER,
+        name=DOMAIN,
+        update_method=lambda: hass.async_add_executor_job(ei_api.fetch_all, lookup_days),
+        update_interval=timedelta(hours=1),
+    )
+
+    await coordinator.async_config_entry_first_refresh()
+
+    # Store coordinator in hass.data for later use
+    hass.data[DOMAIN][entry.entry_id] = coordinator
 
     # Forward the entry setup to the sensor platform
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)

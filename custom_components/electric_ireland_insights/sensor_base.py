@@ -1,186 +1,171 @@
-import asyncio
 import itertools
 import logging
 import statistics
-from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, UTC
-from typing import List
 
+from homeassistant.components.recorder import get_instance
 from homeassistant.components.recorder.models import StatisticData, StatisticMetaData, StatisticMeanType
-from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
+from homeassistant.components.recorder.statistics import async_add_external_statistics, get_last_statistics
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity, SensorStateClass
+from homeassistant.core import callback
+from homeassistant.helpers.update_coordinator import CoordinatorEntity, DataUpdateCoordinator
 
-from homeassistant_historical_sensor import (
-    HistoricalSensor,
-    HistoricalState,
-    PollUpdateMixin,
-)
-
-from .api import ElectricIrelandScraper
-from .const import DOMAIN, LOOKUP_DAYS, PARALLEL_DAYS
-
+from .const import DOMAIN, DEFAULT_LOOKUP_DAYS
 
 LOGGER = logging.getLogger(DOMAIN)
 
 
-class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
+class Sensor(CoordinatorEntity, SensorEntity):
     #
-    # Base clases:
+    # Base classes:
     # - SensorEntity: This is a sensor, obvious
-    # - HistoricalSensor: This sensor implements historical sensor methods
-    # - PollUpdateMixin: Historical sensors disable poll, this mixing
-    #                    reenables poll only for historical states and not for
-    #                    present state
+    # - CoordinatorEntity: Subscribes to DataUpdateCoordinator updates
     #
 
-    def __init__(self, device_id: str, ei_api: ElectricIrelandScraper, name: str, metric: str, measurement_unit: str,
-                 device_class: SensorDeviceClass):
-        super().__init__()
+    _attr_has_entity_name = True
+    _attr_entity_registry_enabled_default = True
+    _attr_state_class = SensorStateClass.TOTAL
 
-        self._attr_has_entity_name = True
+    def __init__(self, coordinator: DataUpdateCoordinator, device_id: str, name: str, metric: str,
+                 unit: str, device_class: SensorDeviceClass, unit_class: str | None = None,
+                 lookup_days: int = DEFAULT_LOOKUP_DAYS, account_number: str | None = None):
+        super().__init__(coordinator)
+
         self._attr_name = f"Electric Ireland {name}"
-
+        # device_id (config entry id) is included so two accounts never share a statistic_id
         self._attr_unique_id = f"{DOMAIN}_{metric}_{device_id}"
-        self._attr_entity_id = f"{DOMAIN}_{metric}_{device_id}"
-
-        self._attr_entity_registry_enabled_default = True
-        self._attr_state = None
-
-        # Define whatever you are
-        self._attr_native_unit_of_measurement = measurement_unit
+        self._attr_native_unit_of_measurement = unit
         self._attr_device_class = device_class
-
-        self._api: ElectricIrelandScraper = ei_api
         self._metric = metric
+        self._unit_class = unit_class
+        self._lookup_days = lookup_days
+        self._account_number = account_number
+        # statistic_id includes device_id to avoid collision across multiple accounts
+        self._statistic_id = f"{DOMAIN}:{metric}_{device_id.replace('-', '_').lower()}"
 
     async def async_added_to_hass(self) -> None:
         await super().async_added_to_hass()
-
-    def _friendly_name_internal(self) -> str | None:
-        return self.name or self._attr_name or "Electric Ireland Insights"
-
-    async def async_update_historical(self):
-        # Fill `HistoricalSensor._attr_historical_states` with HistoricalState's
-        # This functions is equivaled to the `Sensor.async_update` from
-        # HomeAssistant core
-        #
-        # Important: You must provide datetime with tzinfo
-
-        loop = asyncio.get_running_loop()
-
-        await loop.run_in_executor(None, self._api.refresh_credentials)
-        scraper = self._api.scraper
-
-        if not scraper:
-            LOGGER.error("Failed to get scraper - login may have failed")
-            return
-
-        hist_states: List[HistoricalState] = []
-
-        now = datetime.now(UTC)
-        # Build a datetime for "yesterday" since data is never published on the same day
-        yesterday = datetime(year=now.year, month=now.month, day=now.day, tzinfo=UTC) - timedelta(days=1)
-
-        executor_results = []
-
-        with ThreadPoolExecutor(max_workers=PARALLEL_DAYS) as executor:
-            current_date = yesterday - timedelta(days=LOOKUP_DAYS)
-            while current_date <= yesterday:
-                LOGGER.debug(f"Submitting {current_date}")
-                results = loop.run_in_executor(executor, scraper.get_data, current_date)
-                executor_results.append(results)
-                current_date += timedelta(days=1)
-
-        LOGGER.info("Finished launching jobs")
-
-        # For every launched job
-        for executor_result in executor_results:
-            # And now we parse the datapoints
-            for datapoint in await executor_result:
-                state = datapoint.get(self._metric)
-                dt = datetime.fromtimestamp(datapoint.get("intervalEnd"), tz=UTC)
-                hist_states.append(HistoricalState(
-                    state=state,
-                    dt=dt,
-                ))
-
-        hist_states.sort(key=lambda d: d.dt)
-
-        valid_datapoints: List[HistoricalState] = []
-        null_datapoints: List[HistoricalState] = []
-        invalid_datapoints: List[HistoricalState] = []
-        for hist_state in hist_states:
-            if hist_state.state is None:
-                null_datapoints.append(hist_state)
-                continue
-            if not isinstance(hist_state.state, (int, float,)):
-                invalid_datapoints.append(hist_state)
-                continue
-            valid_datapoints.append(hist_state)
-
-        if null_datapoints:
-            min_dt, max_dt = null_datapoints[0].dt, null_datapoints[len(null_datapoints) - 1].dt
-            LOGGER.info(f"Found {len(null_datapoints)} null datapoints, ranging from {min_dt} to {max_dt}")
-
-        if invalid_datapoints:
-            LOGGER.warning(f"Found {len(invalid_datapoints)} invalid datapoints!")
-
-        if not valid_datapoints:
-            LOGGER.error("Found no valid datapoints!")
-        else:
-            min_dt, max_dt = valid_datapoints[0].dt, valid_datapoints[len(valid_datapoints) - 1].dt
-            LOGGER.info(f"Found {len(valid_datapoints)} valid datapoints, ranging from {min_dt} to {max_dt}")
-
-        self._attr_historical_states = [d for d in hist_states if d.state]
+        # Only import on startup — coordinator refresh will call _handle_coordinator_update
+        # for subsequent updates, avoiding double import on init.
+        if self.coordinator.data:
+            await self._import_statistics()
 
     @property
-    def statistic_id(self) -> str:
-        return self.entity_id
+    def native_value(self):
+        datapoints = self.coordinator.data or []
+        values = [dp[self._metric] for dp in datapoints if isinstance(dp.get(self._metric), (int, float))]
+        return round(sum(values), 2) if values else None
 
-    def get_statistic_metadata(self) -> StatisticMetaData:
-        #
-        # Add sum and mean to base statistics metadata
-        # Important: HistoricalSensor.get_statistic_metadata returns an
-        # internal source by default.
-        #
-        meta = super().get_statistic_metadata()
-        meta["has_sum"] = True
-        meta["mean_type"] = StatisticMeanType.ARITHMETIC
+    @property
+    def extra_state_attributes(self):
+        datapoints = self.coordinator.data or []
+        values = [dp[self._metric] for dp in datapoints if isinstance(dp.get(self._metric), (int, float))]
+        timestamps = [
+            datetime.fromtimestamp(dp["intervalEnd"], tz=UTC)
+            for dp in datapoints
+            if isinstance(dp.get(self._metric), (int, float))
+        ]
+        missing = sum(1 for dp in datapoints if dp.get(self._metric) is None)
+        invalid = sum(1 for dp in datapoints if dp.get(self._metric) is not None and not isinstance(dp.get(self._metric), (int, float)))
 
-        return meta
+        return {
+            "account_number": self._account_number,
+            "period_days": self._lookup_days,
+            "start_date": timestamps[0].isoformat() if timestamps else None,
+            "end_date": timestamps[-1].isoformat() if timestamps else None,
+            "latest_hour_timestamp": timestamps[-1].isoformat() if timestamps else None,
+            "hours_recorded": len(values),
+            "missing_hours": missing,
+            "invalid_hours": invalid,
+            "average_daily_value": round(sum(values) / self._lookup_days, 4) if values else None,
+            "max_hourly_value": max(values) if values else None,
+            "min_hourly_value": min(values) if values else None,
+        }
 
-    async def async_calculate_statistic_data(
-            self, hist_states: list[HistoricalState], *, latest: dict | None = None
-    ) -> list[StatisticData]:
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        # Coordinator fires listeners synchronously — schedule the async import as a task,
+        # then immediately update state so the sensor doesn't freeze between refreshes.
+        self.hass.async_create_task(self._import_statistics())
+        self.async_write_ha_state()
+
+    async def _import_statistics(self) -> None:
+        # Push historical datapoints into the recorder via async_add_external_statistics.
+        # This replaces the homeassistant-historical-sensor library, which caused
+        # StaleDataError races on MariaDB/SQLite (issues #4, #13).
+        datapoints = self.coordinator.data or []
+        if not datapoints:
+            return
+
+        hist = sorted(
+            [
+                (datetime.fromtimestamp(dp["intervalEnd"], tz=UTC), dp.get(self._metric))
+                for dp in datapoints
+                if isinstance(dp.get(self._metric), (int, float))
+            ],
+            key=lambda x: x[0],
+        )
+
+        if not hist:
+            return
+
+        # Find the last recorded sum so we can resume accumulation from that point.
+        # We only re-import buckets that are newer than what's already in the DB,
+        # so the cumulative sum is never double-counted across refreshes.
+        last_stats = await get_instance(self.hass).async_add_executor_job(
+            lambda: get_last_statistics(self.hass, 1, self._statistic_id, True, {"sum", "start"})
+        )
+        if last_stats and self._statistic_id in last_stats:
+            last_row = last_stats[self._statistic_id][0]
+            accumulated = last_row.get("sum") or 0
+            s = last_row.get("start") or 0
+            last_start_ts = s.timestamp() if isinstance(s, datetime) else float(s)
+        else:
+            accumulated = 0
+            last_start_ts = 0
+
+        def hour_block(dt: datetime) -> datetime:
+            # XX:00:00 states belong to previous hour block
+            if dt.minute == 0 and dt.second == 0:
+                dt = dt - timedelta(hours=1)
+            return dt.replace(minute=0, second=0, microsecond=0)
+
         #
         # Group historical states by hour
         # Calculate sum, mean, etc...
+        # Only process buckets after the last already-stored bucket.
         #
+        stat_data = []
+        for dt, group in itertools.groupby(hist, key=lambda x: hour_block(x[0])):
+            if dt.timestamp() <= last_start_ts:
+                continue
+            values = [v for _, v in group]
+            partial = sum(values)
+            accumulated += partial
+            stat_data.append(StatisticData(
+                start=dt,
+                state=partial,
+                mean=statistics.mean(values),
+                sum=accumulated,
+            ))
 
-        accumulated = (latest.get("sum") or 0) if latest else 0
+        if not stat_data:
+            return
 
-        def hour_block_for_hist_state(hist_state: HistoricalState) -> datetime:
-            # XX:00:00 states belongs to previous hour block
-            if hist_state.dt.minute == 0 and hist_state.dt.second == 0:
-                dt = hist_state.dt - timedelta(hours=1)
-                return dt.replace(minute=0, second=0, microsecond=0)
+        #
+        # Add sum and mean to statistics metadata.
+        # mean_type must be set explicitly to avoid HA 2026.11 deprecation warning (issue #14).
+        #
+        metadata = StatisticMetaData(
+            has_mean=True,
+            mean_type=StatisticMeanType.ARITHMETIC,
+            has_sum=True,
+            name=self._attr_name,
+            source=DOMAIN,
+            statistic_id=self._statistic_id,
+            unit_of_measurement=self._attr_native_unit_of_measurement,
+            unit_class=self._unit_class,
+        )
 
-            else:
-                return hist_state.dt.replace(minute=0, second=0, microsecond=0)
-
-        ret = []
-        for dt, collection_it in itertools.groupby(hist_states, key=hour_block_for_hist_state):
-            collection = list(collection_it)
-            mean = statistics.mean([x.state for x in collection])
-            partial_sum = sum([x.state for x in collection])
-            accumulated = accumulated + partial_sum
-
-            ret.append(
-                StatisticData(
-                    start=dt,
-                    state=partial_sum,
-                    mean=mean,
-                    sum=accumulated,
-                )
-            )
-
-        return ret
+        async_add_external_statistics(self.hass, metadata, stat_data)
+        LOGGER.info(f"Imported {len(stat_data)} new hourly stat buckets for {self._metric}")
