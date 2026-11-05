@@ -145,6 +145,7 @@ class Sensor(PollUpdateMixin, HistoricalSensor, SensorEntity):
         meta = super().get_statistic_metadata()
         meta["has_sum"] = True
         meta["mean_type"] = StatisticMeanType.ARITHMETIC
+        meta["unit_class"] = str(self._attr_device_class) if str(self._attr_device_class) == "energy" else None
 
         return meta
 
